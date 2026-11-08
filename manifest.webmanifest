@@ -1,0 +1,20 @@
+{
+  "name": "على الطريق – متابعة أحوال الطرق",
+  "short_name": "على الطريق",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f8f4",
+  "theme_color": "#087b35",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
