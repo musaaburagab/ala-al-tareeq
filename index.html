@@ -62,10 +62,13 @@ button,input,select,textarea{font:inherit}
 .status-barrier{background:var(--orange)}
 .status-unknown{background:#77827b}
 .note{font-size:13px;color:var(--blue);margin-top:7px;font-weight:bold}
-.states{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.states{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
 .state{padding:9px 4px;border-radius:9px;color:#fff;border:2px solid transparent;font-weight:800;font-size:14px;opacity:.65;cursor:pointer}
 .state.active{opacity:1;outline:2px solid #1b3925;outline-offset:1px}
-.open{background:var(--green)}.closed{background:var(--red)}.barrier{background:var(--orange)}
+.open{background:var(--green)}
+.closed{background:var(--red)}
+.barrier{background:var(--orange)}
+.note-action{background:#1769aa;color:#fff;opacity:1}
 .empty{padding:22px;text-align:center;color:var(--muted);background:white;border:1px dashed #b7cdbd;border-radius:14px}
 .footer{margin:20px 0 10px;background:#e7f7df;border:1px solid #b6dda9;border-radius:16px;padding:17px;text-align:center}
 .footer h3{margin:0 0 6px;color:#08632d}
@@ -78,7 +81,8 @@ button,input,select,textarea{font:inherit}
 .panel{max-width:700px;margin:20px auto;background:white;border-radius:18px;padding:18px;box-shadow:0 10px 50px #0004}
 .panel h2{margin:0 0 12px;color:#08632d}
 .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
-.tab{background:#edf5ef;color:#155b30}.tab.sel{background:#087b35;color:white}
+.tab{background:#edf5ef;color:#155b30}
+.tab.sel{background:#087b35;color:white}
 .field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
 .field label{font-size:13px;font-weight:bold}
 .row{display:flex;gap:8px;flex-wrap:wrap}
@@ -106,6 +110,7 @@ button,input,select,textarea{font:inherit}
  <h1>على الطريق</h1>
  <p>مركز متابعة أحوال الطرق والمداخل والحواجز</p>
 </header>
+
 <main class="wrap">
  <div class="toolbar">
   <button class="btn primary" id="settingsBtn">⚙ الإعدادات والإدارة</button>
@@ -200,11 +205,16 @@ button,input,select,textarea{font:inherit}
    <select id="reportScope">
     <option value="all">جميع المحافظات</option>
     <option value="province">محافظة محددة فقط</option>
+    <option value="region">منطقة محددة داخل محافظة</option>
    </select>
   </div>
   <div class="report-option hidden" id="reportProvinceBox">
    <label for="reportProvince">اختر المحافظة</label>
    <select id="reportProvince"></select>
+  </div>
+  <div class="report-option hidden" id="reportRegionBox">
+   <label for="reportRegion">اختر المنطقة</label>
+   <select id="reportRegion"></select>
   </div>
   <div class="report-option">
    <label for="reportType">نوع التقرير</label>
@@ -325,6 +335,7 @@ function render(){
         <button class="state open ${e.status==='open'?'active':''}" onclick="setStatus('${p.id}','${e.id}','open')">فاتح</button>
         <button class="state closed ${e.status==='closed'?'active':''}" onclick="setStatus('${p.id}','${e.id}','closed')">مغلق</button>
         <button class="state barrier ${e.status==='barrier'?'active':''}" onclick="setStatus('${p.id}','${e.id}','barrier')">حاجز</button>
+        <button class="state note-action" onclick="editNote('${p.id}','${e.id}')">📝 ملاحظة</button>
        </div>
       </div>`).join('')}
     </section>`;
@@ -421,7 +432,6 @@ function renderEntryManage(){
    ${e.note?`<div class="note">الملاحظة: ${esc(e.note)}</div>`:''}
    <div class="row">
     <button class="btn soft small" onclick="renameEntry('${p.id}','${e.id}')">تعديل الاسم</button>
-    <button class="btn soft small" onclick="editNote('${p.id}','${e.id}')">الملاحظة</button>
     <button class="btn soft small" onclick="moveEntry('${p.id}','${e.id}')">نقل المنطقة</button>
     <button class="btn danger small" onclick="deleteEntry('${p.id}','${e.id}')">حذف</button>
    </div>
@@ -575,22 +585,39 @@ function openShareModal(){
  if(!data.provinces.length)return alert('أضف محافظة واحدة على الأقل أولاً.');
  const sel=document.getElementById('reportProvince');
  sel.innerHTML=data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+ renderReportRegionOptions();
  document.getElementById('reportScope').value='all';
  document.getElementById('reportType').value='text';
  updateReportScope();
  document.getElementById('shareModal').classList.add('show');
 }
 function getReportProvinces(){
- if(document.getElementById('reportScope').value==='all')return data.provinces;
+ const scope=document.getElementById('reportScope').value;
+ if(scope==='all')return data.provinces;
  const id=document.getElementById('reportProvince').value;
  return data.provinces.filter(p=>p.id===id);
 }
+function renderReportRegionOptions(){
+ const p=getProvince(document.getElementById('reportProvince').value);
+ const sel=document.getElementById('reportRegion');
+ const old=sel.value;
+ sel.innerHTML=(p?.regions||[]).map(r=>'<option value="'+r.id+'">'+esc(r.name)+'</option>').join('');
+ if(p?.regions.some(r=>r.id===old))sel.value=old;
+}
+function getReportRegion(){
+ const p=getProvince(document.getElementById('reportProvince').value);
+ return {province:p,region:getRegion(p,document.getElementById('reportRegion').value)};
+}
 function updateReportScope(){
- document.getElementById('reportProvinceBox').classList.toggle('hidden',document.getElementById('reportScope').value!=='province');
+ const scope=document.getElementById('reportScope').value;
+ document.getElementById('reportProvinceBox').classList.toggle('hidden',scope==='all');
+ document.getElementById('reportRegionBox').classList.toggle('hidden',scope!=='region');
+ renderReportRegionOptions();
  updateReportPreview();
 }
 document.getElementById('reportScope').onchange=updateReportScope;
-document.getElementById('reportProvince').onchange=updateReportPreview;
+document.getElementById('reportProvince').onchange=()=>{renderReportRegionOptions();updateReportPreview();};
+document.getElementById('reportRegion').onchange=updateReportPreview;
 document.getElementById('reportType').onchange=updateReportPreview;
 
 function reportDate(){
@@ -600,43 +627,36 @@ function reportStatusSquare(status){
  return status==='open'?'🟩':status==='closed'?'🟥':status==='barrier'?'🟧':'⬜';
 }
 function buildReport(){
- const lines=[
-  '*على الطريق*',
-  '*تقرير حالة الطرق والمداخل*',
-  reportDate(),
-  '━━━━━━━━━━━━━━━━━━━━'
- ];
- getReportProvinces().forEach(p=>{
-  lines.push('');
-  lines.push('📍 *محافظة '+p.name+'*');
-  p.regions.forEach(r=>{
-   const entries=p.entries.filter(e=>e.regionId===r.id);
-   if(!entries.length)return;
+ const scope=document.getElementById('reportScope').value;
+ const provinces=getReportProvinces();
+ const lines=['*على الطريق*','*تقرير حالة الطرق والمداخل*',reportDate(),'━━━━━━━━━━━━'];
+ if(scope==='region'){
+  const chosen=getReportRegion();
+  if(chosen.province&&chosen.region){
    lines.push('');
-   lines.push('▪️ *'+r.name+'*');
-   entries.forEach((e,index)=>{
+   lines.push('📍 *مداخل منطقة '+chosen.region.name+' — محافظة '+chosen.province.name+'*');
+   chosen.province.entries.filter(e=>e.regionId===chosen.region.id).forEach(e=>{
     lines.push('');
     lines.push('*'+e.name+'*');
     lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
     if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
-    if(index<entries.length-1)lines.push('━━━━━━━━━━━━━━━━━━━━');
-   });
-  });
-  const unknown=p.entries.filter(e=>!p.regions.some(r=>r.id===e.regionId));
-  if(unknown.length){
-   lines.push('');
-   lines.push('▪️ *غير مصنفة*');
-   unknown.forEach((e,index)=>{
-    lines.push('');
-    lines.push('*'+e.name+'*');
-    lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
-    if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
-    if(index<unknown.length-1)lines.push('━━━━━━━━━━━━━━━━━━━━');
    });
   }
- });
+ }else{
+  provinces.forEach(p=>{
+   lines.push('');
+   lines.push('📍 *محافظة '+p.name+'*');
+   p.entries.forEach((e,index)=>{
+    lines.push('');
+    lines.push('*'+e.name+'*');
+    lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
+    if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
+    if(index<p.entries.length-1)lines.push('━━━━━━━━━━━━');
+   });
+  });
+ }
  lines.push('');
- lines.push('━━━━━━━━━━━━━━━━━━━━');
+ lines.push('━━━━━━━━━━━━');
  const invitation=(data.links.invitation||'').trim();
  if(invitation)lines.push('*'+invitation.replace(/\r?\n/g,' ')+'*');
  lines.push(data.links.wa||GROUP_LINK);
@@ -651,34 +671,33 @@ function updateReportPreview(){
  host.innerHTML='<div class="report-preview-title">'+esc(title.replace(/^\*|\*$/g,''))+'</div><div>'+esc(lines.join('\n'))+'</div>';
 }
 
-/* إنشاء صورة التقرير بمستطيلات حالة ملونة - الوظيفة الأصلية محفوظة */
+/* إنشاء صورة التقرير بمستطيلات حالة ملونة */
 function makeReportCanvas(){
+ const scope=document.getElementById('reportScope').value;
  const provinces=getReportProvinces();
  const width=1200,pad=65,content=width-pad*2;
  const rows=[];
  rows.push({type:'title'});
  rows.push({type:'subtitle'});
  rows.push({type:'date',text:'تاريخ التقرير: '+reportDate()});
- provinces.forEach(p=>{
-  rows.push({type:'province',text:'محافظة '+p.name});
-  p.regions.forEach(r=>{
-   const entries=p.entries.filter(e=>e.regionId===r.id);
-   if(!entries.length)return;
-   rows.push({type:'region',text:r.name});
-   entries.forEach(e=>{
-    rows.push({type:'entry',name:e.name,status:e.status});
-    if(e.note)rows.push({type:'note',text:'الملاحظة: '+e.note});
-   });
-  });
-  const unknown=p.entries.filter(e=>!p.regions.some(r=>r.id===e.regionId));
-  if(unknown.length){
-   rows.push({type:'region',text:'غير مصنفة'});
-   unknown.forEach(e=>{
+ if(scope==='region'){
+  const chosen=getReportRegion();
+  if(chosen.province&&chosen.region){
+   rows.push({type:'province',text:'مداخل منطقة '+chosen.region.name+' — محافظة '+chosen.province.name});
+   chosen.province.entries.filter(e=>e.regionId===chosen.region.id).forEach(e=>{
     rows.push({type:'entry',name:e.name,status:e.status});
     if(e.note)rows.push({type:'note',text:'الملاحظة: '+e.note});
    });
   }
- });
+ }else{
+  provinces.forEach(p=>{
+   rows.push({type:'province',text:'محافظة '+p.name});
+   p.entries.forEach(e=>{
+    rows.push({type:'entry',name:e.name,status:e.status});
+    if(e.note)rows.push({type:'note',text:'الملاحظة: '+e.note});
+   });
+  });
+ }
  rows.push({type:'footer',text:'انضم إلى مجموعة على الطريق على واتساب:'});
  rows.push({type:'url',text:data.links.wa||GROUP_LINK});
  let height=190;
