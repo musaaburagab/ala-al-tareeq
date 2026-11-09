@@ -29,17 +29,19 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,san
 .count{font-size:12px;color:var(--muted)}
 .entry{padding:12px 13px;border-bottom:1px solid #edf2ee}
 .entry:last-child{border-bottom:0}
-.entry-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}
-.entry-name{font-weight:800;font-size:16px}
-.entry-number{display:inline-flex;align-items:center;justify-content:center;min-width:27px;height:27px;margin-left:7px;border-radius:8px;background:#e8f4eb;color:#075d2c;font-weight:900}
-.updated{font-size:11px;color:var(--muted);white-space:nowrap}
-.states{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.state{padding:10px 4px;border-radius:10px;color:white;border:2px solid transparent;font-weight:800;font-size:14px;opacity:.65}
-.state.active{opacity:1;outline:2px solid #1b3925;outline-offset:1px}
-.open{background:var(--green)}
-.closed{background:var(--red)}
-.barrier{background:var(--orange)}
-.note{font-size:12px;color:#46574b;margin-top:8px}
+.entry-top{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin-bottom:10px}
+.entry-name{font-weight:900;font-size:19px;line-height:1.5}
+.entry-number{display:inline-flex;align-items:center;justify-content:center;min-width:29px;height:29px;margin-left:7px;border-radius:9px;background:#e8f4eb;color:#075d2c;font-weight:900}
+.updated{font-size:12px;color:var(--muted)}
+.states{display:flex;gap:8px;flex-wrap:wrap}
+.state{min-width:88px;padding:9px 16px;border-radius:11px;color:white;border:1px solid #ffffff55;font-weight:900;font-size:15px;opacity:.82;box-shadow:0 2px 5px #00000012}
+.state.active{opacity:1;outline:2px solid #183d25;outline-offset:2px;box-shadow:0 3px 9px #0002}
+.open{background:linear-gradient(135deg,#079b42,#056d2d)}
+.closed{background:linear-gradient(135deg,#f04438,#b91c1c)}
+.barrier{background:linear-gradient(135deg,#ffad32,#e47700)}
+.note{font-size:13px;color:#46574b;margin-top:8px;line-height:1.6}
+.note-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+.note-btn{border:0;background:#edf5ef;color:#155b30;border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px}
 .empty{padding:22px;text-align:center;color:var(--muted);background:white;border:1px dashed #b7cdbd;border-radius:14px}
 .footer{margin:20px 0 10px;background:#e7f7df;border:1px solid #b6dda9;border-radius:16px;padding:17px;text-align:center}
 .footer h3{margin:0 0 6px;color:#08632d}
@@ -153,6 +155,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,san
 <div class="panel">
 <button class="btn close" id="shareClose">إغلاق ✕</button>
 <h2>مشاركة حالة الطرق</h2>
+<div class="field">
+<label for="reportScope">نطاق التقرير</label>
+<select id="reportScope">
+<option value="all">كل المحافظات</option>
+</select>
+</div>
 <div id="shareDestinations" class="links"></div>
 <div id="shareReport" class="share-report"></div>
 <div class="row" style="margin-top:12px">
@@ -201,7 +209,11 @@ function esc(s){
 
 function when(t){
  if(!t)return 'لم يحدّث بعد';
- return new Date(t).toLocaleString('ar-PS',{dateStyle:'short',timeStyle:'short'});
+ return new Date(t).toLocaleTimeString('ar-PS',{hour:'2-digit',minute:'2-digit'});
+}
+
+function reportDate(t=Date.now()){
+ return new Date(t).toLocaleString('ar-PS',{dateStyle:'full',timeStyle:'short'});
 }
 
 function sortedEntries(p){
@@ -243,7 +255,10 @@ function render(){
         `<button class="state ${v} ${e.status===v?'active':''}" onclick="setStatus('${p.id}','${e.id}','${v}')">${l}</button>`
        ).join('')}
       </div>
-      ${e.note?`<div class="note">ملاحظة: ${esc(e.note)}</div>`:''}
+      <div class="note">${e.note?`ملاحظة: ${esc(e.note)}`:'لا توجد ملاحظات مسجلة'}</div>
+      <div class="note-actions">
+       <button class="btn note-btn" onclick="editNote('${p.id}','${e.id}')">${e.note?'تعديل الملاحظة':'إضافة ملاحظة'}</button>
+      </div>
      </div>
     `).join(''):'<div class="empty">لا توجد مداخل مضافة لهذه المحافظة.</div>'}
    </article>`;
@@ -251,6 +266,14 @@ function render(){
  }
  renderLinks();
  renderAdmin();
+
+ const scope=document.getElementById('reportScope');
+ if(scope){
+  const old=scope.value;
+  scope.innerHTML='<option value="all">كل المحافظات</option>'+
+   data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+  if([...scope.options].some(o=>o.value===old))scope.value=old;
+ }
 }
 
 function setStatus(pid,eid,status){
@@ -275,6 +298,7 @@ function renderLinks(){
  const el=document.getElementById('publicLinks');
  const links=[['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك','fb']]
  .filter(([k])=>validUrl(data.links[k]));
+
  el.innerHTML=links.length?
  links.map(([k,n,c])=>`<a class="link ${c}" href="${esc(validUrl(data.links[k]))}" target="_blank" rel="noopener">${n}</a>`).join(''):
  '<span class="count">ستظهر روابط المجموعات هنا بعد حفظها من الإعدادات.</span>';
@@ -379,8 +403,11 @@ document.getElementById('closeBtn').onclick=()=>{
 };
 
 document.getElementById('refreshBtn').onclick=()=>{
- data=load();
- render();
+ const now=Date.now();
+ data.provinces.forEach(p=>p.entries.forEach(e=>{
+  if(e.status)e.updated=now;
+ }));
+ save();
 };
 
 document.querySelectorAll('.tab').forEach(b=>{
@@ -445,14 +472,19 @@ document.getElementById('saveLinks').onclick=()=>{
  alert('تم حفظ الروابط على هذا الجهاز');
 };
 
-function buildReport(){
+function buildReport(scope='all'){
  const lines=[
   '🇵🇸 على الطريق',
   'تقرير حالة الطرق والمداخل',
+  `📅 ${reportDate()}`,
   '━━━━━━━━━━━━━━━━━━'
  ];
 
- data.provinces.forEach(p=>{
+ const provinces=scope==='all'?
+  data.provinces:
+  data.provinces.filter(p=>p.id===scope);
+
+ provinces.forEach(p=>{
   lines.push('');
   lines.push(`📍 محافظة ${p.name}`);
   lines.push('──────────────────');
@@ -465,7 +497,6 @@ function buildReport(){
   sortedEntries(p).forEach(e=>{
    lines.push(`${stateIcon(e.status)} ${e.entryNumber}. ${e.name} — ${stateLabel(e.status)}`);
    if(e.note)lines.push(`   ملاحظة: ${e.note}`);
-   if(e.updated)lines.push(`   آخر تحديث: ${when(e.updated)}`);
   });
  });
 
@@ -475,7 +506,8 @@ function buildReport(){
 }
 
 function openShare(){
- document.getElementById('shareReport').textContent=buildReport();
+ const scope=document.getElementById('reportScope').value||'all';
+ document.getElementById('shareReport').textContent=buildReport(scope);
 
  const items=[
   ['wa','واتساب',''],
@@ -492,12 +524,17 @@ function openShare(){
 
 document.getElementById('shareBtn').onclick=openShare;
 
+document.getElementById('reportScope').onchange=()=>{
+ document.getElementById('shareReport').textContent=
+  buildReport(document.getElementById('reportScope').value);
+};
+
 document.getElementById('shareClose').onclick=()=>{
  document.getElementById('shareModal').classList.remove('show');
 };
 
 document.getElementById('shareTextBtn').onclick=async()=>{
- const text=buildReport();
+ const text=buildReport(document.getElementById('reportScope').value||'all');
 
  if(navigator.share){
   try{
@@ -515,7 +552,9 @@ document.getElementById('shareTextBtn').onclick=async()=>{
 
 document.getElementById('copyReportBtn').onclick=async()=>{
  try{
-  await navigator.clipboard.writeText(buildReport());
+  await navigator.clipboard.writeText(
+   buildReport(document.getElementById('reportScope').value||'all')
+  );
   alert('تم نسخ التقرير');
  }catch(e){
   alert('تعذر النسخ؛ حدّد التقرير وانسخه يدوياً');
