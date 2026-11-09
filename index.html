@@ -4,99 +4,232 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#087b35">
-<meta name="description" content="مركز متابعة أحوال الطرق والمداخل والحواجز">
+<meta name="description" content="مركز متابعة أحوال الطرق والمداخل والحواجز في الضفة الغربية">
 <link rel="manifest" href="manifest.webmanifest">
 <title>على الطريق</title>
+
 <style>
-:root{--green:#078a38;--red:#d92d20;--orange:#f28c00;--blue:#1264c4;--ink:#17251b;--muted:#64746a;--line:#d8e8dc;--bg:#f3f8f4}
+:root{
+ --green:#078a38;
+ --red:#d92d20;
+ --orange:#f28c00;
+ --blue:#1769aa;
+ --ink:#17251b;
+ --muted:#64746a;
+ --line:#d8e8dc;
+ --bg:#f3f8f4;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
-.hero{background:linear-gradient(135deg,#075d2c,#159447 55%,#e8f5eb);color:white;padding:28px 16px 22px;text-align:center;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 26px,#ffffff0b 27px 29px);pointer-events:none}
-.flag{font-size:26px}.hero h1{font-size:clamp(36px,9vw,58px);margin:4px 0;font-weight:900;text-shadow:0 2px 4px #003b1d}.hero p{margin:6px 0 0;font-size:15px}
+body{
+ margin:0;background:var(--bg);color:var(--ink);
+ font-family:Tahoma,Arial,sans-serif
+}
+button,input,select,textarea{font:inherit}
+.hero{
+ background:linear-gradient(135deg,#075d2c,#159447 55%,#e8f5eb);
+ color:white;padding:26px 16px 22px;text-align:center;
+ position:relative;overflow:hidden
+}
+.hero:after{
+ content:'';position:absolute;inset:0;
+ background:repeating-linear-gradient(135deg,transparent 0 26px,#ffffff0b 27px 29px);
+ pointer-events:none
+}
+.flag{font-size:26px}
+.hero h1{
+ font-size:clamp(36px,9vw,58px);margin:4px 0;
+ font-weight:900;text-shadow:0 2px 4px #003b1d
+}
+.hero p{margin:6px 0 0;font-size:15px}
 .wrap{max-width:920px;margin:auto;padding:14px}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}
-.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;font-size:15px;cursor:pointer}
-.primary{background:#087b35;color:white}.soft{background:#e3f1e7;color:#075d2c}.danger{background:#fee8e7;color:#a21b13}
-.section-title{font-size:22px;font-weight:900;margin:16px 2px 10px;color:#08632d}
-.province{background:white;border:1px solid var(--line);border-radius:16px;margin:12px 0;overflow:hidden;box-shadow:0 3px 12px #153d2110}
-.province-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#e9f6ec;border-bottom:1px solid var(--line)}
-.province-head h2{font-size:20px;margin:0}.count{font-size:12px;color:var(--muted)}
-.entry{padding:13px;border-bottom:1px solid #edf2ee}.entry:last-child{border-bottom:0}
-.entry-top{display:flex;flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:10px}
-.entry-title-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-.entry-name{font-weight:900;font-size:19px;line-height:1.6}
-.entry-number{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 7px;border-radius:9px;background:#e8f4eb;color:#075d2c;font-weight:900}
-.status-badge{display:inline-flex;align-items:center;justify-content:center;min-width:85px;padding:7px 15px;border-radius:10px;color:white;font-size:14px;font-weight:900;box-shadow:0 3px 7px #0002;border:1px solid #ffffff70}
-.status-badge.open{background:linear-gradient(135deg,#0ab94e,#056d2d)}
-.status-badge.closed{background:linear-gradient(135deg,#ff5148,#b91c1c)}
-.status-badge.barrier{background:linear-gradient(135deg,#ffb33f,#e47700)}
-.status-badge.unknown{background:linear-gradient(135deg,#89948d,#59635d)}
-.updated{font-size:12px;color:var(--muted)}
-.states{display:flex;gap:8px;flex-wrap:wrap}
-.state{min-width:88px;padding:9px 16px;border-radius:11px;color:white;border:1px solid #ffffff55;font-weight:900;font-size:14px;opacity:.72;box-shadow:0 2px 5px #00000012}
-.state.active{opacity:1;outline:2px solid #183d25;outline-offset:2px;box-shadow:0 3px 9px #0002}
-.state.open{background:linear-gradient(135deg,#079b42,#056d2d)}.state.closed{background:linear-gradient(135deg,#f04438,#b91c1c)}.state.barrier{background:linear-gradient(135deg,#ffad32,#e47700)}
-.note{font-size:14px;color:#1264c4;margin-top:9px;line-height:1.8;font-weight:700}
-.note-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
-.note-btn{border:0;background:#edf5ef;color:#155b30;border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px}
-.empty{padding:22px;text-align:center;color:var(--muted);background:white;border:1px dashed #b7cdbd;border-radius:14px}
-.footer{margin:20px 0 10px;background:#e7f7df;border:1px solid #b6dda9;border-radius:16px;padding:17px;text-align:center}
+.btn{
+ border:0;border-radius:12px;padding:12px 15px;
+ font-weight:800;font-size:15px;cursor:pointer
+}
+.primary{background:#087b35;color:#fff}
+.soft{background:#e3f1e7;color:#075d2c}
+.danger{background:#fee8e7;color:#a21b13}
+.blue{background:#e2effb;color:#14558c}
+.section-title{
+ font-size:22px;font-weight:900;margin:16px 2px 10px;color:#08632d
+}
+.filter-box{
+ background:white;border:1px solid var(--line);
+ border-radius:14px;padding:12px;margin:10px 0 14px
+}
+.filter-box label{display:block;font-weight:bold;margin-bottom:7px}
+.filter-box select{
+ width:100%;padding:12px;border:1px solid #cbdacf;
+ border-radius:10px;background:white
+}
+.province{
+ background:white;border:1px solid var(--line);
+ border-radius:16px;margin:12px 0;overflow:hidden;
+ box-shadow:0 3px 12px #153d2110
+}
+.province-head{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:10px;padding:13px 14px;background:#e9f6ec;
+ border-bottom:1px solid var(--line)
+}
+.province-head h2{font-size:20px;margin:0}
+.count{font-size:12px;color:var(--muted)}
+.entry{padding:12px 13px;border-bottom:1px solid #edf2ee}
+.entry:last-child{border-bottom:0}
+.entry-top{
+ display:flex;justify-content:space-between;gap:8px;
+ align-items:center;margin-bottom:9px
+}
+.entry-name{font-weight:800;font-size:16px}
+.updated{font-size:11px;color:var(--muted);white-space:nowrap}
+.states{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.state{
+ padding:10px 4px;border-radius:10px;color:#fff;
+ border:2px solid transparent;font-weight:800;
+ font-size:14px;opacity:.65;cursor:pointer
+}
+.state.active{opacity:1;outline:2px solid #1b3925;outline-offset:1px}
+.open{background:var(--green)}
+.closed{background:var(--red)}
+.barrier{background:var(--orange)}
+.note{font-size:13px;color:#1769aa;margin-top:8px;font-weight:bold}
+.empty{
+ padding:22px;text-align:center;color:var(--muted);
+ background:white;border:1px dashed #b7cdbd;border-radius:14px
+}
+.footer{
+ margin:20px 0 10px;background:#e7f7df;
+ border:1px solid #b6dda9;border-radius:16px;
+ padding:17px;text-align:center
+}
 .footer h3{margin:0 0 6px;color:#08632d}
-.links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-.link{display:inline-block;text-decoration:none;color:white;padding:10px 14px;border-radius:11px;font-weight:bold;background:#087b35}
-.link.tg{background:#159bd7}.link.fb{background:#174ea6}
+.links{
+ display:flex;gap:8px;justify-content:center;
+ flex-wrap:wrap;margin-top:12px
+}
+.link{
+ display:inline-block;text-decoration:none;color:white;
+ padding:10px 14px;border-radius:11px;font-weight:bold;
+ background:#087b35
+}
+.link.tg{background:#159bd7}
+.link.fb{background:#174ea6}
 .notice{text-align:center;font-size:12px;color:#65746a;margin:14px 0 25px}
-.modal{position:fixed;inset:0;background:#07190dc9;display:none;z-index:10;padding:12px;overflow:auto}
+.modal{
+ position:fixed;inset:0;background:#07190dc9;
+ display:none;z-index:10;padding:12px;overflow:auto
+}
 .modal.show{display:block}
-.panel{max-width:680px;margin:20px auto;background:white;border-radius:18px;padding:18px;box-shadow:0 10px 50px #0004}
+.panel{
+ max-width:680px;margin:20px auto;background:white;
+ border-radius:18px;padding:18px;box-shadow:0 10px 50px #0004
+}
 .panel h2{margin:0 0 12px;color:#08632d}
 .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
-.tab{background:#edf5ef;color:#155b30}.tab.sel{background:#087b35;color:white}
+.tab{background:#edf5ef;color:#155b30}
+.tab.sel{background:#087b35;color:white}
 .field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
 .field label{font-size:13px;font-weight:bold}
-.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #cbdacf;border-radius:10px;font:inherit;background:white}
-.row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
-.item-manage{border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.field input,.field select,.field textarea{
+ width:100%;padding:12px;border:1px solid #cbdacf;
+ border-radius:10px;font:inherit;background:white
+}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.item-manage{
+ border:1px solid var(--line);border-radius:12px;
+ padding:10px;margin:8px 0
+}
 .item-manage strong{display:block;margin-bottom:8px}
 .small{font-size:12px;padding:8px 10px}
-.hint{background:#fff6df;padding:10px;border-radius:10px;color:#704d00;font-size:12px;line-height:1.6}
-.close{float:left;background:#edf1ee;color:#233}.hidden{display:none!important}
-.share-report{white-space:pre-wrap;direction:rtl;text-align:right;background:#f4f8f5;border:1px solid var(--line);border-radius:12px;padding:12px;line-height:1.9;max-height:45vh;overflow:auto}
+.hint{
+ background:#fff6df;padding:10px;border-radius:10px;
+ color:#704d00;font-size:12px;line-height:1.7
+}
+.close{float:left;background:#edf1ee;color:#233}
+.hidden{display:none!important}
+.report-option{
+ border:1px solid var(--line);border-radius:12px;
+ padding:12px;margin:9px 0
+}
+.report-option label{font-weight:bold;display:block;margin-bottom:7px}
+.report-option select{
+ width:100%;padding:11px;border:1px solid #cbdacf;
+ border-radius:10px;background:white
+}
+.report-preview{
+ white-space:pre-wrap;direction:rtl;text-align:right;
+ background:#f3f8f4;border:1px solid var(--line);
+ border-radius:12px;padding:13px;font-size:14px;
+ line-height:1.9;max-height:260px;overflow:auto
+}
+@media(max-width:480px){
+ .btn{font-size:14px;padding:11px 12px}
+ .entry-top{align-items:flex-start;flex-direction:column}
+ .updated{white-space:normal}
+}
 </style>
 </head>
+
 <body>
+
 <header class="hero">
  <div class="flag">🇵🇸</div>
  <h1>على الطريق</h1>
  <p>مركز متابعة أحوال الطرق والمداخل والحواجز</p>
 </header>
+
 <main class="wrap">
+
  <div class="toolbar">
   <button class="btn primary" id="settingsBtn">⚙ الإعدادات والإدارة</button>
-  <button class="btn soft" id="shareBtn">مشاركة الحالة</button>
-  <button class="btn soft" id="refreshBtn">تحديث العرض</button>
+  <button class="btn soft" id="shareBtn">📤 مشاركة التقرير</button>
+  <button class="btn soft" id="refreshBtn">🔄 تحديث العرض</button>
  </div>
- <div class="section-title">المحافظات</div>
+
+ <div class="section-title">متابعة أحوال الطرق</div>
+
+ <div class="filter-box">
+  <label for="viewProvince">اختر المحافظة لعرض مداخلها وتحديث حالاتها:</label>
+  <select id="viewProvince">
+   <option value="all">جميع المحافظات</option>
+  </select>
+ </div>
+
  <div id="provinceList"></div>
+
  <section class="footer">
   <h3>كن على اطلاع دائم</h3>
   <div>انضم إلى مجموعاتنا لمتابعة آخر المستجدات</div>
   <div class="links" id="publicLinks"></div>
  </section>
- <div class="notice">تنبيه: قد تتغير حالة الطرق والمداخل في أي وقت. تحقق من آخر تحديث قبل التحرك.</div>
+
+ <div class="notice">
+  تنبيه: قد تتغير حالة الطرق والمداخل في أي وقت.
+  تحقق من آخر تحديث قبل التحرك.
+ </div>
 </main>
+
+<!-- نافذة الإدارة -->
 
 <div class="modal" id="modal">
  <div class="panel">
+
   <button class="btn close" id="closeBtn">إغلاق ✕</button>
   <h2>لوحة الإعدادات والإدارة</h2>
-  <div class="hint">تحفظ هذه النسخة البيانات محلياً على هذا الجهاز والمتصفح.</div>
+
+  <div class="hint">
+   هذه النسخة تحفظ البيانات على هذا المتصفح والجهاز فقط.
+   احتفظ بنسخة احتياطية من بياناتك بشكل دوري.
+  </div>
+
   <div class="tabs">
    <button class="btn tab sel" data-tab="provinces">المحافظات</button>
    <button class="btn tab" data-tab="entries">المداخل والحواجز</button>
    <button class="btn tab" data-tab="links">روابط المجموعات</button>
   </div>
+
   <section id="tab-provinces">
    <h3>إضافة محافظة</h3>
    <div class="row">
@@ -105,297 +238,895 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,san
    </div>
    <div id="provinceManage"></div>
   </section>
+
   <section id="tab-entries" class="hidden">
    <h3>إدارة المداخل والحواجز</h3>
-   <div class="field"><label>المحافظة</label><select id="entryProvince"></select></div>
-   <div class="field"><label>رقم المدخل المطلوب</label><input id="entryNumber" type="number" min="1" step="1" placeholder="مثلاً 9"></div>
+
+   <div class="field">
+    <label for="entryProvince">اختر المحافظة</label>
+    <select id="entryProvince"></select>
+   </div>
+
    <div class="row">
     <input id="entryName" placeholder="اسم المدخل أو الحاجز">
     <button class="btn primary" id="addEntry">إضافة المدخل</button>
    </div>
-   <div class="hint">عند إضافة مدخل في رقم موجود، تتحرك المداخل الأخرى تلقائياً للحفاظ على التسلسل.</div>
+
    <div id="entryManage"></div>
   </section>
+
   <section id="tab-links" class="hidden">
    <h3>روابط الانضمام</h3>
-   <div class="field"><label>واتساب</label><input id="waLink" placeholder="رابط مجموعة واتساب"></div>
-   <div class="field"><label>تليجرام</label><input id="tgLink" placeholder="رابط مجموعة/قناة تليجرام"></div>
-   <div class="field"><label>فيسبوك / ماسنجر</label><input id="fbLink" placeholder="الرابط"></div>
+
+   <div class="field">
+    <label>واتساب</label>
+    <input id="waLink" placeholder="رابط مجموعة واتساب">
+   </div>
+
+   <div class="field">
+    <label>تليجرام</label>
+    <input id="tgLink" placeholder="رابط مجموعة/قناة تليجرام">
+   </div>
+
+   <div class="field">
+    <label>فيسبوك / ماسنجر</label>
+    <input id="fbLink" placeholder="الرابط">
+   </div>
+
    <button class="btn primary" id="saveLinks">حفظ الروابط</button>
   </section>
+
   <div class="row" style="margin-top:18px">
    <button class="btn soft" id="exportBtn">تصدير نسخة احتياطية</button>
    <button class="btn danger" id="resetBtn">مسح بيانات هذا الجهاز</button>
   </div>
+
  </div>
 </div>
 
+<!-- نافذة إعداد التقرير -->
+
 <div class="modal" id="shareModal">
  <div class="panel">
-  <button class="btn close" id="shareClose">إغلاق ✕</button>
-  <h2>مشاركة حالة الطرق</h2>
-  <div class="field">
+
+  <button class="btn close" id="shareCloseBtn">إغلاق ✕</button>
+  <h2>إعداد تقرير حالة الطرق</h2>
+
+  <div class="report-option">
    <label for="reportScope">نطاق التقرير</label>
-   <select id="reportScope"><option value="all">كل المحافظات</option></select>
+   <select id="reportScope">
+    <option value="all">جميع المحافظات</option>
+    <option value="province">محافظة محددة فقط</option>
+   </select>
   </div>
-  <div id="shareDestinations" class="links"></div>
-  <div id="shareReport" class="share-report"></div>
-  <div class="row" style="margin-top:12px">
-   <button class="btn primary" id="shareTextBtn">مشاركة التقرير</button>
-   <button class="btn soft" id="copyReportBtn">نسخ التقرير</button>
+
+  <div class="report-option hidden" id="reportProvinceBox">
+   <label for="reportProvince">اختر المحافظة</label>
+   <select id="reportProvince"></select>
   </div>
-  <p class="hint">سيتم فتح تطبيق المشاركة لتكمل الإرسال بنفسك.</p>
+
+  <div class="report-option">
+   <label>نوع التقرير</label>
+   <select id="reportType">
+    <option value="text">تقرير نصي منسق</option>
+    <option value="image">تقرير صورة ملونة</option>
+   </select>
+  </div>
+
+  <div class="report-option">
+   <label>معاينة التقرير النصي</label>
+   <div class="report-preview" id="reportPreview">سيظهر التقرير هنا.</div>
+  </div>
+
+  <div class="toolbar">
+   <button class="btn primary" id="sendReportBtn">مشاركة التقرير</button>
+   <button class="btn blue" id="copyReportBtn">نسخ التقرير النصي</button>
+   <button class="btn soft" id="downloadReportBtn">حفظ صورة التقرير</button>
+  </div>
+
+  <div class="hint">
+   عند اختيار تقرير صورة، سيُنشأ ملف صورة يحتوي على اسم المحافظة
+   والمداخل وحالاتها وملاحظاتها ورابط مجموعة واتساب.
+  </div>
+
  </div>
 </div>
 
 <script>
 'use strict';
+
+/* مفتاح التخزين الأصلي للمحافظة على البيانات السابقة */
 const KEY='ala_tareeq_v1';
+
+const GROUP_LINK='https://is.gd/fbd71i';
+
+let data=load();
+let activeTab='provinces';
+let currentReportCanvas=null;
+
+function emptyData(){
+ return {provinces:[],links:{wa:'',tg:'',fb:''}};
+}
 
 function load(){
  try{
-  const d=JSON.parse(localStorage.getItem(KEY))||{provinces:[],links:{wa:'',tg:'',fb:''}};
-  if(!Array.isArray(d.provinces))d.provinces=[];
-  d.links=d.links||{wa:'',tg:'',fb:''};
-  d.provinces.forEach(p=>{
-   if(!Array.isArray(p.entries))p.entries=[];
-   p.entries.forEach((e,i)=>{
-    let n=Number(e.entryNumber??e.number);
-    if(!Number.isInteger(n)||n<1)n=i+1;
-    e.entryNumber=n;
+  const saved=JSON.parse(localStorage.getItem(KEY));
+  if(!saved || typeof saved!=='object') return emptyData();
+
+  if(!Array.isArray(saved.provinces)) saved.provinces=[];
+  if(!saved.links) saved.links={wa:'',tg:'',fb:''};
+
+  saved.links.wa=saved.links.wa||'';
+  saved.links.tg=saved.links.tg||'';
+  saved.links.fb=saved.links.fb||'';
+
+  saved.provinces.forEach(p=>{
+   if(!Array.isArray(p.entries)) p.entries=[];
+   p.entries.forEach(e=>{
+    if(e.status===undefined) e.status='';
+    if(e.note===undefined) e.note='';
+    if(e.updated===undefined) e.updated=null;
    });
   });
-  return d;
- }catch(e){return{provinces:[],links:{wa:'',tg:'',fb:''}}}
+
+  return saved;
+ }catch(error){
+  return emptyData();
+ }
 }
-let data=load();
-let activeTab='provinces';
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(data));
+ render();
+}
+
+function uid(){
+ return 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
+}
 
 function esc(s){
- return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ return String(s??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ }[c]));
 }
-function sortedEntries(p){
- return [...p.entries].sort((a,b)=>(Number(a.entryNumber)||0)-(Number(b.entryNumber)||0));
+
+function when(t){
+ if(!t) return 'لم يحدّث بعد';
+ return new Date(t).toLocaleString('ar-PS',{
+  dateStyle:'short',
+  timeStyle:'short'
+ });
 }
-function firstEntryNumber(p){
- const nums=p.entries.map(e=>Number(e.entryNumber)).filter(n=>Number.isInteger(n)&&n>0);
- return nums.length?Math.min(...nums):1;
+
+function statusText(status){
+ if(status==='open') return 'فاتح';
+ if(status==='closed') return 'مغلق';
+ if(status==='barrier') return 'حاجز';
+ return 'غير محدد';
 }
-function renumberEntries(p,list,start){list.forEach((entry,index)=>{entry.entryNumber=start+index});p.entries=list}
-function normalizeProvince(p){const list=sortedEntries(p);if(!list.length)return;renumberEntries(p,list,firstEntryNumber(p))}
-function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
-function when(t){if(!t)return 'لم يحدّث بعد';return new Date(t).toLocaleTimeString('ar-PS',{hour:'2-digit',minute:'2-digit'})}
-function reportDate(t=Date.now()){return new Date(t).toLocaleString('ar-PS',{dateStyle:'full',timeStyle:'short'})}
-function stateLabel(s){return s==='open'?'فاتح':s==='closed'?'مغلق':s==='barrier'?'حاجز':'لم تحدد'}
+
+function statusEmoji(status){
+ if(status==='open') return '🟢';
+ if(status==='closed') return '🔴';
+ if(status==='barrier') return '🟠';
+ return '⚪';
+}
 
 function render(){
  const host=document.getElementById('provinceList');
- if(!data.provinces.length){
-  host.innerHTML='<div class="empty">لم تتم إضافة محافظات بعد. افتح الإعدادات وأضف أول محافظة.</div>';
+ const selected=document.getElementById('viewProvince').value||'all';
+
+ renderViewPicker();
+
+ const provinces=selected==='all'
+  ?data.provinces
+  :data.provinces.filter(p=>p.id===selected);
+
+ if(!provinces.length){
+  host.innerHTML='<div class="empty">لا توجد محافظات لعرضها. افتح الإعدادات وأضف المحافظات أولاً.</div>';
  }else{
-  host.innerHTML=data.provinces.map(p=>{
-   const entries=sortedEntries(p);
-   return `<article class="province">
-    <div class="province-head"><h2>${esc(p.name)}</h2><span class="count">${entries.length} مداخل</span></div>
-    ${entries.length?entries.map(e=>{
-     const statusClass=e.status==='open'?'open':e.status==='closed'?'closed':e.status==='barrier'?'barrier':'unknown';
-     return `<div class="entry">
+  host.innerHTML=provinces.map(p=>`
+   <article class="province">
+    <div class="province-head">
+     <h2>${esc(p.name)}</h2>
+     <span class="count">${p.entries.length} مداخل</span>
+    </div>
+
+    ${p.entries.length?p.entries.map(e=>`
+     <div class="entry">
       <div class="entry-top">
-       <div class="entry-title-row">
-        <span class="status-badge ${statusClass}">${stateLabel(e.status)}</span>
-        <span class="entry-number">${Number(e.entryNumber)||''}</span>
-        <span class="entry-name">${esc(e.name)}</span>
-       </div>
+       <span class="entry-name">${esc(e.name)}</span>
        <span class="updated">آخر تحديث: ${when(e.updated)}</span>
       </div>
+
       <div class="states">
-       ${[['open','فاتح'],['closed','مغلق'],['barrier','حاجز']].map(([v,l])=>`<button class="state ${v} ${e.status===v?'active':''}" onclick="setStatus('${p.id}','${e.id}','${v}')">${l}</button>`).join('')}
+       <button class="state open ${e.status==='open'?'active':''}"
+        onclick="setStatus('${p.id}','${e.id}','open')">فاتح</button>
+
+       <button class="state closed ${e.status==='closed'?'active':''}"
+        onclick="setStatus('${p.id}','${e.id}','closed')">مغلق</button>
+
+       <button class="state barrier ${e.status==='barrier'?'active':''}"
+        onclick="setStatus('${p.id}','${e.id}','barrier')">حاجز</button>
       </div>
-      <div class="note">${e.note?`ملاحظة: ${esc(e.note)}`:'لا توجد ملاحظات مسجلة'}</div>
-      <div class="note-actions"><button class="btn note-btn" onclick="editNote('${p.id}','${e.id}')">${e.note?'تعديل الملاحظة':'إضافة ملاحظة'}</button></div>
-     </div>`;
-    }).join(''):'<div class="empty">لا توجد مداخل مضافة لهذه المحافظة.</div>'}
-   </article>`;
-  }).join('');
+
+      ${e.note?`<div class="note">🔵 ملاحظة: ${esc(e.note)}</div>`:''}
+     </div>
+    `).join(''):'<div class="empty">لا توجد مداخل مضافة لهذه المحافظة.</div>'}
+   </article>
+  `).join('');
  }
- renderLinks();renderAdmin();
- const scope=document.getElementById('reportScope');
- if(scope){
-  const old=scope.value;
-  scope.innerHTML='<option value="all">كل المحافظات</option>'+data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
-  if([...scope.options].some(o=>o.value===old))scope.value=old;
+
+ renderLinks();
+ renderAdmin();
+}
+
+function renderViewPicker(){
+ const sel=document.getElementById('viewProvince');
+ const old=sel.value||'all';
+
+ sel.innerHTML=
+  '<option value="all">جميع المحافظات</option>'+
+  data.provinces.map(p=>
+   `<option value="${p.id}">${esc(p.name)}</option>`
+  ).join('');
+
+ if(old==='all'||data.provinces.some(p=>p.id===old)){
+  sel.value=old;
+ }else{
+  sel.value='all';
  }
 }
 
 function setStatus(pid,eid,status){
- const p=data.provinces.find(x=>x.id===pid);const e=p?.entries.find(x=>x.id===eid);
- if(!e)return;e.status=status;e.updated=Date.now();save();
+ const p=data.provinces.find(x=>x.id===pid);
+ const e=p?.entries.find(x=>x.id===eid);
+ if(!e) return;
+
+ e.status=status;
+ e.updated=Date.now();
+ save();
 }
+
 window.setStatus=setStatus;
 
-function validUrl(v){
- if(!v)return '';
- try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch(e){return ''}
-}
 function renderLinks(){
  const el=document.getElementById('publicLinks');
- const links=[['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك','fb']].filter(([k])=>validUrl(data.links[k]));
- el.innerHTML=links.length?links.map(([k,n,c])=>`<a class="link ${c}" href="${esc(validUrl(data.links[k]))}" target="_blank" rel="noopener">${n}</a>`).join(''):'<span class="count">ستظهر روابط المجموعات هنا بعد حفظها من الإعدادات.</span>';
+
+ const links=[
+  ['wa','واتساب',''],
+  ['tg','تليجرام','tg'],
+  ['fb','فيسبوك','fb']
+ ].filter(([k])=>data.links[k]);
+
+ el.innerHTML=links.length
+  ?links.map(([k,n,c])=>
+   `<a class="link ${c}" href="${esc(data.links[k])}" target="_blank" rel="noopener">${n}</a>`
+  ).join('')
+  :'<span class="count">ستظهر روابط المجموعات هنا بعد حفظها من الإعدادات.</span>';
 }
+
 function renderAdmin(){
- document.getElementById('provinceManage').innerHTML=data.provinces.map(p=>`
-  <div class="item-manage"><strong>${esc(p.name)}</strong><div class="row">
-   <button class="btn soft small" onclick="renameProvince('${p.id}')">تعديل الاسم</button>
-   <button class="btn danger small" onclick="deleteProvince('${p.id}')">حذف المحافظة</button>
-  </div></div>`).join('')||'<p class="count">لا توجد محافظات.</p>';
- const sel=document.getElementById('entryProvince');const old=sel.value;
- sel.innerHTML=data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
- if(data.provinces.some(p=>p.id===old))sel.value=old;
+ document.getElementById('provinceManage').innerHTML=
+  data.provinces.map(p=>`
+   <div class="item-manage">
+    <strong>${esc(p.name)}</strong>
+    <div class="row">
+     <button class="btn soft small" onclick="renameProvince('${p.id}')">تعديل الاسم</button>
+     <button class="btn danger small" onclick="deleteProvince('${p.id}')">حذف المحافظة</button>
+    </div>
+   </div>
+  `).join('')||'<p class="count">لا توجد محافظات.</p>';
+
+ const sel=document.getElementById('entryProvince');
+ const old=sel.value;
+
+ sel.innerHTML=data.provinces.map(p=>
+  `<option value="${p.id}">${esc(p.name)}</option>`
+ ).join('');
+
+ if(data.provinces.some(p=>p.id===old)) sel.value=old;
+
  renderEntryManage();
+
  document.getElementById('waLink').value=data.links.wa||'';
  document.getElementById('tgLink').value=data.links.tg||'';
  document.getElementById('fbLink').value=data.links.fb||'';
 }
+
 function renderEntryManage(){
- const p=data.provinces.find(x=>x.id===document.getElementById('entryProvince').value);
- document.getElementById('entryManage').innerHTML=p?sortedEntries(p).map(e=>`
-  <div class="item-manage"><strong>رقم ${Number(e.entryNumber)||''} — ${esc(e.name)} — ${stateLabel(e.status)}</strong>
-   <div class="row">
-    <button class="btn soft small" onclick="renameEntry('${p.id}','${e.id}')">تعديل الاسم</button>
-    <button class="btn soft small" onclick="editEntryNumber('${p.id}','${e.id}')">تعديل الرقم</button>
-    <button class="btn soft small" onclick="editNote('${p.id}','${e.id}')">ملاحظة</button>
-    <button class="btn danger small" onclick="deleteEntry('${p.id}','${e.id}')">حذف</button>
+ const p=data.provinces.find(
+  x=>x.id===document.getElementById('entryProvince').value
+ );
+
+ document.getElementById('entryManage').innerHTML=p
+  ?p.entries.map(e=>`
+   <div class="item-manage">
+    <strong>${esc(e.name)} — ${statusText(e.status)}</strong>
+    ${e.note?`<div class="note">🔵 ${esc(e.note)}</div>`:''}
+    <div class="row">
+     <button class="btn soft small" onclick="renameEntry('${p.id}','${e.id}')">تعديل الاسم</button>
+     <button class="btn soft small" onclick="editNote('${p.id}','${e.id}')">ملاحظة</button>
+     <button class="btn danger small" onclick="deleteEntry('${p.id}','${e.id}')">حذف</button>
+    </div>
    </div>
-  </div>`).join('')||'<p class="count">لا توجد مداخل في هذه المحافظة.</p>':'<p class="count">أضف محافظة أولاً.</p>';
+  `).join('')||'<p class="count">لا توجد مداخل في هذه المحافظة.</p>'
+  :'<p class="count">أضف محافظة أولاً.</p>';
 }
+
 function renameProvince(id){
- const p=data.provinces.find(x=>x.id===id);if(!p)return;
- const n=prompt('الاسم الجديد للمحافظة:',p.name);if(n&&n.trim()){p.name=n.trim();save()}
+ const p=data.provinces.find(x=>x.id===id);
+ if(!p) return;
+
+ const n=prompt('الاسم الجديد للمحافظة:',p.name);
+ if(n&&n.trim()){
+  p.name=n.trim();
+  save();
+ }
 }
+
 function deleteProvince(id){
  const p=data.provinces.find(x=>x.id===id);
- if(p&&confirm(`حذف محافظة ${p.name} وكل المداخل التابعة لها؟`)){data.provinces=data.provinces.filter(x=>x.id!==id);save()}
+ if(p&&confirm(`حذف محافظة ${p.name} وكل المداخل التابعة لها؟`)){
+  data.provinces=data.provinces.filter(x=>x.id!==id);
+  save();
+ }
 }
-function renameEntry(pid,eid){
- const p=data.provinces.find(x=>x.id===pid);const e=p?.entries.find(x=>x.id===eid);if(!e)return;
- const n=prompt('اسم المدخل الجديد:',e.name);if(n&&n.trim()){e.name=n.trim();save()}
-}
-function editEntryNumber(pid,eid){
- const p=data.provinces.find(x=>x.id===pid);if(!p)return;
- const list=sortedEntries(p);const entry=list.find(x=>x.id===eid);if(!entry)return;
- const start=firstEntryNumber(p);
- const input=prompt('أدخل الرقم الجديد للمدخل:',String(entry.entryNumber));
- if(input===null)return;
- const newNumber=Number(input);
- if(!Number.isInteger(newNumber)||newNumber<start)return alert('أدخل رقماً صحيحاً لا يقل عن '+start);
- const oldIndex=list.findIndex(x=>x.id===eid);list.splice(oldIndex,1);
- const newIndex=Math.min(Math.max(newNumber-start,0),list.length);
- list.splice(newIndex,0,entry);renumberEntries(p,list,start);save();
- alert('تم تعديل الرقم وإعادة ترتيب بقية المداخل بنجاح');
-}
-function editNote(pid,eid){
- const p=data.provinces.find(x=>x.id===pid);const e=p?.entries.find(x=>x.id===eid);if(!e)return;
- const n=prompt('ملاحظة اختيارية (مثل ازدحام أو تفتيش):',e.note||'');
- if(n!==null){e.note=n.trim();save()}
-}
-function deleteEntry(pid,eid){
- const p=data.provinces.find(x=>x.id===pid);if(!p)return;
- if(!confirm('هل تريد حذف هذا المدخل وإعادة ترقيم بقية المداخل؟'))return;
- const start=firstEntryNumber(p);const list=sortedEntries(p).filter(e=>e.id!==eid);
- renumberEntries(p,list,start);save();alert('تم حذف المدخل وإعادة ضبط الأرقام بنجاح');
-}
-window.renameProvince=renameProvince;window.deleteProvince=deleteProvince;window.renameEntry=renameEntry;
-window.editEntryNumber=editEntryNumber;window.editNote=editNote;window.deleteEntry=deleteEntry;
 
-document.getElementById('settingsBtn').onclick=()=>document.getElementById('modal').classList.add('show');
-document.getElementById('closeBtn').onclick=()=>document.getElementById('modal').classList.remove('show');
-document.getElementById('refreshBtn').onclick=()=>{
- const now=Date.now();data.provinces.forEach(p=>p.entries.forEach(e=>{if(e.status)e.updated=now}));
- save();alert('تم تحديث أوقات المداخل التي لها حالة مسجلة');
+function renameEntry(pid,eid){
+ const p=data.provinces.find(x=>x.id===pid);
+ const e=p?.entries.find(x=>x.id===eid);
+ if(!e) return;
+
+ const n=prompt('اسم المدخل الجديد:',e.name);
+ if(n&&n.trim()){
+  e.name=n.trim();
+  save();
+ }
+}
+
+function editNote(pid,eid){
+ const p=data.provinces.find(x=>x.id===pid);
+ const e=p?.entries.find(x=>x.id===eid);
+ if(!e) return;
+
+ const n=prompt('ملاحظة اختيارية (مثل ازدحام أو تفتيش):',e.note||'');
+ if(n!==null){
+  e.note=n.trim();
+  save();
+ }
+}
+
+function deleteEntry(pid,eid){
+ if(!confirm('هل تريد حذف هذا المدخل؟')) return;
+
+ const p=data.provinces.find(x=>x.id===pid);
+ if(!p) return;
+
+ p.entries=p.entries.filter(x=>x.id!==eid);
+ save();
+}
+
+window.renameProvince=renameProvince;
+window.deleteProvince=deleteProvince;
+window.renameEntry=renameEntry;
+window.editNote=editNote;
+window.deleteEntry=deleteEntry;
+
+/* فتح وإغلاق الإدارة */
+
+document.getElementById('settingsBtn').onclick=()=>{
+ document.getElementById('modal').classList.add('show');
 };
+
+document.getElementById('closeBtn').onclick=()=>{
+ document.getElementById('modal').classList.remove('show');
+};
+
+document.getElementById('refreshBtn').onclick=()=>{
+ data=load();
+ render();
+};
+
+/* تغيير تبويبات الإدارة */
+
 document.querySelectorAll('.tab').forEach(b=>{
  b.onclick=()=>{
-  activeTab=b.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('sel',x===b));
-  ['provinces','entries','links'].forEach(k=>document.getElementById('tab-'+k).classList.toggle('hidden',k!==activeTab));
+  activeTab=b.dataset.tab;
+
+  document.querySelectorAll('.tab').forEach(x=>
+   x.classList.toggle('sel',x===b)
+  );
+
+  ['provinces','entries','links'].forEach(k=>
+   document.getElementById('tab-'+k).classList.toggle('hidden',k!==activeTab)
+  );
+
   renderAdmin();
  };
 });
+
+/* إضافة محافظة */
+
 document.getElementById('addProvince').onclick=()=>{
- const n=document.getElementById('provinceName').value.trim();if(!n)return alert('اكتب اسم المحافظة');
- if(data.provinces.some(p=>p.name===n))return alert('المحافظة موجودة مسبقاً');
- data.provinces.push({id:crypto.randomUUID(),name:n,entries:[]});
- document.getElementById('provinceName').value='';save();
-};
-document.getElementById('entryProvince').onchange=renderEntryManage;
-document.getElementById('addEntry').onclick=()=>{
- const p=data.provinces.find(x=>x.id===document.getElementById('entryProvince').value);
- const name=document.getElementById('entryName').value.trim();const raw=document.getElementById('entryNumber').value.trim();
- if(!p)return alert('أضف محافظة أولاً');if(!name)return alert('اكتب اسم المدخل');
- const start=firstEntryNumber(p);const list=sortedEntries(p);let target;
- if(raw===''){target=start+list.length}else{target=Number(raw);if(!Number.isInteger(target)||target<start)return alert('أدخل رقماً صحيحاً لا يقل عن '+start)}
- const entry={id:crypto.randomUUID(),name:name,entryNumber:target,status:'',updated:null,note:''};
- const insertIndex=Math.min(Math.max(target-start,0),list.length);list.splice(insertIndex,0,entry);
- renumberEntries(p,list,start);document.getElementById('entryName').value='';document.getElementById('entryNumber').value='';
- save();alert('تمت إضافة المدخل وترتيب الأرقام تلقائياً');
-};
-document.getElementById('saveLinks').onclick=()=>{
- const wa=document.getElementById('waLink').value.trim(),tg=document.getElementById('tgLink').value.trim(),fb=document.getElementById('fbLink').value.trim();
- for(const v of [wa,tg,fb])if(v&&!validUrl(v))return alert('تأكد أن كل رابط يبدأ بـ https:// أو http://');
- data.links={wa,tg,fb};save();alert('تم حفظ الروابط على هذا الجهاز');
+ const input=document.getElementById('provinceName');
+ const n=input.value.trim();
+
+ if(!n) return alert('اكتب اسم المحافظة');
+
+ if(data.provinces.some(p=>p.name===n)){
+  return alert('المحافظة موجودة مسبقاً');
+ }
+
+ data.provinces.push({
+  id:uid(),
+  name:n,
+  entries:[]
+ });
+
+ input.value='';
+ save();
 };
 
-function buildReport(scope='all'){
- const lines=['🇵🇸 على الطريق','تقرير حالة الطرق والمداخل',`📅 ${reportDate()}`,'━━━━━━━━━━━━━━━━━━'];
- const provinces=scope==='all'?data.provinces:data.provinces.filter(p=>p.id===scope);
+/* إضافة مدخل */
+
+document.getElementById('entryProvince').onchange=renderEntryManage;
+
+document.getElementById('addEntry').onclick=()=>{
+ const p=data.provinces.find(
+  x=>x.id===document.getElementById('entryProvince').value
+ );
+
+ const input=document.getElementById('entryName');
+ const n=input.value.trim();
+
+ if(!p) return alert('أضف محافظة أولاً');
+ if(!n) return alert('اكتب اسم المدخل');
+
+ p.entries.push({
+  id:uid(),
+  name:n,
+  status:'',
+  updated:null,
+  note:''
+ });
+
+ input.value='';
+ save();
+};
+
+/* حفظ الروابط */
+
+document.getElementById('saveLinks').onclick=()=>{
+ data.links={
+  wa:document.getElementById('waLink').value.trim(),
+  tg:document.getElementById('tgLink').value.trim(),
+  fb:document.getElementById('fbLink').value.trim()
+ };
+
+ save();
+ alert('تم حفظ الروابط على هذا الجهاز');
+};
+
+/* اختيار المحافظة في العرض الرئيسي */
+
+document.getElementById('viewProvince').onchange=render;
+
+/* إعداد التقرير */
+
+document.getElementById('shareBtn').onclick=()=>{
+ openShareModal();
+};
+
+document.getElementById('shareCloseBtn').onclick=()=>{
+ document.getElementById('shareModal').classList.remove('show');
+};
+
+function openShareModal(){
+ const scope=document.getElementById('reportScope');
+ const province=document.getElementById('reportProvince');
+
+ province.innerHTML=data.provinces.map(p=>
+  `<option value="${p.id}">${esc(p.name)}</option>`
+ ).join('');
+
+ if(!data.provinces.length){
+  alert('أضف محافظة واحدة على الأقل قبل إعداد التقرير.');
+  return;
+ }
+
+ scope.value='all';
+ document.getElementById('reportType').value='text';
+ updateReportScope();
+ updateReportPreview();
+
+ document.getElementById('shareModal').classList.add('show');
+}
+
+function updateReportScope(){
+ const scope=document.getElementById('reportScope').value;
+
+ document.getElementById('reportProvinceBox')
+  .classList.toggle('hidden',scope!=='province');
+
+ updateReportPreview();
+}
+
+document.getElementById('reportScope').onchange=updateReportScope;
+document.getElementById('reportProvince').onchange=updateReportPreview;
+document.getElementById('reportType').onchange=updateReportPreview;
+
+function getReportProvinces(){
+ const scope=document.getElementById('reportScope').value;
+
+ if(scope==='all') return data.provinces;
+
+ const id=document.getElementById('reportProvince').value;
+ return data.provinces.filter(p=>p.id===id);
+}
+
+/* تكوين التقرير النصي */
+
+function buildReport(){
+ const provinces=getReportProvinces();
+
+ const lines=[
+  '🚧 على الطريق',
+  'تقرير حالة الطرق والمداخل',
+  '━━━━━━━━━━━━━━━━━━'
+ ];
+
  provinces.forEach(p=>{
-  lines.push('');lines.push(`📍 محافظة ${p.name}`);lines.push('──────────────────');
-  if(!p.entries.length){lines.push('لا توجد مداخل مسجلة');return}
-  sortedEntries(p).forEach(e=>{
-   lines.push(`【${stateLabel(e.status)}】 ${e.entryNumber}. ${e.name}`);
-   if(e.note)lines.push(`   ملاحظة: ${e.note}`);
+  lines.push('');
+  lines.push('📍 محافظة '+p.name);
+  lines.push('━━━━━━━━━━━━━━━━━━');
+
+  if(!p.entries.length){
+   lines.push('لا توجد مداخل مسجلة.');
+   return;
+  }
+
+  p.entries.forEach(e=>{
+   lines.push(
+    statusEmoji(e.status)+' '+e.name+' — '+statusText(e.status)
+   );
+
+   if(e.note){
+    lines.push('🔵 ملاحظة: '+e.note);
+   }
+
+   if(e.updated){
+    lines.push('🕒 آخر تحديث: '+when(e.updated));
+   }
   });
  });
+
  lines.push('');
- lines.push('تنبيه: قد تتغير حالة الطرق في أي وقت.');
- lines.push('');
+ lines.push('━━━━━━━━━━━━━━━━━━');
  lines.push('🚧 انضم إلى مجموعة على الطريق على واتساب:');
- lines.push('https://is.gd/fbd71i');
+ lines.push(GROUP_LINK);
+
  return lines.join('\n');
 }
 
-function openShare(){
- const scope=document.getElementById('reportScope').value||'all';
- document.getElementById('shareReport').textContent=buildReport(scope);
- const items=[['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك / ماسنجر','fb']].filter(([k])=>validUrl(data.links[k]));
- document.getElementById('shareDestinations').innerHTML=items.map(([k,n,c])=>`<a class="link ${c}" target="_blank" rel="noopener" href="${esc(validUrl(data.links[k]))}">${n}</a>`).join('')||'<span class="count">أضف روابط المجموعات من الإعدادات لتظهر هنا.</span>';
- document.getElementById('shareModal').classList.add('show');
+function updateReportPreview(){
+ const text=buildReport();
+ document.getElementById('reportPreview').textContent=text;
+ currentReportCanvas=null;
 }
-document.getElementById('shareBtn').onclick=openShare;
-document.getElementById('reportScope').onchange=()=>{document.getElementById('shareReport').textContent=buildReport(document.getElementById('reportScope').value)};
-document.getElementById('shareClose').onclick=()=>document.getElementById('shareModal').classList.remove('show');
 
-document.getElementById('shareTextBtn').onclick=async()=>{
- const text=buildReport(document.getElementById('reportScope').value||'all');
- if(navigator.share){try{await navigator.share({title:'على الطريق — حالة الطرق',text:text})}catch(e){}}
- else{try{await navigator.clipboard.writeText(text);alert('تم نسخ التقرير')}catch(e){alert('تعذر النسخ؛ حدّد التقرير وانسخه يدوياً')}}
-};
+/* رسم تقرير الصورة */
+
+function makeReportCanvas(){
+ const provinces=getReportProvinces();
+
+ const canvas=document.createElement('canvas');
+ const ctx=canvas.getContext('2d');
+
+ const width=1200;
+ const padding=65;
+ const contentWidth=width-padding*2;
+ const lineHeight=48;
+
+ const lines=[];
+
+ lines.push({text:'على الطريق',type:'title'});
+ lines.push({text:'تقرير حالة الطرق والمداخل',type:'subtitle'});
+ lines.push({text:'',type:'space'});
+
+ provinces.forEach(p=>{
+  lines.push({text:'محافظة '+p.name,type:'province'});
+
+  if(!p.entries.length){
+   lines.push({text:'لا توجد مداخل مسجلة',type:'normal'});
+  }
+
+  p.entries.forEach(e=>{
+   lines.push({
+    text:e.name,
+    status:e.status,
+    type:'entry'
+   });
+
+   if(e.note){
+    lines.push({
+     text:'ملاحظة: '+e.note,
+     type:'note'
+    });
+   }
+
+   if(e.updated){
+    lines.push({
+     text:'آخر تحديث: '+when(e.updated),
+     type:'small'
+    });
+   }
+
+   lines.push({text:'',type:'space'});
+  });
+
+  lines.push({text:'',type:'space'});
+ });
+
+ lines.push({text:'انضم إلى مجموعة على الطريق على واتساب:',type:'footer'});
+ lines.push({text:GROUP_LINK,type:'url'});
+
+ /* حساب ارتفاع الصورة */
+ let height=padding;
+
+ lines.forEach(line=>{
+  if(line.type==='title') height+=85;
+  else if(line.type==='subtitle') height+=55;
+  else if(line.type==='province') height+=75;
+  else if(line.type==='entry') height+=75;
+  else if(line.type==='note') height+=55;
+  else if(line.type==='small') height+=38;
+  else if(line.type==='footer') height+=65;
+  else if(line.type==='url') height+=55;
+  else height+=22;
+ });
+
+ height+=padding;
+
+ canvas.width=width;
+ canvas.height=height;
+
+ ctx.fillStyle='#ffffff';
+ ctx.fillRect(0,0,width,height);
+
+ /* خلفية رأس التقرير */
+ const gradient=ctx.createLinearGradient(0,0,width,0);
+ gradient.addColorStop(0,'#075d2c');
+ gradient.addColorStop(1,'#159447');
+
+ ctx.fillStyle=gradient;
+ ctx.fillRect(0,0,width,175);
+
+ ctx.direction='rtl';
+ ctx.textAlign='center';
+ ctx.fillStyle='#ffffff';
+ ctx.font='bold 64px Tahoma,Arial';
+ ctx.fillText('على الطريق',width/2,85);
+
+ ctx.font='bold 34px Tahoma,Arial';
+ ctx.fillText('تقرير حالة الطرق والمداخل',width/2,140);
+
+ let y=220;
+
+ lines.forEach(line=>{
+  if(line.type==='space'){
+   y+=22;
+   return;
+  }
+
+  if(line.type==='province'){
+   ctx.fillStyle='#e8f5eb';
+   ctx.fillRect(padding,y-42,contentWidth,58);
+
+   ctx.fillStyle='#075d2c';
+   ctx.textAlign='right';
+   ctx.font='bold 34px Tahoma,Arial';
+   ctx.fillText(line.text,width-padding-15,y);
+
+   y+=75;
+   return;
+  }
+
+  if(line.type==='entry'){
+   const color=
+    line.status==='open'?'#078a38':
+    line.status==='closed'?'#d92d20':
+    line.status==='barrier'?'#f28c00':'#8a9690';
+
+   ctx.fillStyle=color;
+   ctx.beginPath();
+
+   if(ctx.roundRect){
+    ctx.roundRect(padding,y-40,contentWidth,58,12);
+   }else{
+    ctx.rect(padding,y-40,contentWidth,58);
+   }
+
+   ctx.fill();
+
+   ctx.fillStyle='#ffffff';
+   ctx.textAlign='right';
+   ctx.font='bold 29px Tahoma,Arial';
+
+   const label=statusText(line.status);
+   ctx.fillText(line.text+' — '+label,width-padding-20,y);
+
+   y+=75;
+   return;
+  }
+
+  if(line.type==='note'){
+   ctx.fillStyle='#1769aa';
+   ctx.textAlign='right';
+   ctx.font='bold 25px Tahoma,Arial';
+   ctx.fillText('🔵 '+line.text,width-padding-12,y);
+   y+=55;
+   return;
+  }
+
+  if(line.type==='small'){
+   ctx.fillStyle='#64746a';
+   ctx.textAlign='right';
+   ctx.font='21px Tahoma,Arial';
+   ctx.fillText(line.text,width-padding-12,y);
+   y+=38;
+   return;
+  }
+
+  if(line.type==='footer'){
+   ctx.fillStyle='#075d2c';
+   ctx.textAlign='center';
+   ctx.font='bold 28px Tahoma,Arial';
+   ctx.fillText(line.text,width/2,y);
+   y+=65;
+   return;
+  }
+
+  if(line.type==='url'){
+   ctx.fillStyle='#087b35';
+   ctx.textAlign='center';
+   ctx.font='bold 26px Arial';
+   ctx.fillText(line.text,width/2,y);
+   y+=55;
+   return;
+  }
+ });
+
+ return canvas;
+}
+
+function canvasBlob(canvas){
+ return new Promise(resolve=>{
+  canvas.toBlob(resolve,'image/png');
+ });
+}
+
+/* مشاركة التقرير النصي أو الصورة */
+
+async function shareReport(){
+ const type=document.getElementById('reportType').value;
+ const text=buildReport();
+
+ if(type==='text'){
+  if(navigator.share){
+   try{
+    await navigator.share({
+     title:'على الطريق — تقرير حالة الطرق',
+     text:text
+    });
+   }catch(error){}
+  }else{
+   await copyText(text);
+   alert('تم نسخ التقرير. يمكنك لصقه في واتساب أو تليجرام.');
+  }
+  return;
+ }
+
+ const canvas=makeReportCanvas();
+ const blob=await canvasBlob(canvas);
+
+ if(!blob){
+  alert('تعذر إنشاء صورة التقرير على هذا الجهاز.');
+  return;
+ }
+
+ const file=new File([blob],'ala-al-tareeq-report.png',{
+  type:'image/png'
+ });
+
+ if(navigator.canShare && navigator.canShare({files:[file]}) && navigator.share){
+  try{
+   await navigator.share({
+    title:'على الطريق — تقرير حالة الطرق',
+    text:'تقرير حالة الطرق والمداخل\n'+GROUP_LINK,
+    files:[file]
+   });
+   return;
+  }catch(error){
+   if(error.name==='AbortError') return;
+  }
+ }
+
+ downloadCanvas(canvas);
+ alert('تم حفظ صورة التقرير. افتح الصورة من جهازك وشاركها عبر واتساب أو تليجرام.');
+}
+
+document.getElementById('sendReportBtn').onclick=shareReport;
+
 document.getElementById('copyReportBtn').onclick=async()=>{
- try{await navigator.clipboard.writeText(buildReport(document.getElementById('reportScope').value||'all'));alert('تم نسخ التقرير')}
- catch(e){alert('تعذر النسخ؛ حدّد التقرير وانسخه يدوياً')}
+ await copyText(buildReport());
+ alert('تم نسخ التقرير النصي.');
 };
+
+document.getElementById('downloadReportBtn').onclick=()=>{
+ const canvas=makeReportCanvas();
+ downloadCanvas(canvas);
+};
+
+function downloadCanvas(canvas){
+ const a=document.createElement('a');
+ a.href=canvas.toDataURL('image/png');
+ a.download='تقرير-على-الطريق.png';
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
+}
+
+async function copyText(text){
+ try{
+  await navigator.clipboard.writeText(text);
+ }catch(error){
+  const area=document.createElement('textarea');
+  area.value=text;
+  document.body.appendChild(area);
+  area.select();
+  document.execCommand('copy');
+  area.remove();
+ }
+}
+
+/* النسخة الاحتياطية */
+
 document.getElementById('exportBtn').onclick=()=>{
- const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
- const a=document.createElement('a');const url=URL.createObjectURL(blob);
- a.href=url;a.download='ala-al-tareeq-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const blob=new Blob(
+  [JSON.stringify(data,null,2)],
+  {type:'application/json'}
+ );
+
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);
+ a.download='ala-al-tareeq-backup.json';
+ a.click();
+
+ URL.revokeObjectURL(a.href);
 };
+
+/* مسح بيانات الجهاز */
+
 document.getElementById('resetBtn').onclick=()=>{
  if(confirm('سيتم حذف جميع بيانات هذا الجهاز. هل أنت متأكد؟')){
-  data={provinces:[],links:{wa:'',tg:'',fb:''}};save();
+  data=emptyData();
+  save();
  }
 };
-data.provinces.forEach(normalizeProvince);
+
+/* تشغيل التطبيق */
+
 render();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
 </script>
+
 </body>
 </html>
