@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
@@ -7,7 +8,6 @@
 <meta name="description" content="مركز متابعة أحوال الطرق والمداخل والحواجز">
 <link rel="manifest" href="manifest.webmanifest">
 <title>على الطريق</title>
-
 <style>
 :root{
  --green:#078a38;--red:#d92d20;--orange:#f28c00;
@@ -92,59 +92,51 @@ button,input,select,textarea{font:inherit}
 .report-option{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}
 .report-option label{font-weight:bold;display:block;margin-bottom:7px}
 .report-option select{width:100%;padding:11px;border:1px solid #cbdacf;border-radius:10px;background:white}
-.report-preview{white-space:pre-wrap;direction:rtl;text-align:right;background:#f3f8f4;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;line-height:1.9;max-height:280px;overflow:auto}
+.report-preview{white-space:pre-wrap;direction:rtl;text-align:right;background:#f3f8f4;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;line-height:1.9;max-height:360px;overflow:auto}
+.report-preview-title{text-align:center;font-size:30px;font-weight:900;color:#075d2c;line-height:1.5;margin:0 0 8px}
 @media(max-width:480px){
  .btn{font-size:14px;padding:11px 12px}
  .entry-top{align-items:flex-start}
 }
 </style>
 </head>
-
 <body>
 <header class="hero">
  <div class="flag">🇵🇸</div>
  <h1>على الطريق</h1>
  <p>مركز متابعة أحوال الطرق والمداخل والحواجز</p>
 </header>
-
 <main class="wrap">
  <div class="toolbar">
   <button class="btn primary" id="settingsBtn">⚙ الإعدادات والإدارة</button>
   <button class="btn soft" id="shareBtn">📤 مشاركة التقرير</button>
   <button class="btn soft" id="refreshBtn">🔄 تحديث العرض</button>
  </div>
-
  <div class="section-title">متابعة أحوال الطرق</div>
  <div class="filter-box">
   <label for="viewProvince">اختر المحافظة لعرض مداخلها:</label>
   <select id="viewProvince"><option value="all">جميع المحافظات</option></select>
  </div>
-
  <div id="provinceList"></div>
-
  <section class="footer">
   <h3>كن على اطلاع دائم</h3>
   <div>انضم إلى مجموعاتنا لمتابعة آخر المستجدات</div>
   <div class="links" id="publicLinks"></div>
  </section>
-
  <div class="notice">تنبيه: قد تتغير حالة الطرق والمداخل في أي وقت. تحقق من آخر تحديث قبل التحرك.</div>
 </main>
 
-<!-- لوحة الإدارة -->
 <div class="modal" id="modal">
  <div class="panel">
   <button class="btn close" id="closeBtn">إغلاق ✕</button>
   <h2>لوحة الإعدادات والإدارة</h2>
   <div class="hint">تحفظ البيانات على هذا المتصفح والجهاز. احتفظ بنسخة احتياطية بشكل دوري.</div>
-
   <div class="tabs">
    <button class="btn tab sel" data-tab="provinces">المحافظات</button>
    <button class="btn tab" data-tab="regions">المناطق</button>
    <button class="btn tab" data-tab="entries">المداخل والحواجز</button>
    <button class="btn tab" data-tab="links">روابط المجموعات</button>
   </div>
-
   <section id="tab-provinces">
    <h3>إضافة محافظة</h3>
    <div class="row">
@@ -153,7 +145,6 @@ button,input,select,textarea{font:inherit}
    </div>
    <div id="provinceManage"></div>
   </section>
-
   <section id="tab-regions" class="hidden">
    <h3>إدارة مناطق المحافظة</h3>
    <div class="field">
@@ -167,7 +158,6 @@ button,input,select,textarea{font:inherit}
    <div id="regionManage"></div>
    <div class="hint">يمكنك تعديل أسماء المناطق. عند حذف منطقة تحتوي مداخل، ستُطلب منك منطقة بديلة لنقل المداخل إليها.</div>
   </section>
-
   <section id="tab-entries" class="hidden">
    <h3>إدارة المداخل والحواجز</h3>
    <div class="field">
@@ -184,15 +174,14 @@ button,input,select,textarea{font:inherit}
    </div>
    <div id="entryManage"></div>
   </section>
-
   <section id="tab-links" class="hidden">
    <h3>روابط الانضمام</h3>
    <div class="field"><label>واتساب</label><input id="waLink" placeholder="رابط مجموعة واتساب"></div>
    <div class="field"><label>تليجرام</label><input id="tgLink" placeholder="رابط مجموعة/قناة تليجرام"></div>
    <div class="field"><label>فيسبوك</label><input id="fbLink" placeholder="الرابط"></div>
-   <button class="btn primary" id="saveLinks">حفظ الروابط</button>
+   <div class="field"><label>نص الدعوة في نهاية التقرير</label><textarea id="invitationText" rows="3" placeholder="اكتب نص الدعوة الذي سيظهر في التقرير"></textarea></div>
+   <button class="btn primary" id="saveLinks">حفظ الروابط والدعوة</button>
   </section>
-
   <div class="row" style="margin-top:18px">
    <button class="btn soft" id="exportBtn">تصدير نسخة احتياطية</button>
    <button class="btn blue" id="importBtn">استعادة نسخة احتياطية</button>
@@ -202,12 +191,10 @@ button,input,select,textarea{font:inherit}
  </div>
 </div>
 
-<!-- نافذة التقرير -->
 <div class="modal" id="shareModal">
  <div class="panel">
   <button class="btn close" id="shareCloseBtn">إغلاق ✕</button>
   <h2>إعداد تقرير حالة الطرق</h2>
-
   <div class="report-option">
    <label for="reportScope">نطاق التقرير</label>
    <select id="reportScope">
@@ -215,12 +202,10 @@ button,input,select,textarea{font:inherit}
     <option value="province">محافظة محددة فقط</option>
    </select>
   </div>
-
   <div class="report-option hidden" id="reportProvinceBox">
    <label for="reportProvince">اختر المحافظة</label>
    <select id="reportProvince"></select>
   </div>
-
   <div class="report-option">
    <label for="reportType">نوع التقرير</label>
    <select id="reportType">
@@ -228,24 +213,21 @@ button,input,select,textarea{font:inherit}
     <option value="image">تقرير صورة ملونة</option>
    </select>
   </div>
-
   <div class="report-option">
    <label>معاينة التقرير</label>
    <div class="report-preview" id="reportPreview">سيظهر التقرير هنا.</div>
   </div>
-
   <div class="toolbar">
    <button class="btn primary" id="sendReportBtn">مشاركة التقرير</button>
    <button class="btn blue" id="copyReportBtn">نسخ التقرير النصي</button>
    <button class="btn soft" id="downloadReportBtn">حفظ صورة التقرير</button>
   </div>
-  <div class="hint">ملاحظة: التقرير النصي يُشارك كنص عادي؛ أما المستطيلات الملونة فتظهر في ملف الصورة عند اختيار مشاركة الصورة.</div>
+  <div class="hint">التقرير النصي يستخدم تنسيق واتساب للعريض والمائل والرموز الملونة. لا يستطيع واتساب فرض حجم خط أكبر أو توسيط العنوان داخل فقاعة الرسالة. خيار الصورة الحالي باقٍ كما هو.</div>
  </div>
 </div>
 
 <script>
 'use strict';
-
 const KEY='ala_tareeq_v1';
 const GROUP_LINK='https://is.gd/fbd71i';
 const DEFAULT_REGIONS=['شمال المحافظة','جنوب المحافظة','شرق المحافظة','غرب المحافظة'];
@@ -254,7 +236,7 @@ function uid(){
  return 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
 }
 function emptyData(){
- return {provinces:[],links:{wa:GROUP_LINK,tg:'',fb:''}};
+ return {provinces:[],links:{wa:GROUP_LINK,tg:'',fb:'',invitation:'للحصول على آخر تحديثات الطرق، تابعوا مجموعة على الطريق.'}};
 }
 function esc(s){
  return String(s??'').replace(/[&<>"']/g,c=>({
@@ -272,17 +254,14 @@ function load(){
   saved.links.wa=saved.links.wa||GROUP_LINK;
   saved.links.tg=saved.links.tg||'';
   saved.links.fb=saved.links.fb||'';
+  if(typeof saved.links.invitation!=='string')saved.links.invitation='للحصول على آخر تحديثات الطرق، تابعوا مجموعة على الطريق.';
 
   saved.provinces.forEach(p=>{
    if(!Array.isArray(p.entries)) p.entries=[];
    if(!Array.isArray(p.regions)) p.regions=[];
-
-   /* إنشاء المناطق الافتراضية للمحافظات القديمة */
    if(!p.regions.length){
     p.regions=DEFAULT_REGIONS.map(name=>({id:uid(),name}));
    }
-
-   /* المداخل القديمة التي لم يكن لها منطقة تُنقل إلى غير مصنفة */
    let unassigned=p.regions.find(r=>r.name==='غير مصنفة');
    p.entries.forEach(e=>{
     if(!e.id)e.id=uid();
@@ -300,7 +279,6 @@ function load(){
   return saved;
  }catch(e){return emptyData();}
 }
-
 let data=load();
 let activeTab='provinces';
 
@@ -326,7 +304,6 @@ function render(){
  const selected=document.getElementById('viewProvince').value||'all';
  const provinces=selected==='all'?data.provinces:data.provinces.filter(p=>p.id===selected);
  const host=document.getElementById('provinceList');
-
  if(!provinces.length){
   host.innerHTML='<div class="empty">لا توجد محافظات. افتح الإعدادات وأضف المحافظات أولاً.</div>';
  }else{
@@ -352,7 +329,6 @@ function render(){
       </div>`).join('')}
     </section>`;
    }).join('');
-
    return `<article class="province">
     <div class="province-head">
      <h2>محافظة ${esc(p.name)}</h2>
@@ -382,9 +358,7 @@ window.setStatus=setStatus;
 
 function renderLinks(){
  const el=document.getElementById('publicLinks');
- const links=[
-  ['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك','fb']
- ].filter(([k])=>data.links[k]);
+ const links=[['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك','fb']].filter(([k])=>data.links[k]);
  el.innerHTML=links.length?links.map(([k,n,c])=>
   `<a class="link ${c}" href="${esc(data.links[k])}" target="_blank" rel="noopener">${n}</a>`
  ).join(''):'<span class="count">أضف روابط المجموعات من الإعدادات.</span>';
@@ -400,16 +374,15 @@ function renderAdmin(){
     <button class="btn danger small" onclick="deleteProvince('${p.id}')">حذف المحافظة</button>
    </div>
   </div>`).join('')||'<p class="count">لا توجد محافظات.</p>';
-
  fillProvinceSelect('regionProvince');
  fillProvinceSelect('entryProvince');
  renderRegionManage();
  renderEntryRegionSelect();
  renderEntryManage();
-
  document.getElementById('waLink').value=data.links.wa||'';
  document.getElementById('tgLink').value=data.links.tg||'';
  document.getElementById('fbLink').value=data.links.fb||'';
+ document.getElementById('invitationText').value=data.links.invitation||'';
 }
 function fillProvinceSelect(id){
  const sel=document.getElementById(id),old=sel.value;
@@ -566,15 +539,16 @@ document.getElementById('addEntry').onclick=()=>{
  input.value='';save();
 };
 
-/* الروابط */
+/* الروابط والدعوة */
 document.getElementById('saveLinks').onclick=()=>{
  const valid=v=>!v||/^https?:\/\//i.test(v);
  const wa=document.getElementById('waLink').value.trim();
  const tg=document.getElementById('tgLink').value.trim();
  const fb=document.getElementById('fbLink').value.trim();
+ const invitation=document.getElementById('invitationText').value.trim();
  if(!valid(wa)||!valid(tg)||!valid(fb))return alert('تأكد أن الروابط تبدأ بـ https:// أو http://');
- data.links={wa:wa||GROUP_LINK,tg,fb};
- save();alert('تم حفظ الروابط.');
+ data.links={...data.links,wa:wa||GROUP_LINK,tg,fb,invitation};
+ save();alert('تم حفظ الروابط والدعوة.');
 };
 
 /* فتح وإغلاق لوحة الإدارة */
@@ -622,44 +596,62 @@ document.getElementById('reportType').onchange=updateReportPreview;
 function reportDate(){
  return new Date().toLocaleString('ar-PS',{dateStyle:'full',timeStyle:'short'});
 }
+function reportStatusSquare(status){
+ return status==='open'?'🟩':status==='closed'?'🟥':status==='barrier'?'🟧':'⬜';
+}
 function buildReport(){
  const lines=[
-  'على الطريق',
-  'تقرير حالة الطرق والمداخل',
-  'تاريخ التقرير: '+reportDate(),
+  '*على الطريق*',
+  '*تقرير حالة الطرق والمداخل*',
+  reportDate(),
   '━━━━━━━━━━━━━━━━━━━━'
  ];
  getReportProvinces().forEach(p=>{
   lines.push('');
-  lines.push('محافظة '+p.name);
+  lines.push('📍 *محافظة '+p.name+'*');
   p.regions.forEach(r=>{
    const entries=p.entries.filter(e=>e.regionId===r.id);
    if(!entries.length)return;
-   lines.push('  ▪ '+r.name);
-   entries.forEach(e=>{
-    lines.push('    '+statusEmoji(e.status)+' '+e.name+' — '+statusText(e.status));
-    if(e.note)lines.push('       الملاحظة: '+e.note);
+   lines.push('');
+   lines.push('▪️ *'+r.name+'*');
+   entries.forEach((e,index)=>{
+    lines.push('');
+    lines.push('*'+e.name+'*');
+    lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
+    if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
+    if(index<entries.length-1)lines.push('━━━━━━━━━━━━━━━━━━━━');
    });
   });
   const unknown=p.entries.filter(e=>!p.regions.some(r=>r.id===e.regionId));
   if(unknown.length){
-   lines.push('  ▪ غير مصنفة');
-   unknown.forEach(e=>lines.push('    '+statusEmoji(e.status)+' '+e.name+' — '+statusText(e.status)));
+   lines.push('');
+   lines.push('▪️ *غير مصنفة*');
+   unknown.forEach((e,index)=>{
+    lines.push('');
+    lines.push('*'+e.name+'*');
+    lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
+    if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
+    if(index<unknown.length-1)lines.push('━━━━━━━━━━━━━━━━━━━━');
+   });
   }
  });
  lines.push('');
  lines.push('━━━━━━━━━━━━━━━━━━━━');
- lines.push('🚧 انضم إلى مجموعة على الطريق على واتساب:');
+ const invitation=(data.links.invitation||'').trim();
+ if(invitation)lines.push('*'+invitation.replace(/\r?\n/g,' ')+'*');
  lines.push(data.links.wa||GROUP_LINK);
  if(data.links.tg)lines.push('تليجرام: '+data.links.tg);
  if(data.links.fb)lines.push('فيسبوك: '+data.links.fb);
  return lines.join('\n');
 }
 function updateReportPreview(){
- document.getElementById('reportPreview').textContent=buildReport();
+ const lines=buildReport().split('\n');
+ const title=lines.shift()||'*على الطريق*';
+ const host=document.getElementById('reportPreview');
+ host.innerHTML='<div class="report-preview-title">'+esc(title.replace(/^\*|\*$/g,''))+'</div><div>'+esc(lines.join('\n'))+'</div>';
 }
 
-/* إنشاء صورة التقرير بمستطيلات حالة ملونة */
+/* إنشاء صورة التقرير بمستطيلات حالة ملونة - الوظيفة الأصلية محفوظة */
 function makeReportCanvas(){
  const provinces=getReportProvinces();
  const width=1200,pad=65,content=width-pad*2;
@@ -667,7 +659,6 @@ function makeReportCanvas(){
  rows.push({type:'title'});
  rows.push({type:'subtitle'});
  rows.push({type:'date',text:'تاريخ التقرير: '+reportDate()});
-
  provinces.forEach(p=>{
   rows.push({type:'province',text:'محافظة '+p.name});
   p.regions.forEach(r=>{
@@ -688,28 +679,23 @@ function makeReportCanvas(){
    });
   }
  });
-
  rows.push({type:'footer',text:'انضم إلى مجموعة على الطريق على واتساب:'});
  rows.push({type:'url',text:data.links.wa||GROUP_LINK});
-
  let height=190;
  rows.forEach(r=>{
   height+=({title:0,subtitle:0,date:65,province:82,region:58,entry:78,note:52,footer:70,url:55}[r.type]||30);
  });
  height+=60;
-
  const canvas=document.createElement('canvas');
  canvas.width=width;canvas.height=height;
  const ctx=canvas.getContext('2d');
  ctx.fillStyle='#fff';ctx.fillRect(0,0,width,height);
-
  const grad=ctx.createLinearGradient(0,0,width,0);
  grad.addColorStop(0,'#075d2c');grad.addColorStop(1,'#159447');
  ctx.fillStyle=grad;ctx.fillRect(0,0,width,180);
  ctx.direction='rtl';ctx.textAlign='center';ctx.fillStyle='#fff';
  ctx.font='bold 64px Tahoma,Arial';ctx.fillText('على الطريق',width/2,78);
  ctx.font='bold 34px Tahoma,Arial';ctx.fillText('تقرير حالة الطرق والمداخل',width/2,135);
-
  let y=220;
  rows.forEach(r=>{
   if(r.type==='title'||r.type==='subtitle')return;
@@ -772,7 +758,6 @@ async function copyText(text){
 async function shareReport(){
  const type=document.getElementById('reportType').value;
  const text=buildReport();
-
  if(type==='text'){
   if(navigator.share){
    try{await navigator.share({title:'على الطريق — تقرير حالة الطرق',text});}
@@ -782,11 +767,9 @@ async function shareReport(){
   }
   return;
  }
-
  const canvas=makeReportCanvas(),blob=await canvasBlob(canvas);
  if(!blob)return alert('تعذر إنشاء صورة التقرير.');
  const file=new File([blob],'ala-al-tareeq-report.png',{type:'image/png'});
-
  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
   try{
    await navigator.share({title:'على الطريق — تقرير حالة الطرق',files:[file]});
