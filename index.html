@@ -4,189 +4,451 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#087b35">
-<meta name="description" content="مركز متابعة أحوال الطرق والمداخل والحواجز في الضفة الغربية">
+<meta name="description" content="مركز متابعة أحوال الطرق والمداخل والحواجز">
 <link rel="manifest" href="manifest.webmanifest">
 <title>على الطريق</title>
+
 <style>
-:root{--green:#078a38;--red:#d92d20;--orange:#f28c00;--ink:#17251b;--muted:#64746a;--line:#d8e8dc;--bg:#f3f8f4}
+:root{
+ --green:#078a38;
+ --red:#d92d20;
+ --orange:#f28c00;
+ --blue:#1264c4;
+ --ink:#17251b;
+ --muted:#64746a;
+ --line:#d8e8dc;
+ --bg:#f3f8f4;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
-.hero{background:linear-gradient(135deg,#075d2c,#159447 55%,#e8f5eb);color:white;padding:28px 16px 22px;text-align:center;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 26px,#ffffff0b 27px 29px);pointer-events:none}
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--ink);
+ font-family:Tahoma,Arial,sans-serif;
+}
+.hero{
+ background:linear-gradient(135deg,#075d2c,#159447 55%,#e8f5eb);
+ color:white;
+ padding:28px 16px 22px;
+ text-align:center;
+ position:relative;
+ overflow:hidden;
+}
+.hero:after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:repeating-linear-gradient(135deg,transparent 0 26px,#ffffff0b 27px 29px);
+ pointer-events:none;
+}
 .flag{font-size:26px}
-.hero h1{font-size:clamp(36px,9vw,58px);margin:4px 0;font-weight:900;text-shadow:0 2px 4px #003b1d}
+.hero h1{
+ font-size:clamp(36px,9vw,58px);
+ margin:4px 0;
+ font-weight:900;
+ text-shadow:0 2px 4px #003b1d;
+}
 .hero p{margin:6px 0 0;font-size:15px}
 .wrap{max-width:920px;margin:auto;padding:14px}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}
-.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;font-size:15px;cursor:pointer}
+.btn{
+ border:0;
+ border-radius:12px;
+ padding:12px 15px;
+ font-weight:800;
+ font-size:15px;
+ cursor:pointer;
+}
 .primary{background:#087b35;color:white}
 .soft{background:#e3f1e7;color:#075d2c}
 .danger{background:#fee8e7;color:#a21b13}
-.section-title{font-size:22px;font-weight:900;margin:16px 2px 10px;color:#08632d}
-.province{background:white;border:1px solid var(--line);border-radius:16px;margin:12px 0;overflow:hidden;box-shadow:0 3px 12px #153d2110}
-.province-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#e9f6ec;border-bottom:1px solid var(--line)}
+.section-title{
+ font-size:22px;
+ font-weight:900;
+ margin:16px 2px 10px;
+ color:#08632d;
+}
+.province{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:16px;
+ margin:12px 0;
+ overflow:hidden;
+ box-shadow:0 3px 12px #153d2110;
+}
+.province-head{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px;
+ padding:13px 14px;
+ background:#e9f6ec;
+ border-bottom:1px solid var(--line);
+}
 .province-head h2{font-size:20px;margin:0}
 .count{font-size:12px;color:var(--muted)}
-.entry{padding:12px 13px;border-bottom:1px solid #edf2ee}
+.entry{padding:13px;border-bottom:1px solid #edf2ee}
 .entry:last-child{border-bottom:0}
-.entry-top{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin-bottom:10px}
-.entry-name{font-weight:900;font-size:19px;line-height:1.5}
-.entry-number{display:inline-flex;align-items:center;justify-content:center;min-width:29px;height:29px;margin-left:7px;border-radius:9px;background:#e8f4eb;color:#075d2c;font-weight:900}
+.entry-top{
+ display:flex;
+ flex-direction:column;
+ align-items:flex-start;
+ gap:6px;
+ margin-bottom:10px;
+}
+.entry-title-row{
+ display:flex;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:8px;
+}
+.entry-name{
+ font-weight:900;
+ font-size:19px;
+ line-height:1.6;
+}
+.entry-number{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-width:30px;
+ height:30px;
+ padding:0 7px;
+ border-radius:9px;
+ background:#e8f4eb;
+ color:#075d2c;
+ font-weight:900;
+}
+.status-badge{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ min-width:85px;
+ padding:7px 15px;
+ border-radius:10px;
+ color:white;
+ font-size:14px;
+ font-weight:900;
+ box-shadow:0 3px 7px #0002;
+ border:1px solid #ffffff70;
+}
+.status-badge.open{
+ background:linear-gradient(135deg,#0ab94e,#056d2d);
+}
+.status-badge.closed{
+ background:linear-gradient(135deg,#ff5148,#b91c1c);
+}
+.status-badge.barrier{
+ background:linear-gradient(135deg,#ffb33f,#e47700);
+}
+.status-badge.unknown{
+ background:linear-gradient(135deg,#89948d,#59635d);
+}
 .updated{font-size:12px;color:var(--muted)}
 .states{display:flex;gap:8px;flex-wrap:wrap}
-.state{min-width:88px;padding:9px 16px;border-radius:11px;color:white;border:1px solid #ffffff55;font-weight:900;font-size:15px;opacity:.82;box-shadow:0 2px 5px #00000012}
-.state.active{opacity:1;outline:2px solid #183d25;outline-offset:2px;box-shadow:0 3px 9px #0002}
-.open{background:linear-gradient(135deg,#079b42,#056d2d)}
-.closed{background:linear-gradient(135deg,#f04438,#b91c1c)}
-.barrier{background:linear-gradient(135deg,#ffad32,#e47700)}
-.note{font-size:13px;color:#46574b;margin-top:8px;line-height:1.6}
+.state{
+ min-width:88px;
+ padding:9px 16px;
+ border-radius:11px;
+ color:white;
+ border:1px solid #ffffff55;
+ font-weight:900;
+ font-size:14px;
+ opacity:.72;
+ box-shadow:0 2px 5px #00000012;
+}
+.state.active{
+ opacity:1;
+ outline:2px solid #183d25;
+ outline-offset:2px;
+ box-shadow:0 3px 9px #0002;
+}
+.state.open{background:linear-gradient(135deg,#079b42,#056d2d)}
+.state.closed{background:linear-gradient(135deg,#f04438,#b91c1c)}
+.state.barrier{background:linear-gradient(135deg,#ffad32,#e47700)}
+.note{
+ font-size:14px;
+ color:#1264c4;
+ margin-top:9px;
+ line-height:1.8;
+ font-weight:700;
+}
 .note-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
-.note-btn{border:0;background:#edf5ef;color:#155b30;border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px}
-.empty{padding:22px;text-align:center;color:var(--muted);background:white;border:1px dashed #b7cdbd;border-radius:14px}
-.footer{margin:20px 0 10px;background:#e7f7df;border:1px solid #b6dda9;border-radius:16px;padding:17px;text-align:center}
+.note-btn{
+ border:0;
+ background:#edf5ef;
+ color:#155b30;
+ border-radius:8px;
+ padding:7px 10px;
+ font-weight:700;
+ font-size:12px;
+}
+.empty{
+ padding:22px;
+ text-align:center;
+ color:var(--muted);
+ background:white;
+ border:1px dashed #b7cdbd;
+ border-radius:14px;
+}
+.footer{
+ margin:20px 0 10px;
+ background:#e7f7df;
+ border:1px solid #b6dda9;
+ border-radius:16px;
+ padding:17px;
+ text-align:center;
+}
 .footer h3{margin:0 0 6px;color:#08632d}
-.links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-.link{display:inline-block;text-decoration:none;color:white;padding:10px 14px;border-radius:11px;font-weight:bold;background:#087b35}
+.links{
+ display:flex;
+ gap:8px;
+ justify-content:center;
+ flex-wrap:wrap;
+ margin-top:12px;
+}
+.link{
+ display:inline-block;
+ text-decoration:none;
+ color:white;
+ padding:10px 14px;
+ border-radius:11px;
+ font-weight:bold;
+ background:#087b35;
+}
 .link.tg{background:#159bd7}
 .link.fb{background:#174ea6}
-.notice{text-align:center;font-size:12px;color:#65746a;margin:14px 0 25px}
-.modal{position:fixed;inset:0;background:#07190dc9;display:none;z-index:10;padding:12px;overflow:auto}
+.notice{
+ text-align:center;
+ font-size:12px;
+ color:#65746a;
+ margin:14px 0 25px;
+}
+.modal{
+ position:fixed;
+ inset:0;
+ background:#07190dc9;
+ display:none;
+ z-index:10;
+ padding:12px;
+ overflow:auto;
+}
 .modal.show{display:block}
-.panel{max-width:680px;margin:20px auto;background:white;border-radius:18px;padding:18px;box-shadow:0 10px 50px #0004}
+.panel{
+ max-width:680px;
+ margin:20px auto;
+ background:white;
+ border-radius:18px;
+ padding:18px;
+ box-shadow:0 10px 50px #0004;
+}
 .panel h2{margin:0 0 12px;color:#08632d}
 .tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
 .tab{background:#edf5ef;color:#155b30}
 .tab.sel{background:#087b35;color:white}
 .field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
 .field label{font-size:13px;font-weight:bold}
-.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid #cbdacf;border-radius:10px;font:inherit;background:white}
+.field input,.field select,.field textarea{
+ width:100%;
+ padding:12px;
+ border:1px solid #cbdacf;
+ border-radius:10px;
+ font:inherit;
+ background:white;
+}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .row>*{flex:1;min-width:130px}
-.item-manage{border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.item-manage{
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:10px;
+ margin:8px 0;
+}
 .item-manage strong{display:block;margin-bottom:8px}
 .small{font-size:12px;padding:8px 10px}
-.hint{background:#fff6df;padding:10px;border-radius:10px;color:#704d00;font-size:12px;line-height:1.6}
+.hint{
+ background:#fff6df;
+ padding:10px;
+ border-radius:10px;
+ color:#704d00;
+ font-size:12px;
+ line-height:1.6;
+}
 .close{float:left;background:#edf1ee;color:#233}
 .hidden{display:none!important}
-.share-report{white-space:pre-wrap;direction:rtl;text-align:right;background:#f4f8f5;border:1px solid var(--line);border-radius:12px;padding:12px;line-height:1.9;max-height:45vh;overflow:auto}
+.share-report{
+ white-space:pre-wrap;
+ direction:rtl;
+ text-align:right;
+ background:#f4f8f5;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:12px;
+ line-height:1.9;
+ max-height:45vh;
+ overflow:auto;
+}
 </style>
 </head>
+
 <body>
 
 <header class="hero">
-<div class="flag">🇵🇸</div>
-<h1>على الطريق</h1>
-<p>مركز متابعة أحوال الطرق والمداخل والحواجز</p>
+ <div class="flag">🇵🇸</div>
+ <h1>على الطريق</h1>
+ <p>مركز متابعة أحوال الطرق والمداخل والحواجز</p>
 </header>
 
 <main class="wrap">
-<div class="toolbar">
-<button class="btn primary" id="settingsBtn">⚙ الإعدادات والإدارة</button>
-<button class="btn soft" id="shareBtn">مشاركة الحالة</button>
-<button class="btn soft" id="refreshBtn">تحديث العرض</button>
-</div>
 
-<div class="section-title">المحافظات</div>
-<div id="provinceList"></div>
+ <div class="toolbar">
+  <button class="btn primary" id="settingsBtn">⚙ الإعدادات والإدارة</button>
+  <button class="btn soft" id="shareBtn">مشاركة الحالة</button>
+  <button class="btn soft" id="refreshBtn">تحديث العرض</button>
+ </div>
 
-<section class="footer">
-<h3>كن على اطلاع دائم</h3>
-<div>انضم إلى مجموعاتنا لمتابعة آخر المستجدات</div>
-<div class="links" id="publicLinks"></div>
-</section>
+ <div class="section-title">المحافظات</div>
+ <div id="provinceList"></div>
 
-<div class="notice">تنبيه: قد تتغير حالة الطرق والمداخل في أي وقت. تحقق من آخر تحديث قبل التحرك.</div>
+ <section class="footer">
+  <h3>كن على اطلاع دائم</h3>
+  <div>انضم إلى مجموعاتنا لمتابعة آخر المستجدات</div>
+  <div class="links" id="publicLinks"></div>
+ </section>
+
+ <div class="notice">
+  تنبيه: قد تتغير حالة الطرق والمداخل في أي وقت. تحقق من آخر تحديث قبل التحرك.
+ </div>
+
 </main>
 
 <div class="modal" id="modal">
-<div class="panel">
-<button class="btn close" id="closeBtn">إغلاق ✕</button>
-<h2>لوحة الإعدادات والإدارة</h2>
-<div class="hint">هذه نسخة تشغيل أولية تحفظ البيانات على هذا المتصفح والجهاز فقط. يلزم ربط قاعدة بيانات مشتركة وصلاحيات للمشرفين قبل اعتمادها كنظام عام.</div>
+ <div class="panel">
 
-<div class="tabs">
-<button class="btn tab sel" data-tab="provinces">المحافظات</button>
-<button class="btn tab" data-tab="entries">المداخل والحواجز</button>
-<button class="btn tab" data-tab="links">روابط المجموعات</button>
-</div>
+  <button class="btn close" id="closeBtn">إغلاق ✕</button>
+  <h2>لوحة الإعدادات والإدارة</h2>
 
-<section id="tab-provinces">
-<h3>إضافة محافظة</h3>
-<div class="row">
-<input id="provinceName" placeholder="اسم المحافظة" aria-label="اسم المحافظة">
-<button class="btn primary" id="addProvince">إضافة وحفظ</button>
-</div>
-<div id="provinceManage"></div>
-</section>
+  <div class="hint">
+   تحفظ هذه النسخة البيانات محلياً على هذا الجهاز والمتصفح.
+  </div>
 
-<section id="tab-entries" class="hidden">
-<h3>إدارة المداخل والحواجز</h3>
-<div class="field">
-<label>المحافظة</label>
-<select id="entryProvince"></select>
-</div>
-<div class="field">
-<label>رقم المدخل (للترتيب التصاعدي)</label>
-<input id="entryNumber" type="number" min="1" step="1" placeholder="مثلاً 1">
-</div>
-<div class="row">
-<input id="entryName" placeholder="اسم المدخل أو الحاجز">
-<button class="btn primary" id="addEntry">إضافة المدخل</button>
-</div>
-<div id="entryManage"></div>
-</section>
+  <div class="tabs">
+   <button class="btn tab sel" data-tab="provinces">المحافظات</button>
+   <button class="btn tab" data-tab="entries">المداخل والحواجز</button>
+   <button class="btn tab" data-tab="links">روابط المجموعات</button>
+  </div>
 
-<section id="tab-links" class="hidden">
-<h3>روابط الانضمام</h3>
-<div class="field"><label>واتساب</label><input id="waLink" placeholder="رابط مجموعة واتساب"></div>
-<div class="field"><label>تليجرام</label><input id="tgLink" placeholder="رابط مجموعة/قناة تليجرام"></div>
-<div class="field"><label>فيسبوك / ماسنجر</label><input id="fbLink" placeholder="الرابط"></div>
-<button class="btn primary" id="saveLinks">حفظ الروابط</button>
-</section>
+  <section id="tab-provinces">
+   <h3>إضافة محافظة</h3>
+   <div class="row">
+    <input id="provinceName" placeholder="اسم المحافظة" aria-label="اسم المحافظة">
+    <button class="btn primary" id="addProvince">إضافة وحفظ</button>
+   </div>
+   <div id="provinceManage"></div>
+  </section>
 
-<div class="row" style="margin-top:18px">
-<button class="btn soft" id="exportBtn">تصدير نسخة احتياطية</button>
-<button class="btn danger" id="resetBtn">مسح بيانات هذا الجهاز</button>
-</div>
-</div>
+  <section id="tab-entries" class="hidden">
+   <h3>إدارة المداخل والحواجز</h3>
+
+   <div class="field">
+    <label>المحافظة</label>
+    <select id="entryProvince"></select>
+   </div>
+
+   <div class="field">
+    <label>رقم المدخل المطلوب</label>
+    <input id="entryNumber" type="number" min="1" step="1" placeholder="مثلاً 9">
+   </div>
+
+   <div class="row">
+    <input id="entryName" placeholder="اسم المدخل أو الحاجز">
+    <button class="btn primary" id="addEntry">إضافة المدخل</button>
+   </div>
+
+   <div class="hint">
+    عند إضافة مدخل في رقم موجود، تتحرك المداخل الأخرى تلقائياً للحفاظ على التسلسل.
+   </div>
+
+   <div id="entryManage"></div>
+  </section>
+
+  <section id="tab-links" class="hidden">
+   <h3>روابط الانضمام</h3>
+   <div class="field">
+    <label>واتساب</label>
+    <input id="waLink" placeholder="رابط مجموعة واتساب">
+   </div>
+   <div class="field">
+    <label>تليجرام</label>
+    <input id="tgLink" placeholder="رابط مجموعة/قناة تليجرام">
+   </div>
+   <div class="field">
+    <label>فيسبوك / ماسنجر</label>
+    <input id="fbLink" placeholder="الرابط">
+   </div>
+   <button class="btn primary" id="saveLinks">حفظ الروابط</button>
+  </section>
+
+  <div class="row" style="margin-top:18px">
+   <button class="btn soft" id="exportBtn">تصدير نسخة احتياطية</button>
+   <button class="btn danger" id="resetBtn">مسح بيانات هذا الجهاز</button>
+  </div>
+
+ </div>
 </div>
 
 <div class="modal" id="shareModal">
-<div class="panel">
-<button class="btn close" id="shareClose">إغلاق ✕</button>
-<h2>مشاركة حالة الطرق</h2>
-<div class="field">
-<label for="reportScope">نطاق التقرير</label>
-<select id="reportScope">
-<option value="all">كل المحافظات</option>
-</select>
-</div>
-<div id="shareDestinations" class="links"></div>
-<div id="shareReport" class="share-report"></div>
-<div class="row" style="margin-top:12px">
-<button class="btn primary" id="shareTextBtn">مشاركة التقرير</button>
-<button class="btn soft" id="copyReportBtn">نسخ التقرير</button>
-</div>
-<p class="hint">سيتم فتح المجموعة أو التطبيق لتكمل الإرسال بنفسك. فتح الرابط لا يرسل الرسالة تلقائياً إلى المجموعة.</p>
-</div>
+ <div class="panel">
+
+  <button class="btn close" id="shareClose">إغلاق ✕</button>
+  <h2>مشاركة حالة الطرق</h2>
+
+  <div class="field">
+   <label for="reportScope">نطاق التقرير</label>
+   <select id="reportScope">
+    <option value="all">كل المحافظات</option>
+   </select>
+  </div>
+
+  <div id="shareDestinations" class="links"></div>
+  <div id="shareReport" class="share-report"></div>
+
+  <div class="row" style="margin-top:12px">
+   <button class="btn primary" id="shareTextBtn">مشاركة التقرير</button>
+   <button class="btn soft" id="copyReportBtn">نسخ التقرير</button>
+  </div>
+
+  <p class="hint">
+   سيتم فتح تطبيق المشاركة لتكمل الإرسال بنفسك.
+  </p>
+
+ </div>
 </div>
 
 <script>
+'use strict';
+
 const KEY='ala_tareeq_v1';
 
 function load(){
  try{
-  const d=JSON.parse(localStorage.getItem(KEY))||{provinces:[],links:{wa:'',tg:'',fb:''}};
+  const d=JSON.parse(localStorage.getItem(KEY))||{
+   provinces:[],
+   links:{wa:'',tg:'',fb:''}
+  };
+
   if(!Array.isArray(d.provinces))d.provinces=[];
   d.links=d.links||{wa:'',tg:'',fb:''};
+
   d.provinces.forEach(p=>{
    if(!Array.isArray(p.entries))p.entries=[];
    p.entries.forEach((e,i)=>{
     let n=Number(e.entryNumber??e.number);
-    if(!Number.isFinite(n)||n<1)n=i+1;
+    if(!Number.isInteger(n)||n<1)n=i+1;
     e.entryNumber=n;
    });
   });
+
   return d;
  }catch(e){
   return{provinces:[],links:{wa:'',tg:'',fb:''}};
@@ -196,39 +458,70 @@ function load(){
 let data=load();
 let activeTab='provinces';
 
+function esc(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ }[c]));
+}
+
+function sortedEntries(p){
+ return [...p.entries].sort((a,b)=>{
+  const na=Number(a.entryNumber)||0;
+  const nb=Number(b.entryNumber)||0;
+  return na-nb;
+ });
+}
+
+function firstEntryNumber(p){
+ const nums=p.entries
+  .map(e=>Number(e.entryNumber))
+  .filter(n=>Number.isInteger(n)&&n>0);
+
+ return nums.length?Math.min(...nums):1;
+}
+
+function renumberEntries(p,list,start){
+ list.forEach((entry,index)=>{
+  entry.entryNumber=start+index;
+ });
+ p.entries=list;
+}
+
+function normalizeProvince(p){
+ const list=sortedEntries(p);
+ if(!list.length)return;
+ const start=firstEntryNumber(p);
+ renumberEntries(p,list,start);
+}
+
 function save(){
  localStorage.setItem(KEY,JSON.stringify(data));
  render();
 }
 
-function esc(s){
- return String(s??'').replace(/[&<>"']/g,c=>({
- '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
- }[c]));
-}
-
 function when(t){
  if(!t)return 'لم يحدّث بعد';
- return new Date(t).toLocaleTimeString('ar-PS',{hour:'2-digit',minute:'2-digit'});
+ return new Date(t).toLocaleTimeString('ar-PS',{
+  hour:'2-digit',
+  minute:'2-digit'
+ });
 }
 
 function reportDate(t=Date.now()){
- return new Date(t).toLocaleString('ar-PS',{dateStyle:'full',timeStyle:'short'});
-}
-
-function sortedEntries(p){
- return [...p.entries].sort((a,b)=>
- (Number(a.entryNumber)||999999)-(Number(b.entryNumber)||999999)||
- String(a.name).localeCompare(String(b.name),'ar')
- );
+ return new Date(t).toLocaleString('ar-PS',{
+  dateStyle:'full',
+  timeStyle:'short'
+ });
 }
 
 function stateLabel(s){
- return s==='open'?'فاتح':s==='closed'?'مغلق':s==='barrier'?'حاجز':'غير محدد';
-}
-
-function stateIcon(s){
- return s==='open'?'🟢':s==='closed'?'🔴':s==='barrier'?'🟠':'⚪';
+ return s==='open'?'فاتح':
+        s==='closed'?'مغلق':
+        s==='barrier'?'حاجز':'لم تحدد';
 }
 
 function render(){
@@ -237,87 +530,164 @@ function render(){
  if(!data.provinces.length){
   host.innerHTML='<div class="empty">لم تتم إضافة محافظات بعد. افتح الإعدادات وأضف أول محافظة.</div>';
  }else{
+
   host.innerHTML=data.provinces.map(p=>{
    const entries=sortedEntries(p);
-   return `<article class="province">
-    <div class="province-head">
-     <h2>${esc(p.name)}</h2>
-     <span class="count">${entries.length} مداخل</span>
-    </div>
-    ${entries.length?entries.map(e=>`
-     <div class="entry">
-      <div class="entry-top">
-       <span class="entry-name"><span class="entry-number">${Number(e.entryNumber)||''}</span>${esc(e.name)}</span>
-       <span class="updated">آخر تحديث: ${when(e.updated)}</span>
-      </div>
-      <div class="states">
-       ${[['open','فاتح'],['closed','مغلق'],['barrier','حاجز']].map(([v,l])=>
-        `<button class="state ${v} ${e.status===v?'active':''}" onclick="setStatus('${p.id}','${e.id}','${v}')">${l}</button>`
-       ).join('')}
-      </div>
-      <div class="note">${e.note?`ملاحظة: ${esc(e.note)}`:'لا توجد ملاحظات مسجلة'}</div>
-      <div class="note-actions">
-       <button class="btn note-btn" onclick="editNote('${p.id}','${e.id}')">${e.note?'تعديل الملاحظة':'إضافة ملاحظة'}</button>
-      </div>
+
+   return `
+    <article class="province">
+
+     <div class="province-head">
+      <h2>${esc(p.name)}</h2>
+      <span class="count">${entries.length} مداخل</span>
      </div>
-    `).join(''):'<div class="empty">لا توجد مداخل مضافة لهذه المحافظة.</div>'}
-   </article>`;
+
+     ${entries.length?entries.map(e=>{
+
+      const statusClass=
+       e.status==='open'?'open':
+       e.status==='closed'?'closed':
+       e.status==='barrier'?'barrier':'unknown';
+
+      return `
+       <div class="entry">
+
+        <div class="entry-top">
+
+         <div class="entry-title-row">
+
+          <span class="status-badge ${statusClass}">
+           ${stateLabel(e.status)}
+          </span>
+
+          <span class="entry-number">
+           ${Number(e.entryNumber)||''}
+          </span>
+
+          <span class="entry-name">${esc(e.name)}</span>
+
+         </div>
+
+         <span class="updated">
+          آخر تحديث: ${when(e.updated)}
+         </span>
+
+        </div>
+
+        <div class="states">
+         ${[['open','فاتح'],['closed','مغلق'],['barrier','حاجز']].map(([v,l])=>
+          `<button class="state ${v} ${e.status===v?'active':''}"
+           onclick="setStatus('${p.id}','${e.id}','${v}')">${l}</button>`
+         ).join('')}
+        </div>
+
+        <div class="note">
+         ${e.note?`ملاحظة: ${esc(e.note)}`:'لا توجد ملاحظات مسجلة'}
+        </div>
+
+        <div class="note-actions">
+         <button class="btn note-btn"
+          onclick="editNote('${p.id}','${e.id}')">
+          ${e.note?'تعديل الملاحظة':'إضافة ملاحظة'}
+         </button>
+        </div>
+
+       </div>
+      `;
+     }).join(''):'<div class="empty">لا توجد مداخل مضافة لهذه المحافظة.</div>'}
+
+    </article>
+   `;
   }).join('');
  }
+
  renderLinks();
  renderAdmin();
 
  const scope=document.getElementById('reportScope');
+
  if(scope){
   const old=scope.value;
-  scope.innerHTML='<option value="all">كل المحافظات</option>'+
-   data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
-  if([...scope.options].some(o=>o.value===old))scope.value=old;
+
+  scope.innerHTML=
+   '<option value="all">كل المحافظات</option>'+
+   data.provinces.map(p=>
+    `<option value="${p.id}">${esc(p.name)}</option>`
+   ).join('');
+
+  if([...scope.options].some(o=>o.value===old)){
+   scope.value=old;
+  }
  }
 }
 
 function setStatus(pid,eid,status){
- let p=data.provinces.find(x=>x.id===pid);
- let e=p?.entries.find(x=>x.id===eid);
+ const p=data.provinces.find(x=>x.id===pid);
+ const e=p?.entries.find(x=>x.id===eid);
+
  if(!e)return;
+
  e.status=status;
  e.updated=Date.now();
+
  save();
 }
+
 window.setStatus=setStatus;
 
 function validUrl(v){
  if(!v)return '';
+
  try{
   const u=new URL(v);
   return ['http:','https:'].includes(u.protocol)?u.href:'';
- }catch(e){return ''}
+ }catch(e){
+  return '';
+ }
 }
 
 function renderLinks(){
  const el=document.getElementById('publicLinks');
- const links=[['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك','fb']]
- .filter(([k])=>validUrl(data.links[k]));
+
+ const links=[
+  ['wa','واتساب',''],
+  ['tg','تليجرام','tg'],
+  ['fb','فيسبوك','fb']
+ ].filter(([k])=>validUrl(data.links[k]));
 
  el.innerHTML=links.length?
- links.map(([k,n,c])=>`<a class="link ${c}" href="${esc(validUrl(data.links[k]))}" target="_blank" rel="noopener">${n}</a>`).join(''):
- '<span class="count">ستظهر روابط المجموعات هنا بعد حفظها من الإعدادات.</span>';
+  links.map(([k,n,c])=>
+   `<a class="link ${c}" href="${esc(validUrl(data.links[k]))}"
+    target="_blank" rel="noopener">${n}</a>`
+  ).join(''):
+  '<span class="count">ستظهر روابط المجموعات هنا بعد حفظها من الإعدادات.</span>';
 }
 
 function renderAdmin(){
- document.getElementById('provinceManage').innerHTML=data.provinces.map(p=>`
- <div class="item-manage">
-  <strong>${esc(p.name)}</strong>
-  <div class="row">
-   <button class="btn soft small" onclick="renameProvince('${p.id}')">تعديل الاسم</button>
-   <button class="btn danger small" onclick="deleteProvince('${p.id}')">حذف المحافظة</button>
-  </div>
- </div>`).join('')||'<p class="count">لا توجد محافظات.</p>';
+
+ document.getElementById('provinceManage').innerHTML=
+  data.provinces.map(p=>`
+   <div class="item-manage">
+    <strong>${esc(p.name)}</strong>
+    <div class="row">
+     <button class="btn soft small"
+      onclick="renameProvince('${p.id}')">تعديل الاسم</button>
+     <button class="btn danger small"
+      onclick="deleteProvince('${p.id}')">حذف المحافظة</button>
+    </div>
+   </div>
+  `).join('')||'<p class="count">لا توجد محافظات.</p>';
 
  const sel=document.getElementById('entryProvince');
  const old=sel.value;
- sel.innerHTML=data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
- if(data.provinces.some(p=>p.id===old))sel.value=old;
+
+ sel.innerHTML=data.provinces.map(p=>
+  `<option value="${p.id}">${esc(p.name)}</option>`
+ ).join('');
+
+ if(data.provinces.some(p=>p.id===old)){
+  sel.value=old;
+ }
 
  renderEntryManage();
 
@@ -327,30 +697,54 @@ function renderAdmin(){
 }
 
 function renderEntryManage(){
- let p=data.provinces.find(x=>x.id===document.getElementById('entryProvince').value);
+ const p=data.provinces.find(
+  x=>x.id===document.getElementById('entryProvince').value
+ );
 
  document.getElementById('entryManage').innerHTML=p?
- sortedEntries(p).map(e=>`
-  <div class="item-manage">
-   <strong>رقم ${Number(e.entryNumber)||''} — ${esc(e.name)} — ${stateLabel(e.status)}</strong>
-   <div class="row">
-    <button class="btn soft small" onclick="renameEntry('${p.id}','${e.id}')">تعديل الاسم</button>
-    <button class="btn soft small" onclick="editEntryNumber('${p.id}','${e.id}')">تعديل الرقم</button>
-    <button class="btn soft small" onclick="editNote('${p.id}','${e.id}')">ملاحظة</button>
-    <button class="btn danger small" onclick="deleteEntry('${p.id}','${e.id}')">حذف</button>
+  sortedEntries(p).map(e=>`
+   <div class="item-manage">
+
+    <strong>
+     رقم ${Number(e.entryNumber)||''} —
+     ${esc(e.name)} —
+     ${stateLabel(e.status)}
+    </strong>
+
+    <div class="row">
+     <button class="btn soft small"
+      onclick="renameEntry('${p.id}','${e.id}')">تعديل الاسم</button>
+
+     <button class="btn soft small"
+      onclick="editEntryNumber('${p.id}','${e.id}')">تعديل الرقم</button>
+
+     <button class="btn soft small"
+      onclick="editNote('${p.id}','${e.id}')">ملاحظة</button>
+
+     <button class="btn danger small"
+      onclick="deleteEntry('${p.id}','${e.id}')">حذف</button>
+    </div>
+
    </div>
-  </div>`).join('')||'<p class="count">لا توجد مداخل في هذه المحافظة.</p>':
- '<p class="count">أضف محافظة أولاً.</p>';
+  `).join('')||'<p class="count">لا توجد مداخل في هذه المحافظة.</p>':
+  '<p class="count">أضف محافظة أولاً.</p>';
 }
 
 function renameProvince(id){
- let p=data.provinces.find(x=>x.id===id);
- let n=prompt('الاسم الجديد للمحافظة:',p.name);
- if(n&&n.trim()){p.name=n.trim();save();}
+ const p=data.provinces.find(x=>x.id===id);
+ if(!p)return;
+
+ const n=prompt('الاسم الجديد للمحافظة:',p.name);
+
+ if(n&&n.trim()){
+  p.name=n.trim();
+  save();
+ }
 }
 
 function deleteProvince(id){
- let p=data.provinces.find(x=>x.id===id);
+ const p=data.provinces.find(x=>x.id===id);
+
  if(p&&confirm(`حذف محافظة ${p.name} وكل المداخل التابعة لها؟`)){
   data.provinces=data.provinces.filter(x=>x.id!==id);
   save();
@@ -358,33 +752,94 @@ function deleteProvince(id){
 }
 
 function renameEntry(pid,eid){
- let e=data.provinces.find(x=>x.id===pid).entries.find(x=>x.id===eid);
- let n=prompt('اسم المدخل الجديد:',e.name);
- if(n&&n.trim()){e.name=n.trim();save();}
+ const p=data.provinces.find(x=>x.id===pid);
+ const e=p?.entries.find(x=>x.id===eid);
+
+ if(!e)return;
+
+ const n=prompt('اسم المدخل الجديد:',e.name);
+
+ if(n&&n.trim()){
+  e.name=n.trim();
+  save();
+ }
 }
 
 function editEntryNumber(pid,eid){
- let e=data.provinces.find(x=>x.id===pid).entries.find(x=>x.id===eid);
- let n=prompt('رقم المدخل الجديد:',String(e.entryNumber||1));
- if(n===null)return;
- n=Number(n);
- if(!Number.isInteger(n)||n<1)return alert('أدخل رقماً صحيحاً أكبر من صفر');
- e.entryNumber=n;
+ const p=data.provinces.find(x=>x.id===pid);
+ if(!p)return;
+
+ const list=sortedEntries(p);
+ const entry=list.find(x=>x.id===eid);
+ if(!entry)return;
+
+ const start=firstEntryNumber(p);
+
+ const input=prompt(
+  'أدخل الرقم الجديد للمدخل:',
+  String(entry.entryNumber)
+ );
+
+ if(input===null)return;
+
+ const newNumber=Number(input);
+
+ if(!Number.isInteger(newNumber)||newNumber<start){
+  return alert('أدخل رقماً صحيحاً لا يقل عن '+start);
+ }
+
+ const oldIndex=list.findIndex(x=>x.id===eid);
+
+ list.splice(oldIndex,1);
+
+ const newIndex=Math.min(
+  Math.max(newNumber-start,0),
+  list.length
+ );
+
+ list.splice(newIndex,0,entry);
+
+ renumberEntries(p,list,start);
+
  save();
+
+ alert('تم تعديل الرقم وإعادة ترتيب بقية المداخل بنجاح');
 }
 
 function editNote(pid,eid){
- let e=data.provinces.find(x=>x.id===pid).entries.find(x=>x.id===eid);
- let n=prompt('ملاحظة اختيارية (مثل ازدحام أو تفتيش):',e.note||'');
- if(n!==null){e.note=n.trim();save();}
+ const p=data.provinces.find(x=>x.id===pid);
+ const e=p?.entries.find(x=>x.id===eid);
+
+ if(!e)return;
+
+ const n=prompt(
+  'ملاحظة اختيارية (مثل ازدحام أو تفتيش):',
+  e.note||''
+ );
+
+ if(n!==null){
+  e.note=n.trim();
+  save();
+ }
 }
 
 function deleteEntry(pid,eid){
- if(confirm('هل تريد حذف هذا المدخل؟')){
-  let p=data.provinces.find(x=>x.id===pid);
-  p.entries=p.entries.filter(x=>x.id!==eid);
-  save();
+ const p=data.provinces.find(x=>x.id===pid);
+ if(!p)return;
+
+ if(!confirm('هل تريد حذف هذا المدخل وإعادة ترقيم بقية المداخل؟')){
+  return;
  }
+
+ const start=firstEntryNumber(p);
+
+ const list=sortedEntries(p).filter(e=>e.id!==eid);
+
+ renumberEntries(p,list,start);
+
+ save();
+
+ alert('تم حذف المدخل وإعادة ضبط الأرقام بنجاح');
 }
 
 window.renameProvince=renameProvince;
@@ -404,58 +859,107 @@ document.getElementById('closeBtn').onclick=()=>{
 
 document.getElementById('refreshBtn').onclick=()=>{
  const now=Date.now();
- data.provinces.forEach(p=>p.entries.forEach(e=>{
-  if(e.status)e.updated=now;
- }));
+
+ data.provinces.forEach(p=>{
+  p.entries.forEach(e=>{
+   if(e.status)e.updated=now;
+  });
+ });
+
  save();
+
+ alert('تم تحديث أوقات المداخل التي لها حالة مسجلة');
 };
 
 document.querySelectorAll('.tab').forEach(b=>{
  b.onclick=()=>{
   activeTab=b.dataset.tab;
-  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('sel',x===b));
-  ['provinces','entries','links'].forEach(k=>{
-   document.getElementById('tab-'+k).classList.toggle('hidden',k!==activeTab);
+
+  document.querySelectorAll('.tab').forEach(x=>{
+   x.classList.toggle('sel',x===b);
   });
+
+  ['provinces','entries','links'].forEach(k=>{
+   document.getElementById('tab-'+k)
+    .classList.toggle('hidden',k!==activeTab);
+  });
+
   renderAdmin();
  };
 });
 
 document.getElementById('addProvince').onclick=()=>{
- let n=document.getElementById('provinceName').value.trim();
+ const n=document.getElementById('provinceName').value.trim();
+
  if(!n)return alert('اكتب اسم المحافظة');
- if(data.provinces.some(p=>p.name===n))return alert('المحافظة موجودة مسبقاً');
- data.provinces.push({id:crypto.randomUUID(),name:n,entries:[]});
+
+ if(data.provinces.some(p=>p.name===n)){
+  return alert('المحافظة موجودة مسبقاً');
+ }
+
+ data.provinces.push({
+  id:crypto.randomUUID(),
+  name:n,
+  entries:[]
+ });
+
  document.getElementById('provinceName').value='';
+
  save();
 };
 
 document.getElementById('entryProvince').onchange=renderEntryManage;
 
 document.getElementById('addEntry').onclick=()=>{
- let p=data.provinces.find(x=>x.id===document.getElementById('entryProvince').value);
- let n=document.getElementById('entryName').value.trim();
- let num=Number(document.getElementById('entryNumber').value);
+ const p=data.provinces.find(
+  x=>x.id===document.getElementById('entryProvince').value
+ );
+
+ const name=document.getElementById('entryName').value.trim();
+ const raw=document.getElementById('entryNumber').value.trim();
 
  if(!p)return alert('أضف محافظة أولاً');
- if(!n)return alert('اكتب اسم المدخل');
+ if(!name)return alert('اكتب اسم المدخل');
 
- if(!Number.isInteger(num)||num<1){
-  num=Math.max(0,...p.entries.map(e=>Number(e.entryNumber)||0))+1;
+ const start=firstEntryNumber(p);
+ const list=sortedEntries(p);
+
+ let target;
+
+ if(raw===''){
+  target=start+list.length;
+ }else{
+  target=Number(raw);
+
+  if(!Number.isInteger(target)||target<start){
+   return alert('أدخل رقماً صحيحاً لا يقل عن '+start);
+  }
  }
 
- p.entries.push({
+ const entry={
   id:crypto.randomUUID(),
-  name:n,
-  entryNumber:num,
+  name:name,
+  entryNumber:target,
   status:'',
   updated:null,
   note:''
- });
+ };
+
+ const insertIndex=Math.min(
+  Math.max(target-start,0),
+  list.length
+ );
+
+ list.splice(insertIndex,0,entry);
+
+ renumberEntries(p,list,start);
 
  document.getElementById('entryName').value='';
  document.getElementById('entryNumber').value='';
+
  save();
+
+ alert('تمت إضافة المدخل وترتيب الأرقام تلقائياً');
 };
 
 document.getElementById('saveLinks').onclick=()=>{
@@ -464,11 +968,15 @@ document.getElementById('saveLinks').onclick=()=>{
  const fb=document.getElementById('fbLink').value.trim();
 
  for(const v of [wa,tg,fb]){
-  if(v&&!validUrl(v))return alert('تأكد أن كل رابط يبدأ بـ https:// أو http://');
+  if(v&&!validUrl(v)){
+   return alert('تأكد أن كل رابط يبدأ بـ https:// أو http://');
+  }
  }
 
  data.links={wa,tg,fb};
+
  save();
+
  alert('تم حفظ الروابط على هذا الجهاز');
 };
 
@@ -495,19 +1003,27 @@ function buildReport(scope='all'){
   }
 
   sortedEntries(p).forEach(e=>{
-   lines.push(`${stateIcon(e.status)} ${e.entryNumber}. ${e.name} — ${stateLabel(e.status)}`);
-   if(e.note)lines.push(`   ملاحظة: ${e.note}`);
+   lines.push(
+    `【${stateLabel(e.status)}】 ${e.entryNumber}. ${e.name}`
+   );
+
+   if(e.note){
+    lines.push(`   ملاحظة: ${e.note}`);
+   }
   });
  });
 
  lines.push('');
  lines.push('تنبيه: قد تتغير حالة الطرق في أي وقت.');
+
  return lines.join('\n');
 }
 
 function openShare(){
  const scope=document.getElementById('reportScope').value||'all';
- document.getElementById('shareReport').textContent=buildReport(scope);
+
+ document.getElementById('shareReport').textContent=
+  buildReport(scope);
 
  const items=[
   ['wa','واتساب',''],
@@ -515,9 +1031,12 @@ function openShare(){
   ['fb','فيسبوك / ماسنجر','fb']
  ].filter(([k])=>validUrl(data.links[k]));
 
- document.getElementById('shareDestinations').innerHTML=items.map(([k,n,c])=>
-  `<a class="link ${c}" target="_blank" rel="noopener" href="${esc(validUrl(data.links[k]))}">${n}</a>`
- ).join('')||'<span class="count">أضف روابط المجموعات من الإعدادات لتظهر هنا.</span>';
+ document.getElementById('shareDestinations').innerHTML=
+  items.map(([k,n,c])=>
+   `<a class="link ${c}" target="_blank" rel="noopener"
+    href="${esc(validUrl(data.links[k]))}">${n}</a>`
+  ).join('')||
+  '<span class="count">أضف روابط المجموعات من الإعدادات لتظهر هنا.</span>';
 
  document.getElementById('shareModal').classList.add('show');
 }
@@ -534,11 +1053,16 @@ document.getElementById('shareClose').onclick=()=>{
 };
 
 document.getElementById('shareTextBtn').onclick=async()=>{
- const text=buildReport(document.getElementById('reportScope').value||'all');
+ const text=buildReport(
+  document.getElementById('reportScope').value||'all'
+ );
 
  if(navigator.share){
   try{
-   await navigator.share({title:'على الطريق — حالة الطرق',text});
+   await navigator.share({
+    title:'على الطريق — حالة الطرق',
+    text:text
+   });
   }catch(e){}
  }else{
   try{
@@ -555,6 +1079,7 @@ document.getElementById('copyReportBtn').onclick=async()=>{
   await navigator.clipboard.writeText(
    buildReport(document.getElementById('reportScope').value||'all')
   );
+
   alert('تم نسخ التقرير');
  }catch(e){
   alert('تعذر النسخ؛ حدّد التقرير وانسخه يدوياً');
@@ -562,26 +1087,43 @@ document.getElementById('copyReportBtn').onclick=async()=>{
 };
 
 document.getElementById('exportBtn').onclick=()=>{
- let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
- let a=document.createElement('a');
- a.href=URL.createObjectURL(blob);
+ const blob=new Blob(
+  [JSON.stringify(data,null,2)],
+  {type:'application/json'}
+ );
+
+ const a=document.createElement('a');
+ const url=URL.createObjectURL(blob);
+
+ a.href=url;
  a.download='ala-al-tareeq-backup.json';
  a.click();
- URL.revokeObjectURL(a.href);
+
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
 
 document.getElementById('resetBtn').onclick=()=>{
  if(confirm('سيتم حذف جميع بيانات هذا الجهاز. هل أنت متأكد؟')){
-  data={provinces:[],links:{wa:'',tg:'',fb:''}};
+  data={
+   provinces:[],
+   links:{wa:'',tg:'',fb:''}
+  };
+
   save();
  }
 };
 
+// ضبط الأرقام المتسلسلة للمداخل الموجودة عند تشغيل النسخة
+data.provinces.forEach(normalizeProvince);
+
+// عرض التطبيق
 render();
 
-if('serviceWorker'in navigator){
+// تشغيل Service Worker
+if('serviceWorker' in navigator){
  navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 </script>
+
 </body>
 </html>
