@@ -731,7 +731,7 @@ function makeReportCanvas(){
 
  canvas.width=W;
  canvas.height=Math.max(700,H);
- ctx.fillStyle='#101b17';
+ ctx.fillStyle='#eef0ee';
  ctx.fillRect(0,0,W,canvas.height);
 
  let gr=ctx.createLinearGradient(0,0,W,180);
@@ -838,29 +838,7 @@ function makeReportCanvas(){
  });
 
  y+=10;
- let invite=String(data.links.invitation||'').trim();
- if(invite){
-  ctx.textAlign='center';
-  ctx.fillStyle='#e4eee8';
-  ctx.font='bold 22px Tahoma,Arial';
-  wrap(invite,C-40,'bold 22px Tahoma,Arial').forEach(t=>{
-   ctx.fillText(t,W/2,y);
-   y+=32;
-  });
- }
-
- ctx.textAlign='center';
- ctx.fillStyle='#fff';
- ctx.font='bold 25px Tahoma,Arial';
- ctx.fillText('انضم إلى مجموعة على الطريق على واتساب',W/2,y+12);
- y+=54;
-
- ctx.fillStyle='#8bd2a5';
- ctx.font='bold 23px Arial';
- ctx.fillText(String(data.links.wa||GROUP_LINK),W/2,y);
- y+=58;
-
- let fw=Math.min(650,C),fh=62,fx=(W-fw)/2;
+ let fw=Math.min(760,C),fh=62,fx=(W-fw)/2;
  rr(fx,y,fw,fh,18);
  ctx.fillStyle='#07518b';
  ctx.fill();
@@ -888,6 +866,18 @@ async function copyText(text){
   document.execCommand('copy');area.remove();
  }
 }
+function buildImageShareCaption(){
+ const parts=[];
+ const invitation=String(data.links.invitation||'').trim();
+ if(invitation)parts.push(invitation);
+ const links=[];
+ if(data.links.wa||GROUP_LINK)links.push('واتساب: '+(data.links.wa||GROUP_LINK));
+ if(data.links.tg)links.push('تليجرام: '+data.links.tg);
+ if(data.links.fb)links.push('فيسبوك: '+data.links.fb);
+ if(links.length)parts.push(links.join('\n'));
+ return parts.join('\n\n');
+}
+
 async function shareReport(){
  const type=document.getElementById('reportType').value;
  const text=buildReport();
@@ -905,18 +895,23 @@ async function shareReport(){
  const file=new File([blob],'ala-al-tareeq-report.png',{type:'image/png'});
  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
   try{
-   await navigator.share({title:'على الطريق — تقرير حالة الطرق',files:[file]});
+   await navigator.share({title:'على الطريق — تقرير حالة الطرق',text:buildImageShareCaption(),files:[file]});
    return;
   }catch(e){if(e.name==='AbortError')return;}
  }
  downloadCanvas(canvas);
- alert('تم تنزيل صورة التقرير. افتح الصورة من جهازك وشاركها.');
+ await copyText(buildImageShareCaption());
+ alert('تم تنزيل صورة التقرير ونسخ الدعوة والروابط. أرفق الصورة ثم الصق النص أسفلها عند المشاركة.');
 }
 document.getElementById('sendReportBtn').onclick=shareReport;
 document.getElementById('copyReportBtn').onclick=async()=>{
  await copyText(buildReport());alert('تم نسخ التقرير النصي.');
 };
-document.getElementById('downloadReportBtn').onclick=()=>downloadCanvas(makeReportCanvas());
+document.getElementById('downloadReportBtn').onclick=async()=>{
+ downloadCanvas(makeReportCanvas());
+ await copyText(buildImageShareCaption());
+ alert('تم حفظ صورة التقرير ونسخ الدعوة والروابط لإرفاقها أسفل الصورة.');
+};
 
 /* النسخ الاحتياطي والاستعادة */
 document.getElementById('exportBtn').onclick=()=>{
