@@ -1,822 +1,692 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#087b45">
-<title>على الطريق | مركز أحوال الطرق</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087b35">
+<meta name="description" content="مركز متابعة أحوال الطرق والمداخل والحواجز">
+<link rel="manifest" href="manifest.webmanifest">
+<title>على الطريق</title>
 <style>
 :root{
-  --green:#087b45;--green2:#0b9b58;--red:#c62828;
-  --orange:#e58a13;--blue:#1769aa;--bg:#f2f5f7;
-  --ink:#17212b;--muted:#64748b;--line:#dce3e8;
+ --green:#078a38;--red:#d92d20;--orange:#f28c00;
+ --blue:#1769aa;--ink:#17251b;--muted:#64746a;
+ --line:#d8e8dc;--bg:#f3f8f4;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:Tahoma,Arial,sans-serif}
-header{background:linear-gradient(130deg,#075b35,#0b9b58);
-  color:white;padding:22px 14px;text-align:center}
-header h1{font-size:35px;margin:0 0 8px;font-weight:900}
-header p{margin:0;font-size:17px}
-main{max-width:1050px;margin:14px auto;padding:0 12px 35px}
-.panel{background:white;border:1px solid var(--line);border-radius:13px;
-  padding:14px;margin:12px 0;box-shadow:0 2px 8px #00000008}
-h2{font-size:20px;margin:0 0 13px;color:#145b3b}
-h3{font-size:17px;margin:12px 0 8px}
-label{display:block;font-weight:bold;font-size:14px;margin:9px 0 5px}
-input,select,textarea{
-  width:100%;padding:11px;border:1px solid #cbd5df;border-radius:9px;
-  background:white;font:inherit;font-size:15px;min-width:0
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+button,input,select,textarea{font:inherit}
+.hero{
+ background:linear-gradient(135deg,#075d2c,#159447 55%,#e8f5eb);
+ color:white;padding:25px 16px;text-align:center;
+ position:relative;overflow:hidden
 }
-textarea{min-height:75px;resize:vertical}
-button,.button{
-  border:0;border-radius:9px;padding:11px 14px;color:white;
-  background:var(--green);font:inherit;font-weight:bold;
-  cursor:pointer;display:inline-flex;align-items:center;
-  justify-content:center;gap:6px;text-decoration:none
+.hero:after{
+ content:"";position:absolute;inset:0;
+ background:repeating-linear-gradient(135deg,transparent 0 26px,#ffffff0b 27px 29px);
+ pointer-events:none
 }
-button:active{transform:scale(.98)}
-button.secondary{background:#526477}
-button.blue{background:var(--blue)}
-button.red{background:var(--red)}
-button.orange{background:var(--orange)}
-button.light{background:#e8f1ec;color:#145b3b}
-button.small{padding:7px 10px;font-size:13px}
-button:disabled{opacity:.45;cursor:not-allowed}
-.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.item{border:1px solid var(--line);border-radius:10px;padding:11px;margin:9px 0}
-.item-head{display:flex;align-items:center;justify-content:space-between;
-  gap:8px;flex-wrap:wrap}
-.item-title{font-weight:bold;font-size:16px}
-.muted{color:var(--muted);font-size:13px}
-.status{display:inline-flex;align-items:center;gap:6px;
-  padding:5px 9px;border-radius:7px;font-weight:bold;font-size:13px}
-.dot{width:12px;height:12px;display:inline-block;border-radius:2px}
-.s-open{background:#e2f5e9;color:#087b45}
-.s-closed{background:#fde8e8;color:#b42323}
-.s-check{background:#fff1d8;color:#a45b00}
-.s-open .dot{background:#16a34a}
-.s-closed .dot{background:#dc2626}
-.s-check .dot{background:#f59e0b}
+.flag{font-size:26px}
+.hero h1{font-size:clamp(36px,9vw,58px);margin:4px 0;font-weight:900;text-shadow:0 2px 4px #003b1d}
+.hero p{margin:6px 0 0;font-size:15px}
+.wrap{max-width:920px;margin:auto;padding:14px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 14px}
+.btn{border:0;border-radius:12px;padding:12px 15px;font-weight:800;font-size:15px;cursor:pointer}
+.primary{background:#087b35;color:#fff}
+.soft{background:#e3f1e7;color:#075d2c}
+.danger{background:#fee8e7;color:#a21b13}
+.blue{background:#e2effb;color:#14558c}
+.section-title{font-size:22px;font-weight:900;margin:16px 2px 10px;color:#08632d}
+.filter-box{background:white;border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0 14px}
+.filter-box label{display:block;font-weight:bold;margin-bottom:7px}
+.filter-box select,.field input,.field select,.field textarea{
+ width:100%;padding:12px;border:1px solid #cbdacf;border-radius:10px;background:white
+}
+.province{background:white;border:1px solid var(--line);border-radius:16px;margin:12px 0;overflow:hidden;box-shadow:0 3px 12px #153d2110}
+.province-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;background:#e9f6ec;border-bottom:1px solid var(--line)}
+.province-head h2{font-size:20px;margin:0}
+.count{font-size:12px;color:var(--muted)}
+.region-head{padding:10px 13px;background:#f1f7f2;color:#08632d;font-weight:900;border-bottom:1px solid #e3eee5}
+.entry{padding:12px 13px;border-bottom:1px solid #edf2ee}
+.entry:last-child{border-bottom:0}
+.entry-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.entry-name{font-weight:800;font-size:16px}
+.status-badge{
+ display:inline-flex;align-items:center;justify-content:center;
+ min-width:72px;padding:7px 12px;border-radius:6px;
+ color:white;font-weight:900;font-size:14px
+}
+.status-open{background:var(--green)}
+.status-closed{background:var(--red)}
+.status-barrier{background:var(--orange)}
+.status-unknown{background:#77827b}
+.note{font-size:13px;color:var(--blue);margin-top:7px;font-weight:bold}
+.states{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:10px}
+.state{padding:9px 4px;border-radius:9px;color:#fff;border:2px solid transparent;font-weight:800;font-size:14px;opacity:.65;cursor:pointer}
+.state.active{opacity:1;outline:2px solid #1b3925;outline-offset:1px}
+.open{background:var(--green)}
+.closed{background:var(--red)}
+.barrier{background:var(--orange)}
+.note-action{background:#1769aa;color:#fff;opacity:1}
+.empty{padding:22px;text-align:center;color:var(--muted);background:white;border:1px dashed #b7cdbd;border-radius:14px}
+.footer{margin:20px 0 10px;background:#e7f7df;border:1px solid #b6dda9;border-radius:16px;padding:17px;text-align:center}
+.footer h3{margin:0 0 6px;color:#08632d}
+.links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.link{display:inline-block;text-decoration:none;color:white;padding:10px 14px;border-radius:11px;font-weight:bold;background:#087b35}
+.link.tg{background:#159bd7}.link.fb{background:#174ea6}
+.notice{text-align:center;font-size:12px;color:#65746a;margin:14px 0 25px}
+.modal{position:fixed;inset:0;background:#07190dc9;display:none;z-index:10;padding:12px;overflow:auto}
+.modal.show{display:block}
+.panel{max-width:700px;margin:20px auto;background:white;border-radius:18px;padding:18px;box-shadow:0 10px 50px #0004}
+.panel h2{margin:0 0 12px;color:#08632d}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.tab{background:#edf5ef;color:#155b30}
+.tab.sel{background:#087b35;color:white}
+.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.field label{font-size:13px;font-weight:bold}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.item-manage{border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.item-manage strong{display:block;margin-bottom:8px}
+.small{font-size:12px;padding:8px 10px}
+.hint{background:#fff6df;padding:10px;border-radius:10px;color:#704d00;font-size:12px;line-height:1.8;margin:10px 0}
+.close{float:left;background:#edf1ee;color:#233}
 .hidden{display:none!important}
-.notice{padding:10px;border-radius:9px;background:#edf5ff;color:#174c79;
-  margin:9px 0;font-size:14px}
-.warning{background:#fff5e5;color:#8a5200}
-.danger-text{color:#b42323}
-hr{border:0;border-top:1px solid var(--line);margin:14px 0}
-footer{text-align:center;color:#64748b;padding:18px;font-weight:bold}
-#reportPreview{background:#fff;border:1px dashed #9aa8b5;border-radius:10px;
-  padding:10px;white-space:pre-wrap;line-height:1.9;min-height:40px}
-#archiveList .item{background:#fafafa}
-@media(max-width:600px){
-  header h1{font-size:29px}
-  .grid2,.grid3{grid-template-columns:1fr}
-  button{font-size:14px}
+.report-option{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}
+.report-option label{font-weight:bold;display:block;margin-bottom:7px}
+.report-option select{width:100%;padding:11px;border:1px solid #cbdacf;border-radius:10px;background:white}
+.report-preview{white-space:pre-wrap;direction:rtl;text-align:right;background:#f3f8f4;border:1px solid var(--line);border-radius:12px;padding:13px;font-size:14px;line-height:1.9;max-height:360px;overflow:auto}
+.report-preview-title{text-align:center;font-size:30px;font-weight:900;color:#075d2c;line-height:1.5;margin:0 0 8px}
+@media(max-width:480px){
+ .btn{font-size:14px;padding:11px 12px}
+ .entry-top{align-items:flex-start}
 }
 </style>
 </head>
 <body>
-<header>
-  <h1>علـى الطريـق</h1>
-  <p>مركز متابعة أحوال الطرق والمداخل</p>
+<header class="hero">
+ <div class="flag">🇵🇸</div>
+ <h1>على الطريق</h1>
+ <p>مركز متابعة أحوال الطرق والمداخل والحواجز</p>
 </header>
 
-<main>
-
-<section class="panel">
-  <h2>عرض البيانات وتحديد المنطقة</h2>
-  <div class="grid2">
-    <div>
-      <label for="filterGov">المحافظة</label>
-      <select id="filterGov"></select>
-    </div>
-    <div>
-      <label for="filterRegion">المنطقة داخل المحافظة</label>
-      <select id="filterRegion"></select>
-    </div>
-  </div>
-  <div class="actions">
-    <button onclick="renderEntrances()">عرض المداخل</button>
-    <button class="light" onclick="showReportSection()">إعداد التقرير</button>
-  </div>
-  <div id="entranceList"></div>
-</section>
-
-<section class="panel">
-  <h2>إدارة المحافظات</h2>
-  <label for="govName">اسم المحافظة</label>
-  <input id="govName" placeholder="أدخل اسم المحافظة">
-  <div class="actions">
-    <button onclick="addGovernorate()">إضافة محافظة</button>
-  </div>
-  <div id="governorateList"></div>
-</section>
-
-<section class="panel">
-  <h2>إدارة المناطق داخل المحافظة</h2>
-  <div class="notice">
-    اختر المحافظة أولاً، ثم أضف المناطق التابعة لها أو عدّلها أو احذفها.
-    كل منطقة لها مداخلها المستقلة.
-  </div>
-  <label for="manageGov">المحافظة التي تريد إدارة مناطقها</label>
-  <select id="manageGov"></select>
-  <label for="regionName">اسم المنطقة / المدينة / القرية / المخيم</label>
-  <input id="regionName" placeholder="مثال: مدينة نابلس أو قرية كذا">
-  <div class="actions">
-    <button onclick="addRegion()">إضافة منطقة للمحافظة</button>
-  </div>
-  <div id="regionList"></div>
-</section>
-
-<section class="panel">
-  <h2>إضافة مدخل جديد</h2>
-  <div class="grid2">
-    <div>
-      <label for="entryGov">المحافظة</label>
-      <select id="entryGov"></select>
-    </div>
-    <div>
-      <label for="entryRegion">المنطقة</label>
-      <select id="entryRegion"></select>
-    </div>
-  </div>
-  <label for="entryName">اسم المدخل</label>
-  <input id="entryName" placeholder="أدخل اسم المدخل">
-  <label for="entryStatus">حالة المدخل</label>
-  <select id="entryStatus">
-    <option value="open">سالك</option>
-    <option value="closed">مغلق</option>
-    <option value="check">حاجز</option>
-  </select>
-  <label for="entryNote">ملاحظات (اختياري)</label>
-  <textarea id="entryNote" placeholder="اكتب تفاصيل الحالة إن وجدت"></textarea>
-  <div class="actions">
-    <button onclick="addEntrance()">حفظ المدخل</button>
-  </div>
-</section>
-
-<section class="panel hidden" id="reportSection">
-  <h2>إعداد ونشر التقرير</h2>
-  <div class="notice">
-    التقرير خاص بالمنطقة المحددة داخل المحافظة، وليس تقريراً شاملاً لكل المحافظات.
-  </div>
-  <div class="grid2">
-    <div>
-      <label for="reportGov">المحافظة</label>
-      <select id="reportGov"></select>
-    </div>
-    <div>
-      <label for="reportRegion">المنطقة</label>
-      <select id="reportRegion"></select>
-    </div>
-  </div>
-  <label for="reportType">نوع التقرير</label>
-  <select id="reportType">
-    <option value="text">تقرير نصي</option>
-    <option value="image">صورة ملونة</option>
-  </select>
-  <div class="actions">
-    <button onclick="generateReport()">إنشاء التقرير</button>
-    <button class="blue" onclick="archiveReport()">نقل التقرير إلى الأرشيف</button>
-  </div>
-  <div id="reportPreview"></div>
-  <div class="actions">
-    <button onclick="copyReport()">نسخ التقرير النصي</button>
-    <button class="blue" onclick="shareTextReport()">مشاركة التقرير النصي</button>
-    <button class="orange" onclick="downloadReportImage()">حفظ صورة التقرير</button>
-    <button onclick="shareReportImage()">مشاركة صورة التقرير</button>
-  </div>
-  <canvas id="reportCanvas" class="hidden"></canvas>
-</section>
-
-<section class="panel">
-  <h2>الأرشيف</h2>
-  <div class="notice">لا تتم أرشفة التقارير تلقائياً. استخدم زر نقل التقرير إلى الأرشيف عند الحاجة.</div>
-  <div id="archiveList"></div>
-</section>
-
-<section class="panel">
-  <h2>روابط النشر والمشاركة</h2>
-  <label for="whatsappLink">رابط مجموعة واتساب «على الطريق»</label>
-  <input id="whatsappLink" value="https://is.gd/fbd71i">
-  <label for="telegramLink">رابط مجموعة تليجرام</label>
-  <input id="telegramLink" placeholder="ضع رابط مجموعة تليجرام هنا">
-  <div class="actions">
-    <button style="background:#168b52" onclick="openWhatsApp()">واتساب</button>
-    <button style="background:#168fc4" onclick="openTelegram()">تليجرام</button>
-    <button class="light" onclick="saveLinks()">حفظ الروابط</button>
-  </div>
-</section>
-
-<section class="panel">
-  <h2>النسخ الاحتياطي واستعادة البيانات</h2>
-  <div class="notice warning">
-    احتفظ بنسخة احتياطية دورياً. حذف بيانات المتصفح أو تغيير الجهاز قد يؤدي إلى فقدان البيانات المحفوظة محلياً.
-  </div>
-  <div class="actions">
-    <button onclick="exportBackup()">تنزيل نسخة احتياطية</button>
-    <button class="secondary" onclick="document.getElementById('backupFile').click()">استعادة نسخة احتياطية</button>
-    <input id="backupFile" type="file" accept=".json,application/json" class="hidden" onchange="importBackup(event)">
-  </div>
-</section>
-
+<main class="wrap">
+ <div class="toolbar">
+  <button class="btn primary" id="settingsBtn">⚙ الإعدادات والإدارة</button>
+  <button class="btn soft" id="shareBtn">📤 مشاركة التقرير</button>
+  <button class="btn soft" id="refreshBtn">🔄 تحديث العرض</button>
+ </div>
+ <div class="section-title">متابعة أحوال الطرق</div>
+ <div class="filter-box">
+  <label for="viewProvince">اختر المحافظة لعرض مداخلها:</label>
+  <select id="viewProvince"><option value="all">جميع المحافظات</option></select>
+ </div>
+ <div id="provinceList"></div>
+ <section class="footer">
+  <h3>كن على اطلاع دائم</h3>
+  <div>انضم إلى مجموعاتنا لمتابعة آخر المستجدات</div>
+  <div class="links" id="publicLinks"></div>
+ </section>
+ <div class="notice">تنبيه: قد تتغير حالة الطرق والمداخل في أي وقت. تحقق من آخر تحديث قبل التحرك.</div>
 </main>
 
-<footer>قيادة آمنة للجميع</footer>
+<div class="modal" id="modal">
+ <div class="panel">
+  <button class="btn close" id="closeBtn">إغلاق ✕</button>
+  <h2>لوحة الإعدادات والإدارة</h2>
+  <div class="hint">تحفظ البيانات على هذا المتصفح والجهاز. احتفظ بنسخة احتياطية بشكل دوري.</div>
+  <div class="tabs">
+   <button class="btn tab sel" data-tab="provinces">المحافظات</button>
+   <button class="btn tab" data-tab="regions">المناطق</button>
+   <button class="btn tab" data-tab="entries">المداخل والحواجز</button>
+   <button class="btn tab" data-tab="links">روابط المجموعات</button>
+  </div>
+  <section id="tab-provinces">
+   <h3>إضافة محافظة</h3>
+   <div class="row">
+    <input id="provinceName" placeholder="اسم المحافظة" aria-label="اسم المحافظة">
+    <button class="btn primary" id="addProvince">إضافة وحفظ</button>
+   </div>
+   <div id="provinceManage"></div>
+  </section>
+  <section id="tab-regions" class="hidden">
+   <h3>إدارة مناطق المحافظة</h3>
+   <div class="field">
+    <label for="regionProvince">اختر المحافظة</label>
+    <select id="regionProvince"></select>
+   </div>
+   <div class="row">
+    <input id="regionName" placeholder="اسم المنطقة الجديدة">
+    <button class="btn primary" id="addRegion">إضافة منطقة</button>
+   </div>
+   <div id="regionManage"></div>
+   <div class="hint">يمكنك تعديل أسماء المناطق. عند حذف منطقة تحتوي مداخل، ستُطلب منك منطقة بديلة لنقل المداخل إليها.</div>
+  </section>
+  <section id="tab-entries" class="hidden">
+   <h3>إدارة المداخل والحواجز</h3>
+   <div class="field">
+    <label for="entryProvince">اختر المحافظة</label>
+    <select id="entryProvince"></select>
+   </div>
+   <div class="field">
+    <label for="entryRegion">اختر المنطقة</label>
+    <select id="entryRegion"></select>
+   </div>
+   <div class="row">
+    <input id="entryName" placeholder="اسم المدخل أو الحاجز">
+    <button class="btn primary" id="addEntry">إضافة المدخل</button>
+   </div>
+   <div id="entryManage"></div>
+  </section>
+  <section id="tab-links" class="hidden">
+   <h3>روابط الانضمام</h3>
+   <div class="field"><label>واتساب</label><input id="waLink" placeholder="رابط مجموعة واتساب"></div>
+   <div class="field"><label>تليجرام</label><input id="tgLink" placeholder="رابط مجموعة/قناة تليجرام"></div>
+   <div class="field"><label>فيسبوك</label><input id="fbLink" placeholder="الرابط"></div>
+   <div class="field"><label>نص الدعوة في نهاية التقرير</label><textarea id="invitationText" rows="3" placeholder="اكتب نص الدعوة الذي سيظهر في التقرير"></textarea></div>
+   <button class="btn primary" id="saveLinks">حفظ الروابط والدعوة</button>
+  </section>
+  <div class="row" style="margin-top:18px">
+   <button class="btn soft" id="exportBtn">تصدير نسخة احتياطية</button>
+   <button class="btn blue" id="importBtn">استعادة نسخة احتياطية</button>
+   <input type="file" id="importFile" accept="application/json" class="hidden">
+   <button class="btn danger" id="resetBtn">مسح بيانات هذا الجهاز</button>
+  </div>
+ </div>
+</div>
+
+<div class="modal" id="shareModal">
+ <div class="panel">
+  <button class="btn close" id="shareCloseBtn">إغلاق ✕</button>
+  <h2>إعداد تقرير حالة الطرق</h2>
+  <div class="report-option">
+   <label for="reportScope">نطاق التقرير</label>
+   <select id="reportScope">
+    <option value="all">جميع المحافظات</option>
+    <option value="province">محافظة محددة فقط</option>
+    <option value="region">منطقة محددة داخل محافظة</option>
+   </select>
+  </div>
+  <div class="report-option hidden" id="reportProvinceBox">
+   <label for="reportProvince">اختر المحافظة</label>
+   <select id="reportProvince"></select>
+  </div>
+  <div class="report-option hidden" id="reportRegionBox">
+   <label for="reportRegion">اختر المنطقة</label>
+   <select id="reportRegion"></select>
+  </div>
+  <div class="report-option">
+   <label for="reportType">نوع التقرير</label>
+   <select id="reportType">
+    <option value="text">تقرير نصي</option>
+    <option value="image">تقرير صورة ملونة</option>
+   </select>
+  </div>
+  <div class="report-option">
+   <label>معاينة التقرير</label>
+   <div class="report-preview" id="reportPreview">سيظهر التقرير هنا.</div>
+  </div>
+  <div class="toolbar">
+   <button class="btn primary" id="sendReportBtn">مشاركة التقرير</button>
+   <button class="btn blue" id="copyReportBtn">نسخ التقرير النصي</button>
+   <button class="btn soft" id="downloadReportBtn">حفظ صورة التقرير</button>
+  </div>
+  <div class="hint">التقرير النصي يستخدم تنسيق واتساب للعريض والمائل والرموز الملونة. لا يستطيع واتساب فرض حجم خط أكبر أو توسيط العنوان داخل فقاعة الرسالة. خيار الصورة الحالي باقٍ كما هو.</div>
+ </div>
+</div>
 
 <script>
-"use strict";
-
-/* =========================
-   تخزين البيانات الأساسي
-========================= */
-const STORAGE_KEY = "ala_altareeq_complete_v1";
+'use strict';
+const KEY='ala_tareeq_v1';
+const GROUP_LINK='https://is.gd/fbd71i';
+const DEFAULT_REGIONS=['شمال المحافظة','وسط المحافظة','جنوب المحافظة'];
 
 function uid(){
-  return "id_" + Date.now().toString(36) + "_" +
-    Math.random().toString(36).slice(2,9);
+ return 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
+}
+function emptyData(){
+ return {provinces:[],links:{wa:GROUP_LINK,tg:'',fb:'',invitation:'للحصول على آخر تحديثات الطرق، تابعوا مجموعة على الطريق.'}};
+}
+function esc(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+ }[c]));
 }
 
-function initialData(){
-  return {
-    governors: [],
-    archive: [],
-    links: {
-      whatsapp: "https://is.gd/fbd71i",
-      telegram: ""
+/* تحميل البيانات وترحيل البنية القديمة دون حذف المداخل */
+function load(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(KEY));
+  if(!saved||typeof saved!=='object') return emptyData();
+  if(!Array.isArray(saved.provinces)) saved.provinces=[];
+  if(!saved.links) saved.links={};
+  saved.links.wa=saved.links.wa||GROUP_LINK;
+  saved.links.tg=saved.links.tg||'';
+  saved.links.fb=saved.links.fb||'';
+  if(typeof saved.links.invitation!=='string')saved.links.invitation='للحصول على آخر تحديثات الطرق، تابعوا مجموعة على الطريق.';
+
+  saved.provinces.forEach(p=>{
+   if(!Array.isArray(p.entries)) p.entries=[];
+   if(!Array.isArray(p.regions)) p.regions=[];
+   if(!p.regions.length){
+    p.regions=DEFAULT_REGIONS.map(name=>({id:uid(),name}));
+   }
+   let unassigned=p.regions.find(r=>r.name==='غير مصنفة');
+   p.entries.forEach(e=>{
+    if(!e.id)e.id=uid();
+    if(e.status===undefined)e.status='';
+    if(e.note===undefined)e.note='';
+    if(!e.regionId||!p.regions.some(r=>r.id===e.regionId)){
+     if(!unassigned){
+      unassigned={id:uid(),name:'غير مصنفة'};
+      p.regions.push(unassigned);
+     }
+     e.regionId=unassigned.id;
     }
-  };
-}
-
-function loadData(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return initialData();
-    const parsed = JSON.parse(raw);
-    if(!parsed || !Array.isArray(parsed.governors)) return initialData();
-    if(!Array.isArray(parsed.archive)) parsed.archive = [];
-    if(!parsed.links) parsed.links = initialData().links;
-    return parsed;
-  }catch(e){
-    alert("تعذر قراءة البيانات المحفوظة. أنشئ نسخة احتياطية إن كانت متوفرة.");
-    return initialData();
-  }
-}
-
-let data = loadData();
-let currentReport = null;
-let currentReportImage = null;
-
-function saveData(){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    return true;
-  }catch(e){
-    alert("تعذر الحفظ. قد تكون مساحة التخزين ممتلئة. نزّل نسخة احتياطية.");
-    return false;
-  }
-}
-
-/* =========================
-   أدوات مساعدة
-========================= */
-function el(id){ return document.getElementById(id); }
-
-function escapeHTML(value){
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[ch]);
-}
-
-function getGov(id){
-  return data.governors.find(g => g.id === id);
-}
-
-function getRegion(govId, regionId){
-  const gov = getGov(govId);
-  return gov ? gov.regions.find(r => r.id === regionId) : null;
-}
-
-function statusName(status){
-  return status === "open" ? "سالك" :
-         status === "closed" ? "مغلق" : "حاجز";
-}
-
-function statusClass(status){
-  return status === "open" ? "s-open" :
-         status === "closed" ? "s-closed" : "s-check";
-}
-
-function statusSymbol(status){
-  return status === "open" ? "🟩" :
-         status === "closed" ? "🟥" : "🟧";
-}
-
-function localDate(){
-  return new Intl.DateTimeFormat("ar-PS",{
-    year:"numeric",month:"long",day:"numeric"
-  }).format(new Date());
-}
-
-function localDateTime(){
-  return new Intl.DateTimeFormat("ar-PS",{
-    year:"numeric",month:"long",day:"numeric",
-    hour:"2-digit",minute:"2-digit"
-  }).format(new Date());
-}
-
-function safeName(value){
-  return String(value || "تقرير").replace(/[\\/:*?"<>|]/g,"_");
-}
-
-/* =========================
-   القوائم والاختيارات
-========================= */
-function fillSelect(selectId, items, placeholder){
-  const select = el(selectId);
-  const oldValue = select.value;
-  select.innerHTML = "";
-  const first = document.createElement("option");
-  first.value = "";
-  first.textContent = placeholder;
-  select.appendChild(first);
-
-  items.forEach(item=>{
-    const option = document.createElement("option");
-    option.value = item.id;
-    option.textContent = item.name;
-    select.appendChild(option);
+   });
   });
+  return saved;
+ }catch(e){return emptyData();}
+}
+let data=load();
+let activeTab='provinces';
 
-  if(items.some(item=>item.id === oldValue)) select.value = oldValue;
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(data));
+ render();
+}
+function statusText(s){
+ return s==='open'?'سالك':s==='closed'?'مغلق':s==='barrier'?'حاجز':'غير محدد';
+}
+function statusClass(s){
+ return s==='open'?'status-open':s==='closed'?'status-closed':s==='barrier'?'status-barrier':'status-unknown';
+}
+function statusEmoji(s){
+ return s==='open'?'🟢':s==='closed'?'🔴':s==='barrier'?'🟠':'⚪';
+}
+function getProvince(id){return data.provinces.find(p=>p.id===id);}
+function getRegion(p,id){return p?.regions.find(r=>r.id===id);}
+
+/* عرض التطبيق */
+function render(){
+ renderViewPicker();
+ const selected=document.getElementById('viewProvince').value||'all';
+ const provinces=selected==='all'?data.provinces:data.provinces.filter(p=>p.id===selected);
+ const host=document.getElementById('provinceList');
+ if(!provinces.length){
+  host.innerHTML='<div class="empty">لا توجد محافظات. افتح الإعدادات وأضف المحافظات أولاً.</div>';
+ }else{
+  host.innerHTML=provinces.map(p=>{
+   const regions=p.regions||[];
+   const regionHtml=regions.map(r=>{
+    const entries=p.entries.filter(e=>e.regionId===r.id);
+    if(!entries.length)return '';
+    return `<section>
+     <div class="region-head">${esc(r.name)}</div>
+     ${entries.map(e=>`
+      <div class="entry">
+       <div class="entry-top">
+        <span class="status-badge ${statusClass(e.status)}">${statusText(e.status)}</span>
+        <span class="entry-name">${esc(e.name)}</span>
+       </div>
+       ${e.note?`<div class="note">الملاحظة: ${esc(e.note)}</div>`:''}
+       <div class="states">
+        <button class="state open ${e.status==='open'?'active':''}" onclick="setStatus('${p.id}','${e.id}','open')">سالك</button>
+        <button class="state closed ${e.status==='closed'?'active':''}" onclick="setStatus('${p.id}','${e.id}','closed')">مغلق</button>
+        <button class="state barrier ${e.status==='barrier'?'active':''}" onclick="setStatus('${p.id}','${e.id}','barrier')">حاجز</button>
+        <button class="state note-action" onclick="editNote('${p.id}','${e.id}')">📝 ملاحظة</button>
+       </div>
+      </div>`).join('')}
+    </section>`;
+   }).join('');
+   return `<article class="province">
+    <div class="province-head">
+     <h2>محافظة ${esc(p.name)}</h2>
+     <span class="count">${p.entries.length} مداخل</span>
+    </div>
+    ${regionHtml||'<div class="empty">لا توجد مداخل مسجلة لهذه المحافظة.</div>'}
+   </article>`;
+  }).join('');
+ }
+ renderLinks();
+ renderAdmin();
+}
+function renderViewPicker(){
+ const sel=document.getElementById('viewProvince'),old=sel.value||'all';
+ sel.innerHTML='<option value="all">جميع المحافظات</option>'+
+ data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+ sel.value=(old==='all'||data.provinces.some(p=>p.id===old))?old:'all';
+}
+function setStatus(pid,eid,status){
+ const p=getProvince(pid),e=p?.entries.find(x=>x.id===eid);
+ if(!e)return;
+ e.status=status;
+ e.updated=Date.now();
+ save();
+}
+window.setStatus=setStatus;
+
+function renderLinks(){
+ const el=document.getElementById('publicLinks');
+ const links=[['wa','واتساب',''],['tg','تليجرام','tg'],['fb','فيسبوك','fb']].filter(([k])=>data.links[k]);
+ el.innerHTML=links.length?links.map(([k,n,c])=>
+  `<a class="link ${c}" href="${esc(data.links[k])}" target="_blank" rel="noopener">${n}</a>`
+ ).join(''):'<span class="count">أضف روابط المجموعات من الإعدادات.</span>';
 }
 
-function refreshAll(){
-  const govs = data.governors.map(g=>({id:g.id,name:g.name}));
-
-  ["filterGov","manageGov","entryGov","reportGov"].forEach(id=>{
-    fillSelect(id,govs,"اختر المحافظة");
-  });
-
-  refreshRegions("filterGov","filterRegion");
-  refreshRegions("entryGov","entryRegion");
-  refreshRegions("reportGov","reportRegion");
-
-  renderGovernorates();
-  renderRegions();
-  renderEntrances();
-  renderArchive();
-  el("whatsappLink").value = data.links.whatsapp || "";
-  el("telegramLink").value = data.links.telegram || "";
+/* قوائم الإدارة */
+function renderAdmin(){
+ document.getElementById('provinceManage').innerHTML=data.provinces.map(p=>`
+  <div class="item-manage">
+   <strong>${esc(p.name)}</strong>
+   <div class="row">
+    <button class="btn soft small" onclick="renameProvince('${p.id}')">تعديل الاسم</button>
+    <button class="btn danger small" onclick="deleteProvince('${p.id}')">حذف المحافظة</button>
+   </div>
+  </div>`).join('')||'<p class="count">لا توجد محافظات.</p>';
+ fillProvinceSelect('regionProvince');
+ fillProvinceSelect('entryProvince');
+ renderRegionManage();
+ renderEntryRegionSelect();
+ renderEntryManage();
+ document.getElementById('waLink').value=data.links.wa||'';
+ document.getElementById('tgLink').value=data.links.tg||'';
+ document.getElementById('fbLink').value=data.links.fb||'';
+ document.getElementById('invitationText').value=data.links.invitation||'';
+}
+function fillProvinceSelect(id){
+ const sel=document.getElementById(id),old=sel.value;
+ sel.innerHTML=data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+ if(data.provinces.some(p=>p.id===old))sel.value=old;
+}
+function renderRegionManage(){
+ const p=getProvince(document.getElementById('regionProvince').value);
+ const host=document.getElementById('regionManage');
+ if(!p){host.innerHTML='<p class="count">أضف محافظة أولاً.</p>';return;}
+ host.innerHTML=p.regions.map(r=>`
+  <div class="item-manage">
+   <strong>${esc(r.name)}</strong>
+   <span class="count">${p.entries.filter(e=>e.regionId===r.id).length} مداخل</span>
+   <div class="row">
+    <button class="btn soft small" onclick="renameRegion('${p.id}','${r.id}')">تعديل الاسم</button>
+    <button class="btn danger small" onclick="deleteRegion('${p.id}','${r.id}')">حذف المنطقة</button>
+   </div>
+  </div>`).join('');
+}
+function renderEntryRegionSelect(){
+ const p=getProvince(document.getElementById('entryProvince').value);
+ const sel=document.getElementById('entryRegion'),old=sel.value;
+ sel.innerHTML=(p?.regions||[]).map(r=>`<option value="${r.id}">${esc(r.name)}</option>`).join('');
+ if(p?.regions.some(r=>r.id===old))sel.value=old;
+}
+function renderEntryManage(){
+ const p=getProvince(document.getElementById('entryProvince').value);
+ const host=document.getElementById('entryManage');
+ if(!p){host.innerHTML='<p class="count">أضف محافظة أولاً.</p>';return;}
+ host.innerHTML=p.entries.map(e=>{
+  const r=getRegion(p,e.regionId);
+  return `<div class="item-manage">
+   <strong>${esc(e.name)} — ${statusText(e.status)}</strong>
+   <div class="count">${esc(r?.name||'غير مصنفة')}</div>
+   ${e.note?`<div class="note">الملاحظة: ${esc(e.note)}</div>`:''}
+   <div class="row">
+    <button class="btn soft small" onclick="renameEntry('${p.id}','${e.id}')">تعديل الاسم</button>
+    <button class="btn soft small" onclick="moveEntry('${p.id}','${e.id}')">نقل المنطقة</button>
+    <button class="btn danger small" onclick="deleteEntry('${p.id}','${e.id}')">حذف</button>
+   </div>
+  </div>`;
+ }).join('')||'<p class="count">لا توجد مداخل في هذه المحافظة.</p>';
 }
 
-function refreshRegions(govSelectId,regionSelectId){
-  const gov = getGov(el(govSelectId).value);
-  fillSelect(regionSelectId,
-    gov ? gov.regions.map(r=>({id:r.id,name:r.name})) : [],
-    "اختر المنطقة");
+/* المحافظات */
+function renameProvince(id){
+ const p=getProvince(id);if(!p)return;
+ const n=prompt('الاسم الجديد للمحافظة:',p.name);
+ if(n&&n.trim()){p.name=n.trim();save();}
 }
-
-/* =========================
-   إدارة المحافظات
-========================= */
-function addGovernorate(){
-  const name = el("govName").value.trim();
-  if(!name) return alert("أدخل اسم المحافظة.");
-  if(data.governors.some(g=>g.name.trim()===name))
-    return alert("هذه المحافظة موجودة مسبقاً.");
-
-  data.governors.push({
-    id:uid(),name,regions:[]
-  });
-
-  el("govName").value = "";
-  saveData();
-  refreshAll();
+function deleteProvince(id){
+ const p=getProvince(id);
+ if(p&&confirm(`حذف محافظة ${p.name} وكل المناطق والمداخل التابعة لها؟`)){
+  data.provinces=data.provinces.filter(x=>x.id!==id);save();
+ }
 }
+document.getElementById('addProvince').onclick=()=>{
+ const input=document.getElementById('provinceName'),n=input.value.trim();
+ if(!n)return alert('اكتب اسم المحافظة.');
+ if(data.provinces.some(p=>p.name===n))return alert('المحافظة موجودة مسبقاً.');
+ data.provinces.push({
+  id:uid(),name:n,
+  regions:DEFAULT_REGIONS.map(name=>({id:uid(),name})),
+  entries:[]
+ });
+ input.value='';save();
+};
 
-function editGovernorate(id){
-  const gov = getGov(id);
-  if(!gov) return;
-  const value = prompt("تعديل اسم المحافظة:",gov.name);
-  if(value === null) return;
-  const name = value.trim();
-  if(!name) return alert("اسم المحافظة لا يمكن أن يكون فارغاً.");
-  if(data.governors.some(g=>g.id!==id && g.name===name))
-    return alert("يوجد محافظة بهذا الاسم.");
-  gov.name = name;
-  saveData();
-  refreshAll();
+/* المناطق */
+function renameRegion(pid,rid){
+ const p=getProvince(pid),r=getRegion(p,rid);if(!r)return;
+ const n=prompt('اسم المنطقة الجديد:',r.name);
+ if(n&&n.trim()){r.name=n.trim();save();}
 }
-
-function deleteGovernorate(id){
-  const gov = getGov(id);
-  if(!gov) return;
-  if(!confirm("سيتم حذف المحافظة وكل المناطق والمداخل التابعة لها. هل أنت متأكد؟"))
-    return;
-  data.governors = data.governors.filter(g=>g.id!==id);
-  saveData();
-  refreshAll();
-}
-
-function renderGovernorates(){
-  const box = el("governorateList");
-  box.innerHTML = "";
-  if(!data.governors.length){
-    box.innerHTML = '<p class="muted">لم تتم إضافة محافظات بعد.</p>';
-    return;
+function deleteRegion(pid,rid){
+ const p=getProvince(pid),r=getRegion(p,rid);if(!p||!r)return;
+ const entries=p.entries.filter(e=>e.regionId===rid);
+ if(!entries.length){
+  if(confirm(`حذف منطقة ${r.name}؟`)){
+   p.regions=p.regions.filter(x=>x.id!==rid);save();
   }
+  return;
+ }
+ const alternatives=p.regions.filter(x=>x.id!==rid);
+ if(!alternatives.length)return alert('أضف منطقة أخرى أولاً حتى تنقل إليها المداخل.');
+ const choices=alternatives.map((x,i)=>`${i+1}. ${x.name}`).join('\n');
+ const answer=prompt(`هذه المنطقة تحتوي ${entries.length} مداخل.\nاكتب رقم المنطقة التي تريد نقل المداخل إليها:\n${choices}`);
+ const index=Number(answer)-1;
+ if(!Number.isInteger(index)||index<0||index>=alternatives.length)return;
+ const target=alternatives[index];
+ entries.forEach(e=>e.regionId=target.id);
+ p.regions=p.regions.filter(x=>x.id!==rid);
+ save();
+}
+document.getElementById('addRegion').onclick=()=>{
+ const p=getProvince(document.getElementById('regionProvince').value);
+ const input=document.getElementById('regionName'),n=input.value.trim();
+ if(!p)return alert('اختر محافظة أولاً.');
+ if(!n)return alert('اكتب اسم المنطقة.');
+ if(p.regions.some(r=>r.name===n))return alert('هذه المنطقة موجودة مسبقاً.');
+ p.regions.push({id:uid(),name:n});
+ input.value='';save();
+};
 
-  data.governors.forEach(g=>{
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <div class="item-head">
-        <span class="item-title">${escapeHTML(g.name)}</span>
-        <span class="muted">${g.regions.length} منطقة</span>
-      </div>
-      <div class="actions">
-        <button class="small blue" onclick="editGovernorate('${g.id}')">تعديل الاسم</button>
-        <button class="small red" onclick="deleteGovernorate('${g.id}')">حذف المحافظة</button>
-      </div>`;
-    box.appendChild(div);
+/* المداخل */
+function renameEntry(pid,eid){
+ const p=getProvince(pid),e=p?.entries.find(x=>x.id===eid);if(!e)return;
+ const n=prompt('اسم المدخل الجديد:',e.name);
+ if(n&&n.trim()){e.name=n.trim();save();}
+}
+function editNote(pid,eid){
+ const p=getProvince(pid),e=p?.entries.find(x=>x.id===eid);if(!e)return;
+ const n=prompt('اكتب الملاحظة:',e.note||'');
+ if(n!==null){e.note=n.trim();save();}
+}
+function moveEntry(pid,eid){
+ const p=getProvince(pid),e=p?.entries.find(x=>x.id===eid);if(!p||!e)return;
+ const regions=p.regions.filter(r=>r.id!==e.regionId);
+ if(!regions.length)return alert('لا توجد منطقة أخرى للنقل إليها.');
+ const choices=regions.map((r,i)=>`${i+1}. ${r.name}`).join('\n');
+ const answer=prompt(`اختر المنطقة الجديدة بكتابة رقمها:\n${choices}`);
+ const index=Number(answer)-1;
+ if(!Number.isInteger(index)||index<0||index>=regions.length)return;
+ e.regionId=regions[index].id;save();
+}
+function deleteEntry(pid,eid){
+ if(!confirm('هل تريد حذف هذا المدخل؟'))return;
+ const p=getProvince(pid);if(!p)return;
+ p.entries=p.entries.filter(x=>x.id!==eid);save();
+}
+window.renameProvince=renameProvince;
+window.deleteProvince=deleteProvince;
+window.renameRegion=renameRegion;
+window.deleteRegion=deleteRegion;
+window.renameEntry=renameEntry;
+window.editNote=editNote;
+window.moveEntry=moveEntry;
+window.deleteEntry=deleteEntry;
+
+document.getElementById('entryProvince').onchange=()=>{
+ renderEntryRegionSelect();renderEntryManage();
+};
+document.getElementById('regionProvince').onchange=renderRegionManage;
+document.getElementById('addEntry').onclick=()=>{
+ const p=getProvince(document.getElementById('entryProvince').value);
+ const regionId=document.getElementById('entryRegion').value;
+ const input=document.getElementById('entryName'),n=input.value.trim();
+ if(!p)return alert('أضف محافظة أولاً.');
+ if(!regionId)return alert('اختر منطقة.');
+ if(!n)return alert('اكتب اسم المدخل.');
+ p.entries.push({id:uid(),name:n,status:'',updated:null,note:'',regionId});
+ input.value='';save();
+};
+
+/* الروابط والدعوة */
+document.getElementById('saveLinks').onclick=()=>{
+ const valid=v=>!v||/^https?:\/\//i.test(v);
+ const wa=document.getElementById('waLink').value.trim();
+ const tg=document.getElementById('tgLink').value.trim();
+ const fb=document.getElementById('fbLink').value.trim();
+ const invitation=document.getElementById('invitationText').value.trim();
+ if(!valid(wa)||!valid(tg)||!valid(fb))return alert('تأكد أن الروابط تبدأ بـ https:// أو http://');
+ data.links={...data.links,wa:wa||GROUP_LINK,tg,fb,invitation};
+ save();alert('تم حفظ الروابط والدعوة.');
+};
+
+/* فتح وإغلاق لوحة الإدارة */
+document.getElementById('settingsBtn').onclick=()=>document.getElementById('modal').classList.add('show');
+document.getElementById('closeBtn').onclick=()=>document.getElementById('modal').classList.remove('show');
+document.getElementById('refreshBtn').onclick=()=>{data=load();render();};
+document.querySelectorAll('.tab').forEach(b=>{
+ b.onclick=()=>{
+  activeTab=b.dataset.tab;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('sel',x===b));
+  ['provinces','regions','entries','links'].forEach(k=>
+   document.getElementById('tab-'+k).classList.toggle('hidden',k!==activeTab)
+  );
+  renderAdmin();
+ };
+});
+document.getElementById('viewProvince').onchange=render;
+
+/* إعداد التقرير */
+document.getElementById('shareBtn').onclick=openShareModal;
+document.getElementById('shareCloseBtn').onclick=()=>document.getElementById('shareModal').classList.remove('show');
+
+function openShareModal(){
+ if(!data.provinces.length)return alert('أضف محافظة واحدة على الأقل أولاً.');
+ const sel=document.getElementById('reportProvince');
+ sel.innerHTML=data.provinces.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
+ renderReportRegionOptions();
+ document.getElementById('reportScope').value='all';
+ document.getElementById('reportType').value='text';
+ updateReportScope();
+ document.getElementById('shareModal').classList.add('show');
+}
+function getReportProvinces(){
+ const scope=document.getElementById('reportScope').value;
+ if(scope==='all')return data.provinces;
+ const id=document.getElementById('reportProvince').value;
+ return data.provinces.filter(p=>p.id===id);
+}
+function renderReportRegionOptions(){
+ const p=getProvince(document.getElementById('reportProvince').value);
+ const sel=document.getElementById('reportRegion');
+ const old=sel.value;
+ sel.innerHTML=(p?.regions||[]).map(r=>'<option value="'+r.id+'">'+esc(r.name)+'</option>').join('');
+ if(p?.regions.some(r=>r.id===old))sel.value=old;
+}
+function getReportRegion(){
+ const p=getProvince(document.getElementById('reportProvince').value);
+ return {province:p,region:getRegion(p,document.getElementById('reportRegion').value)};
+}
+function updateReportScope(){
+ const scope=document.getElementById('reportScope').value;
+ document.getElementById('reportProvinceBox').classList.toggle('hidden',scope==='all');
+ document.getElementById('reportRegionBox').classList.toggle('hidden',scope!=='region');
+ renderReportRegionOptions();
+ updateReportPreview();
+}
+document.getElementById('reportScope').onchange=updateReportScope;
+document.getElementById('reportProvince').onchange=()=>{renderReportRegionOptions();updateReportPreview();};
+document.getElementById('reportRegion').onchange=updateReportPreview;
+document.getElementById('reportType').onchange=updateReportPreview;
+
+function reportDate(){
+ return new Date().toLocaleString('ar-PS',{dateStyle:'full',timeStyle:'short'});
+}
+function reportStatusSquare(status){
+ return status==='open'?'🟩':status==='closed'?'🟥':status==='barrier'?'🟧':'⬜';
+}
+function buildReport(){
+ const scope=document.getElementById('reportScope').value;
+ const provinces=getReportProvinces();
+ const lines=['*على الطريق*','*تقرير حالة الطرق والمداخل*',reportDate(),'━━━━━━━━━━━━'];
+ if(scope==='region'){
+  const chosen=getReportRegion();
+  if(chosen.province&&chosen.region){
+   lines.push('');
+   lines.push('📍 *مداخل منطقة '+chosen.region.name+' — محافظة '+chosen.province.name+'*');
+   chosen.province.entries.filter(e=>e.regionId===chosen.region.id).forEach(e=>{
+    lines.push('');
+    lines.push('*'+e.name+'*');
+    lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
+    if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
+   });
+  }
+ }else{
+  provinces.forEach(p=>{
+   lines.push('');
+   lines.push('📍 *محافظة '+p.name+'*');
+   p.entries.forEach((e,index)=>{
+    lines.push('');
+    lines.push('*'+e.name+'*');
+    lines.push(reportStatusSquare(e.status)+' *'+statusText(e.status)+'*');
+    if(e.note)lines.push('_'+e.note.replace(/\r?\n/g,' ')+'_');
+    if(index<p.entries.length-1)lines.push('━━━━━━━━━━━━');
+   });
   });
+ }
+ lines.push('');
+ lines.push('━━━━━━━━━━━━');
+ const invitation=(data.links.invitation||'').trim();
+ if(invitation)lines.push('*'+invitation.replace(/\r?\n/g,' ')+'*');
+ lines.push(data.links.wa||GROUP_LINK);
+ if(data.links.tg)lines.push('تليجرام: '+data.links.tg);
+ if(data.links.fb)lines.push('فيسبوك: '+data.links.fb);
+ return lines.join('\n');
+}
+function updateReportPreview(){
+ const lines=buildReport().split('\n');
+ const title=lines.shift()||'*على الطريق*';
+ const host=document.getElementById('reportPreview');
+ host.innerHTML='<div class="report-preview-title">'+esc(title.replace(/^\*|\*$/g,''))+'</div><div>'+esc(lines.join('\n'))+'</div>';
 }
 
-/* =========================
-   إدارة المناطق داخل المحافظة
-========================= */
-function addRegion(){
-  const govId = el("manageGov").value;
-  const name = el("regionName").value.trim();
-  const gov = getGov(govId);
+/* إنشاء صورة التقرير: عمودان وبطاقات حالة واضحة */
+function makeReportCanvas(){
+ const scope=document.getElementById('reportScope').value,provinces=getReportProvinces();
+ const W=1200,P=58,G=22,C=W-2*P,CW=(C-G)/2,sections=[];
+ const states={open:{t:'سالك',c:'#087a35'},closed:{t:'مغلق',c:'#b42318'},barrier:{t:'حاجز',c:'#bd6200'}};
+ function add(title,entries){sections.push({title,entries:entries.map(e=>({name:String(e.name||'مدخل دون اسم'),status:e.status||'',note:String(e.note||'')}))});}
+ if(scope==='region'){
+  const q=getReportRegion();
+  if(q.province&&q.region)add('مداخل منطقة '+q.region.name+' — محافظة '+q.province.name,q.province.entries.filter(e=>e.regionId===q.region.id));
+ }else{
+  provinces.forEach(p=>add('محافظة '+p.name,p.entries));
+ }
+ const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');
+ ctx.direction='rtl';
 
-  if(!gov) return alert("اختر المحافظة أولاً.");
-  if(!name) return alert("أدخل اسم المنطقة.");
-  if(gov.regions.some(r=>r.name.trim()===name))
-    return alert("هذه المنطقة موجودة في المحافظة.");
-
-  gov.regions.push({
-    id:uid(),name,entrances:[]
-  });
-
-  el("regionName").value = "";
-  saveData();
-  refreshAll();
-  el("manageGov").value = govId;
-  renderRegions();
-}
-
-function editRegion(govId,regionId){
-  const region = getRegion(govId,regionId);
-  const gov = getGov(govId);
-  if(!region || !gov) return;
-
-  const value = prompt("تعديل اسم المنطقة:",region.name);
-  if(value === null) return;
-  const name = value.trim();
-  if(!name) return alert("اسم المنطقة لا يمكن أن يكون فارغاً.");
-  if(gov.regions.some(r=>r.id!==regionId && r.name===name))
-    return alert("يوجد منطقة بهذا الاسم داخل المحافظة.");
-
-  region.name = name;
-  saveData();
-  refreshAll();
-  el("manageGov").value = govId;
-  renderRegions();
-}
-
-function deleteRegion(govId,regionId){
-  const gov = getGov(govId);
-  const region = getRegion(govId,regionId);
-  if(!gov || !region) return;
-
-  if(!confirm("سيتم حذف المنطقة وكل المداخل التابعة لها. هل تريد المتابعة؟"))
-    return;
-
-  gov.regions = gov.regions.filter(r=>r.id!==regionId);
-  saveData();
-  refreshAll();
-  el("manageGov").value = govId;
-  renderRegions();
-}
-
-function renderRegions(){
-  const box = el("regionList");
-  box.innerHTML = "";
-  const gov = getGov(el("manageGov").value);
-
-  if(!gov){
-    box.innerHTML = '<p class="muted">اختر محافظة لعرض مناطقها وإدارتها.</p>';
-    return;
-  }
-
-  if(!gov.regions.length){
-    box.innerHTML = '<p class="muted">لا توجد مناطق في هذه المحافظة بعد.</p>';
-    return;
-  }
-
-  gov.regions.forEach(r=>{
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <div class="item-head">
-        <span class="item-title">${escapeHTML(r.name)}</span>
-        <span class="muted">${r.entrances.length} مدخل</span>
-      </div>
-      <div class="actions">
-        <button class="small blue" onclick="editRegion('${gov.id}','${r.id}')">تعديل المنطقة</button>
-        <button class="small red" onclick="deleteRegion('${gov.id}','${r.id}')">حذف المنطقة</button>
-      </div>`;
-    box.appendChild(div);
-  });
-}
-
-/* =========================
-   إدارة المداخل
-========================= */
-function addEntrance(){
-  const govId = el("entryGov").value;
-  const regionId = el("entryRegion").value;
-  const name = el("entryName").value.trim();
-  const status = el("entryStatus").value;
-  const note = el("entryNote").value.trim();
-  const region = getRegion(govId,regionId);
-
-  if(!region) return alert("اختر المحافظة والمنطقة.");
-  if(!name) return alert("أدخل اسم المدخل.");
-
-  region.entrances.push({
-    id:uid(),name,status,note,updatedAt:new Date().toISOString()
-  });
-
-  el("entryName").value = "";
-  el("entryNote").value = "";
-  el("entryStatus").value = "open";
-
-  saveData();
-  refreshAll();
-  el("filterGov").value = govId;
-  refreshRegions("filterGov","filterRegion");
-  el("filterRegion").value = regionId;
-  renderEntrances();
-}
-
-function editEntrance(govId,regionId,entranceId){
-  const region = getRegion(govId,regionId);
-  if(!region) return;
-  const entry = region.entrances.find(e=>e.id===entranceId);
-  if(!entry) return;
-
-  const name = prompt("تعديل اسم المدخل:",entry.name);
-  if(name === null) return;
-  if(!name.trim()) return alert("اسم المدخل مطلوب.");
-
-  const note = prompt("تعديل الملاحظات:",entry.note || "");
-  if(note === null) return;
-
-  entry.name = name.trim();
-  entry.note = note.trim();
-  entry.updatedAt = new Date().toISOString();
-  saveData();
-  refreshAll();
-}
-
-function changeEntranceStatus(govId,regionId,entranceId,status){
-  const region = getRegion(govId,regionId);
-  if(!region) return;
-  const entry = region.entrances.find(e=>e.id===entranceId);
-  if(!entry) return;
-
-  entry.status = status;
-  entry.updatedAt = new Date().toISOString();
-  saveData();
-  renderEntrances();
-}
-
-function deleteEntrance(govId,regionId,entranceId){
-  const region = getRegion(govId,regionId);
-  if(!region) return;
-  if(!confirm("هل تريد حذف هذا المدخل؟")) return;
-
-  region.entrances = region.entrances.filter(e=>e.id!==entranceId);
-  saveData();
-  refreshAll();
-}
-
-function renderEntrances(){
-  const box = el("entranceList");
-  box.innerHTML = "";
-
-  const gov = getGov(el("filterGov").value);
-  const region = gov ? getRegion(gov.id,el("filterRegion").value) : null;
-
-  if(!gov || !region){
-    box.innerHTML = '<p class="muted">اختر المحافظة والمنطقة لعرض المداخل.</p>';
-    return;
-  }
-
-  if(!region.entrances.length){
-    box.innerHTML = '<p class="muted">لا توجد مداخل مسجلة في هذه المنطقة.</p>';
-    return;
-  }
-
-  region.entrances.forEach(entry=>{
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <div class="item-head">
-        <span class="item-title">${escapeHTML(entry.name)}</span>
-        <span class="status ${statusClass(entry.status)}">
-          <span class="dot"></span>${statusName(entry.status)}
-        </span>
-      </div>
-      ${entry.note ? `<p>${escapeHTML(entry.note)}</p>` : ""}
-      <div class="muted">آخر تحديث: ${entry.updatedAt ? new Date(entry.updatedAt).toLocaleString("ar-PS") : "غير محدد"}</div>
-      <div class="actions">
-        <button class="small" onclick="changeEntranceStatus('${gov.id}','${region.id}','${entry.id}','open')">سالك</button>
-        <button class="small red" onclick="changeEntranceStatus('${gov.id}','${region.id}','${entry.id}','closed')">مغلق</button>
-        <button class="small orange" onclick="changeEntranceStatus('${gov.id}','${region.id}','${entry.id}','check')">حاجز</button>
-        <button class="small blue" onclick="editEntrance('${gov.id}','${region.id}','${entry.id}')">تعديل</button>
-        <button class="small secondary" onclick="deleteEntrance('${gov.id}','${region.id}','${entry.id}')">حذف</button>
-      </div>`;
-    box.appendChild(div);
-  });
-}
-
-/* =========================
-   إنشاء التقرير النصي
-========================= */
-function getReportSelection(){
-  const gov = getGov(el("reportGov").value);
-  const region = gov ? getRegion(gov.id,el("reportRegion").value) : null;
-  if(!gov || !region){
-    alert("اختر المحافظة والمنطقة التي تريد إعداد تقريرها.");
-    return null;
-  }
-  return {gov,region};
-}
-
-function makeTextReport(gov,region){
-  const lines = [];
-  lines.push("علـى الطريـق");
-  lines.push("تقرير حالة الطرق والمداخل");
-  lines.push(gov.name + " — " + region.name);
-  lines.push("التاريخ والوقت: " + localDateTime());
-  lines.push("ــــــــــــــــــــــــــــــــــــــــــــــــــــ");
-
-  if(!region.entrances.length){
-    lines.push("لا توجد مداخل مسجلة لهذه المنطقة.");
-  }else{
-    region.entrances.forEach(entry=>{
-      lines.push("📍 " + entry.name);
-      lines.push(statusSymbol(entry.status) + " " + statusName(entry.status));
-      if(entry.note) lines.push("ملاحظة: " + entry.note);
-      lines.push("");
-    });
-  }
-
-  lines.push("ــــــــــــــــــــــــــــــــــــــــــــــــــــ");
-  lines.push("قيادة آمنة للجميع");
-  lines.push("مجموعة على الطريق: " + (data.links.whatsapp || ""));
-  if(data.links.telegram) lines.push("تليجرام: " + data.links.telegram);
-  return lines.join("\n");
-}
-
-function showReportSection(){
-  el("reportSection").classList.remove("hidden");
-  el("reportGov").value = el("filterGov").value;
-  refreshRegions("reportGov","reportRegion");
-  el("reportRegion").value = el("filterRegion").value;
-  el("reportSection").scrollIntoView({behavior:"smooth"});
-}
-
-function generateReport(){
-  const selected = getReportSelection();
-  if(!selected) return;
-
-  const {gov,region} = selected;
-  const type = el("reportType").value;
-  const text = makeTextReport(gov,region);
-
-  currentReport = {
-    governorate:gov.name,
-    region:region.name,
-    text,
-    createdAt:new Date().toISOString()
-  };
-
-  el("reportPreview").textContent = text;
-
-  if(type === "image"){
-    drawReportImage(gov,region);
-  }else{
-    currentReportImage = null;
-  }
-}
-
-/* =========================
-   تصميم التقرير المصور
-========================= */
-function drawReportImage(gov,region){
-  const canvas = el("reportCanvas");
-  const ctx = canvas.getContext("2d");
-
-  const width = 1200;
-  const margin = 48;
-  const gap = 22;
-  const columns = 2;
-  const cardWidth = (width - margin*2 - gap) / 2;
-  const cardHeight = 142;
-  const rows = Math.max(1,Math.ceil(region.entrances.length / 2));
-  const headerHeight = 300;
-  const footerHeight = 125;
-  const height = headerHeight + rows*(cardHeight+gap) + footerHeight + margin;
-
-  canvas.width = width;
-  canvas.height = height;
-
-  ctx.fillStyle = "#f1f3f4";
-  ctx.fillRect(0,0,width,height);
-
-  // رأس التقرير
-  ctx.textAlign = "center";
-  ctx.direction = "rtl";
-  ctx.fillStyle = "#f1f3f4";
-  ctx.fillRect(0,0,width,headerHeight);
-
-  ctx.fillStyle = "#173c30";
-  ctx.font = "bold 78px Tahoma, Arial";
-  ctx.fillText("علـى الطريـق",width/2,100);
-
-  ctx.fillStyle = "#344b43";
-  ctx.font = "bold 43px Tahoma, Arial";
-  ctx.fillText("تقرير حالة الطرق والمداخل",width/2,170);
-
-  ctx.fillStyle = "#1769aa";
-  ctx.font = "bold 38px Tahoma, Arial";
-  ctx.fillText(gov.name + " — " + region.name,width/2,235);
-
-  ctx.fillStyle = "#526477";
-  ctx.font = "26px Tahoma, Arial";
-  ctx.fillText(localDateTime(),width/2,280);
-
-  const colors = {
-    open:{bg:"#e1f3e7",border:"#a8d9b7",text:"#087b45",square:"#16a34a",label:"سالك"},
-    closed:{bg:"#fae4e4",border:"#e8b1b1",text:"#ae2525",square:"#dc2626",label:"مغلق"},
-    check:{bg:"#fff0d7",border:"#ebd09e",text:"#9a5b06",square:"#f59e0b",label:"حاجز"}
-  };
-
-  region.entrances.forEach((entry,index)=>{
-    const row = Math.floor(index/2);
-    const col = index % 2;
-    const x = margin + col*(cardWidth+gap);
-    const y = headerHeight + margin + row*(cardHeight+gap);
-    const c = colors[entry.status] || colors.check;
-
-    // البطاقة الأخيرة تمتد بعرض العمودين عند العدد الفردي
-    const actualWidth = (index === region.entrances.length-1 &&
-      region.entrances.length%2===1) ?
-      width-margin*2 : cardWidth;
-
-    ctx.fillStyle = c.bg;
-    ctx.strokeStyle = c.border;
-    ctx.lineWidth = 3;
-    roundRect(ctx,x,y,actualWidth,cardHeight,18,true,true);
-
-    ctx.textAlign = "center";
-    ctx.direction = "rtl";
-    ctx.fillStyle = "#17212b";
-    ctx.font = "bold 37px Tahoma, Arial";
-    fitText(ctx,entry.name,x+actualWidth/2,y+58,actualWidth-55,37);
-
-    // مربع الحالة الملون وعبارة الحالة
-    const labelY = y+108;
-    ctx.fillStyle = c.square;
-    roundRect(ctx,actualWidth/2-105,labelY-22,28,28,4,true,false);
-    ctx.fillStyle = c.text;
-    ctx.font = "bold 31px Tahoma, Arial";
-    ctx.fillText(c.label,actualWidth/2+12,labelY);
-  });
-
-  // التذييل
-  const footerY = headerHeight + margin + rows*(cardHeight+gap) + 18;
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#1769aa";
-  ctx.font = "bold 31px Tahoma, Arial";
-  ctx.fillText(localDateTime(),width/2,footerY+25);
-
-  ctx.fillStyle = "#173c30";
-  ctx.font = "bold 39px Tahoma, Arial";
-  ctx.fillText("قيادة آمنة للجميع",width/2,footerY+82);
-
-  currentReportImage = canvas;
-}
-
-function roundRect(ctx,x,y,w,h,r,fill,stroke){
+ function rr(x,y,w,h,r){
+  r=Math.min(r,w/2,h/2);
   ctx.beginPath();
   ctx.moveTo(x+r,y);
   ctx.arcTo(x+w,y,x+w,y+h,r);
@@ -824,300 +694,262 @@ function roundRect(ctx,x,y,w,h,r,fill,stroke){
   ctx.arcTo(x,y+h,x,y,r);
   ctx.arcTo(x,y,x+w,y,r);
   ctx.closePath();
-  if(fill) ctx.fill();
-  if(stroke) ctx.stroke();
-}
+ }
+ function wrap(t,m,font){
+  ctx.font=font;
+  let out=[],line='';
+  String(t||'').split(/\s+/).filter(Boolean).forEach(word=>{
+   let v=line?line+' '+word:word;
+   if(line&&ctx.measureText(v).width>m){out.push(line);line=word;}
+   else line=v;
+  });
+  if(line)out.push(line);
+  return out.length?out:[''];
+ }
+ function metric(e,w){
+  let n=wrap(e.name,w-214,'bold 29px Tahoma,Arial');
+  let d=e.note?wrap('ملاحظة: '+e.note,w-44,'bold 22px Tahoma,Arial'):[];
+  return {e:e,n:n,d:d,h:Math.max(94,68+n.length*38+(d.length?18+d.length*31:0))};
+ }
 
-function fitText(ctx,text,x,y,maxWidth,fontSize){
-  let size = fontSize;
-  ctx.font = "bold " + size + "px Tahoma, Arial";
-  while(ctx.measureText(text).width > maxWidth && size > 18){
-    size -= 2;
-    ctx.font = "bold " + size + "px Tahoma, Arial";
+ const groups=[];
+ let H=485;
+ sections.forEach(sec=>{
+  let pairs=[];
+  for(let i=0;i<sec.entries.length;i+=2){
+   let b=sec.entries[i+1]||null;
+   let a=metric(sec.entries[i],b?CW:C);
+   let z=b?metric(b,CW):null;
+   let h=Math.max(a.h,z?z.h:0);
+   pairs.push({a:a,b:z,h:h});
+   H+=h+16;
   }
-  ctx.fillText(text,x,y);
+  groups.push({title:sec.title,pairs:pairs});
+  H+=76;
+  if(!pairs.length)H+=66;
+ });
+
+ canvas.width=W;
+ canvas.height=Math.max(700,H);
+ ctx.fillStyle='#101b17';
+ ctx.fillRect(0,0,W,canvas.height);
+
+ let gr=ctx.createLinearGradient(0,0,W,180);
+ gr.addColorStop(0,'#073b25');
+ gr.addColorStop(1,'#087a43');
+ ctx.fillStyle=gr;
+ ctx.fillRect(0,0,W,180);
+
+ ctx.textAlign='center';
+ ctx.fillStyle='#fff';
+ ctx.font='bold 66px Tahoma,Arial';
+ ctx.fillText('على الطريق',W/2,76);
+ ctx.font='bold 34px Tahoma,Arial';
+ ctx.fillText('تقرير حالة الطرق والمداخل',W/2,132);
+
+ let y=218;
+ ctx.fillStyle='#d4e6dc';
+ ctx.font='bold 23px Tahoma,Arial';
+ ctx.fillText('تاريخ التقرير: '+reportDate(),W/2,y);
+ y+=54;
+
+ function card(m,x,top,w){
+  let e=m.e;
+  let st=states[e.status]||{t:'غير محدد',c:'#59645e'};
+
+  ctx.save();
+  ctx.shadowColor='rgba(0,0,0,.28)';
+  ctx.shadowBlur=10;
+  ctx.shadowOffsetY=3;
+  rr(x,top,w,m.h,15);
+  ctx.fillStyle='#202d27';
+  ctx.fill();
+  ctx.restore();
+
+  ctx.lineWidth=2;
+  ctx.strokeStyle='#42564b';
+  rr(x,top,w,m.h,15);
+  ctx.stroke();
+
+  let right=x+w-22;
+  ctx.fillStyle=st.c;
+  ctx.beginPath();
+  ctx.arc(right-12,top+39,11,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.textAlign='right';
+  ctx.fillStyle='#fff';
+  ctx.font='bold 29px Tahoma,Arial';
+  let ny=top+58;
+  m.n.forEach(t=>{
+   ctx.fillText(t,right-42,ny);
+   ny+=38;
+  });
+
+  ctx.font='bold 22px Tahoma,Arial';
+  let sw=Math.max(104,ctx.measureText(st.t).width+30);
+  let sx=x+24,sy=top+24;
+  ctx.fillStyle=st.c;
+  rr(sx,sy,sw,42,11);
+  ctx.fill();
+  ctx.textAlign='center';
+  ctx.fillStyle='#fff';
+  ctx.fillText(st.t,sx+sw/2,sy+29);
+
+  if(m.d.length){
+   ctx.textAlign='right';
+   ctx.fillStyle='#83c5ff';
+   ctx.font='bold 22px Tahoma,Arial';
+   let dy=top+71+m.n.length*38;
+   m.d.forEach(t=>{
+    ctx.fillText(t,right-2,dy);
+    dy+=31;
+   });
+  }
+ }
+
+ groups.forEach(g=>{
+  rr(P,y-36,C,55,12);
+  ctx.fillStyle='#173f2c';
+  ctx.fill();
+  ctx.textAlign='right';
+  ctx.fillStyle='#fff';
+  ctx.font='bold 31px Tahoma,Arial';
+  ctx.fillText(g.title,W-P-18,y);
+  y+=76;
+
+  if(!g.pairs.length){
+   ctx.textAlign='center';
+   ctx.fillStyle='#aebdb4';
+   ctx.font='bold 24px Tahoma,Arial';
+   ctx.fillText('لا توجد مداخل مسجلة في هذا النطاق',W/2,y+12);
+   y+=66;
+  }
+
+  g.pairs.forEach(p=>{
+   if(p.b){
+    card(p.a,P,y,CW);
+    card(p.b,P+CW+G,y,CW);
+   }else{
+    card(p.a,P,y,C);
+   }
+   y+=p.h+16;
+  });
+ });
+
+ y+=10;
+ let invite=String(data.links.invitation||'').trim();
+ if(invite){
+  ctx.textAlign='center';
+  ctx.fillStyle='#e4eee8';
+  ctx.font='bold 22px Tahoma,Arial';
+  wrap(invite,C-40,'bold 22px Tahoma,Arial').forEach(t=>{
+   ctx.fillText(t,W/2,y);
+   y+=32;
+  });
+ }
+
+ ctx.textAlign='center';
+ ctx.fillStyle='#fff';
+ ctx.font='bold 25px Tahoma,Arial';
+ ctx.fillText('انضم إلى مجموعة على الطريق على واتساب',W/2,y+12);
+ y+=54;
+
+ ctx.fillStyle='#8bd2a5';
+ ctx.font='bold 23px Arial';
+ ctx.fillText(String(data.links.wa||GROUP_LINK),W/2,y);
+ y+=58;
+
+ let fw=Math.min(650,C),fh=62,fx=(W-fw)/2;
+ rr(fx,y,fw,fh,18);
+ ctx.fillStyle='#07518b';
+ ctx.fill();
+ ctx.fillStyle='#fff';
+ ctx.font='bold 27px Tahoma,Arial';
+ ctx.fillText('قيادة آمنة ورحلة هادئة',W/2,y+41);
+
+ return canvas;
 }
 
-/* =========================
-   حفظ ومشاركة التقرير
-========================= */
+function downloadCanvas(canvas){
+ const a=document.createElement('a');
+ a.href=canvas.toDataURL('image/png');
+ a.download='تقرير-على-الطريق.png';
+ document.body.appendChild(a);a.click();a.remove();
+}
 function canvasBlob(canvas){
-  return new Promise(resolve=>{
-    canvas.toBlob(blob=>resolve(blob),"image/png");
-  });
+ return new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
 }
-
-async function downloadReportImage(){
-  if(!currentReport) generateReport();
-  if(!currentReport) return;
-
-  if(!currentReportImage){
-    const selected = getReportSelection();
-    if(!selected) return;
-    drawReportImage(selected.gov,selected.region);
-  }
-
-  const blob = await canvasBlob(currentReportImage);
-  if(!blob) return alert("تعذر إنشاء صورة التقرير.");
-
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = safeName(currentReport.governorate+"_"+currentReport.region+"_تقرير")+".png";
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1500);
+async function copyText(text){
+ try{await navigator.clipboard.writeText(text);}
+ catch(e){
+  const area=document.createElement('textarea');area.value=text;
+  document.body.appendChild(area);area.select();
+  document.execCommand('copy');area.remove();
+ }
 }
-
-async function shareReportImage(){
-  if(!currentReport) generateReport();
-  if(!currentReport) return;
-
-  if(!currentReportImage){
-    const selected = getReportSelection();
-    if(!selected) return;
-    drawReportImage(selected.gov,selected.region);
-  }
-
-  const blob = await canvasBlob(currentReportImage);
-  if(!blob) return alert("تعذر تجهيز صورة التقرير.");
-
-  const file = new File(
-    [blob],
-    safeName(currentReport.governorate+"_"+currentReport.region+"_تقرير")+".png",
-    {type:"image/png"}
-  );
-
-  if(navigator.share && navigator.canShare &&
-     navigator.canShare({files:[file]})){
-    try{
-      await navigator.share({
-        files:[file],
-        title:"تقرير على الطريق",
-        text:"تقرير حالة الطرق والمداخل — "+currentReport.governorate+" / "+currentReport.region
-      });
-    }catch(error){
-      if(error.name !== "AbortError")
-        alert("تعذرت المشاركة من الجهاز. يمكنك حفظ الصورة ثم مشاركتها يدوياً.");
-    }
-  }else{
-    await downloadReportImage();
-    alert("تم تجهيز الصورة وحفظها. افتحها من جهازك ثم شاركها.");
-  }
-}
-
-async function copyReport(){
-  if(!currentReport) generateReport();
-  if(!currentReport) return;
-  try{
-    await navigator.clipboard.writeText(currentReport.text);
-    alert("تم نسخ التقرير.");
-  }catch(e){
-    const area = document.createElement("textarea");
-    area.value = currentReport.text;
-    document.body.appendChild(area);
-    area.select();
-    document.execCommand("copy");
-    area.remove();
-    alert("تم نسخ التقرير.");
-  }
-}
-
-async function shareTextReport(){
-  if(!currentReport) generateReport();
-  if(!currentReport) return;
-
+async function shareReport(){
+ const type=document.getElementById('reportType').value;
+ const text=buildReport();
+ if(type==='text'){
   if(navigator.share){
-    try{
-      await navigator.share({
-        title:"تقرير على الطريق",
-        text:currentReport.text
-      });
-    }catch(error){
-      if(error.name !== "AbortError")
-        alert("تعذرت المشاركة. استخدم زر نسخ التقرير.");
-    }
+   try{await navigator.share({title:'على الطريق — تقرير حالة الطرق',text});}
+   catch(e){}
   }else{
-    await copyReport();
+   await copyText(text);alert('تم نسخ التقرير. الصقه في واتساب أو تليجرام.');
   }
-}
-
-/* =========================
-   الأرشفة اليدوية
-========================= */
-function archiveReport(){
-  if(!currentReport) generateReport();
-  if(!currentReport) return;
-
-  data.archive.unshift({
-    id:uid(),
-    governorate:currentReport.governorate,
-    region:currentReport.region,
-    text:currentReport.text,
-    createdAt:new Date().toISOString()
-  });
-
-  saveData();
-  renderArchive();
-  alert("تم نقل التقرير إلى الأرشيف.");
-}
-
-function renderArchive(){
-  const box = el("archiveList");
-  box.innerHTML = "";
-
-  if(!data.archive.length){
-    box.innerHTML = '<p class="muted">الأرشيف فارغ حالياً.</p>';
-    return;
-  }
-
-  data.archive.forEach(item=>{
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <div class="item-title">${escapeHTML(item.governorate)} — ${escapeHTML(item.region)}</div>
-      <div class="muted">${new Date(item.createdAt).toLocaleString("ar-PS")}</div>
-      <div class="actions">
-        <button class="small blue" onclick="viewArchived('${item.id}')">عرض التقرير</button>
-        <button class="small" onclick="copyArchived('${item.id}')">نسخ</button>
-        <button class="small red" onclick="deleteArchived('${item.id}')">حذف من الأرشيف</button>
-      </div>`;
-    box.appendChild(div);
-  });
-}
-
-function viewArchived(id){
-  const item = data.archive.find(a=>a.id===id);
-  if(item) alert(item.text);
-}
-
-async function copyArchived(id){
-  const item = data.archive.find(a=>a.id===id);
-  if(!item) return;
+  return;
+ }
+ const canvas=makeReportCanvas(),blob=await canvasBlob(canvas);
+ if(!blob)return alert('تعذر إنشاء صورة التقرير.');
+ const file=new File([blob],'ala-al-tareeq-report.png',{type:'image/png'});
+ if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
   try{
-    await navigator.clipboard.writeText(item.text);
-    alert("تم نسخ التقرير المؤرشف.");
-  }catch(e){
-    alert(item.text);
-  }
+   await navigator.share({title:'على الطريق — تقرير حالة الطرق',files:[file]});
+   return;
+  }catch(e){if(e.name==='AbortError')return;}
+ }
+ downloadCanvas(canvas);
+ alert('تم تنزيل صورة التقرير. افتح الصورة من جهازك وشاركها.');
 }
+document.getElementById('sendReportBtn').onclick=shareReport;
+document.getElementById('copyReportBtn').onclick=async()=>{
+ await copyText(buildReport());alert('تم نسخ التقرير النصي.');
+};
+document.getElementById('downloadReportBtn').onclick=()=>downloadCanvas(makeReportCanvas());
 
-function deleteArchived(id){
-  if(!confirm("هل تريد حذف هذا التقرير من الأرشيف؟")) return;
-  data.archive = data.archive.filter(a=>a.id!==id);
-  saveData();
-  renderArchive();
+/* النسخ الاحتياطي والاستعادة */
+document.getElementById('exportBtn').onclick=()=>{
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob);a.download='ala-al-tareeq-backup.json';
+ a.click();URL.revokeObjectURL(a.href);
+};
+document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange=async event=>{
+ const file=event.target.files[0];if(!file)return;
+ try{
+  const imported=JSON.parse(await file.text());
+  if(!imported||!Array.isArray(imported.provinces))throw new Error('ملف غير صالح');
+  if(!confirm('ستُستبدل البيانات الحالية بالبيانات الموجودة في النسخة الاحتياطية. هل تريد المتابعة؟'))return;
+  localStorage.setItem(KEY,JSON.stringify(imported));
+  data=load();save();alert('تمت استعادة النسخة الاحتياطية بنجاح.');
+ }catch(e){alert('تعذرت قراءة النسخة الاحتياطية. تأكد من اختيار ملف التطبيق الصحيح.');}
+ event.target.value='';
+};
+
+/* مسح بيانات الجهاز */
+document.getElementById('resetBtn').onclick=()=>{
+ if(confirm('سيتم حذف جميع بيانات هذا الجهاز نهائياً. هل أنت متأكد؟')){
+  data=emptyData();save();
+ }
+};
+
+/* تشغيل التطبيق */
+render();
+if('serviceWorker' in navigator){
+ navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
-
-/* =========================
-   روابط واتساب وتليجرام
-========================= */
-function saveLinks(){
-  data.links.whatsapp = el("whatsappLink").value.trim();
-  data.links.telegram = el("telegramLink").value.trim();
-  saveData();
-  alert("تم حفظ الروابط.");
-}
-
-function openWhatsApp(){
-  const link = el("whatsappLink").value.trim();
-  if(!link) return alert("أدخل رابط مجموعة واتساب.");
-  window.open(link,"_blank","noopener");
-}
-
-function openTelegram(){
-  const link = el("telegramLink").value.trim();
-  if(!link) return alert("أدخل رابط مجموعة تليجرام.");
-  window.open(link,"_blank","noopener");
-}
-
-/* =========================
-   النسخ الاحتياطي والاستعادة
-========================= */
-function exportBackup(){
-  const content = JSON.stringify(data,null,2);
-  const blob = new Blob([content],{type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "backup-ala-altareeq-"+Date.now()+".json";
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-
-function validateBackup(obj){
-  if(!obj || !Array.isArray(obj.governors) || !Array.isArray(obj.archive))
-    return false;
-
-  return obj.governors.every(g=>
-    g && typeof g.name==="string" && Array.isArray(g.regions) &&
-    g.regions.every(r=>
-      r && typeof r.name==="string" && Array.isArray(r.entrances) &&
-      r.entrances.every(e=>
-        e && typeof e.name==="string" &&
-        ["open","closed","check"].includes(e.status)
-      )
-    )
-  );
-}
-
-function importBackup(event){
-  const file = event.target.files && event.target.files[0];
-  if(!file) return;
-
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    try{
-      const obj = JSON.parse(reader.result);
-      if(!validateBackup(obj))
-        return alert("ملف النسخة الاحتياطية غير صالح أو لا يطابق بنية البيانات.");
-
-      if(!confirm("سيتم استبدال البيانات الحالية بالنسخة الاحتياطية. هل تريد المتابعة؟"))
-        return;
-
-      data = obj;
-      if(!data.links) data.links = initialData().links;
-      saveData();
-      refreshAll();
-      alert("تمت استعادة النسخة الاحتياطية بنجاح.");
-    }catch(e){
-      alert("تعذر قراءة ملف النسخة الاحتياطية.");
-    }
-    event.target.value = "";
-  };
-  reader.readAsText(file);
-}
-
-/* =========================
-   ربط القوائم بالتحديث
-========================= */
-el("filterGov").addEventListener("change",()=>{
-  refreshRegions("filterGov","filterRegion");
-  renderEntrances();
-});
-
-el("filterRegion").addEventListener("change",renderEntrances);
-
-el("manageGov").addEventListener("change",renderRegions);
-
-el("entryGov").addEventListener("change",()=>{
-  refreshRegions("entryGov","entryRegion");
-});
-
-el("reportGov").addEventListener("change",()=>{
-  refreshRegions("reportGov","reportRegion");
-  currentReport = null;
-  currentReportImage = null;
-});
-
-el("reportRegion").addEventListener("change",()=>{
-  currentReport = null;
-  currentReportImage = null;
-});
-
-/* =========================
-   بدء التطبيق
-========================= */
-refreshAll();
 </script>
 </body>
 </html>
